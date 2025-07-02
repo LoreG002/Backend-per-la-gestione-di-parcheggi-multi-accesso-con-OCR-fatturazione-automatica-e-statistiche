@@ -28,4 +28,6 @@ app.listen(PORT, () => {
   console.log(`Server avviato sulla porta ${PORT}`);
 });
 
+console.log("ciao");
+
 
