@@ -2,7 +2,53 @@ import express from "express";
 import dotenv from "dotenv";
 import { testConnection } from "./database";
 import { Parking } from "./models/parking_model";
+import { Request, Response } from "express";
+import { RequestHandler } from "express";
 dotenv.config();
+
+const updateParking: RequestHandler = async (req, res): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { name, location, capacity } = req.body;
+
+    const parking = await Parking.findByPk(id);
+
+    if (!parking) {
+      res.status(404).json({ message: "Parcheggio non trovato." });
+      return;
+    }
+
+    parking.name = name;
+    parking.location = location;
+    parking.capacity = capacity;
+
+    await parking.save();
+
+    res.json(parking);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Errore nell'update del parcheggio" });
+  }
+};
+
+const deleteParking: RequestHandler = async (req, res): Promise<void> => {
+  try{
+    const { id } = req.params;
+
+    const parking = await Parking.findByPk(id);
+
+    if(!parking){
+      res.status(404).json({ message: "Parcheggio non trovato." });
+      return;
+    }
+    await parking.destroy();
+
+    res.json({ message: "Parcheggio eliminato con successo."});
+  }catch(error){
+    console.error(error);
+    res.status(500).json({message: "Errore nel delete del parcheggio"})
+  }
+};
 
 const app = express();
 app.use(express.json());
@@ -57,6 +103,7 @@ app.listen(PORT, () => {
   console.log(`Server avviato sulla porta ${PORT}`);
 });
 
-console.log("ciao");
+app.put("/api/parkings/:id", updateParking);
 
+app.delete("/api/parkings/:id", deleteParking);
 
