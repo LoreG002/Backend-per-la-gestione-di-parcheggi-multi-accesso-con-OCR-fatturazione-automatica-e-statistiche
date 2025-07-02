@@ -24,6 +24,35 @@ app.get("/", (req, res) => {
   res.send("Il progetto è pronto");
 });
 
+app.post("/api/parkings", async (req,res)=>{
+    console.log("Richiesta POST ricevuta:", req.body);
+
+    try{
+      const {name, location, capacity} = req.body;
+
+      const parking = await Parking.create({ //await attende che viene risolta la promise
+        name,
+        location,
+        capacity,
+      });
+      res.status(201).json(parking);
+    } catch(error){
+      console.error(error);
+      res.status(500).json({message: "Errore nella creazione del parcheggio"});
+    }
+
+});
+
+app.get("/api/parkings", async (req, res) => {
+  try {
+    const parkings = await Parking.findAll();
+    res.json(parkings);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Errore nel recupero dei parcheggi." });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server avviato sulla porta ${PORT}`);
 });
