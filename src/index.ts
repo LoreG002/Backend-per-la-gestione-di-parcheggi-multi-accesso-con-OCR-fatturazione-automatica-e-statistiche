@@ -13,6 +13,7 @@ import { Invoice } from "./models/invoice_model";
 import invoiceRoutes from "./routes/invoice_routes";
 import { User } from "./models/user_model";
 import userRoutes from "./routes/user_routes";
+import authRoutes from "./routes/auth_routes";
 
 
 // Relazioni
@@ -42,6 +43,7 @@ app.use(gateRoutes);
 app.use(transitRoutes);
 app.use(invoiceRoutes);
 app.use(userRoutes);
+app.use(authRoutes);
 
 const PORT = process.env.PORT;
 

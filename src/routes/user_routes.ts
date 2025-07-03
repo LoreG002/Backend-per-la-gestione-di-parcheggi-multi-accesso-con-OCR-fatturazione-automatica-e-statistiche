@@ -1,5 +1,6 @@
 import { Router, RequestHandler } from "express";
 import { User } from "../models/user_model";
+import { authenticateJWT } from "../middlewares/auth.middleware";
 
 const router = Router();
 
@@ -80,6 +81,13 @@ router.post("/api/users", async (req, res) => {
 router.put("/api/users/:id", updateUser);
 
 router.delete("/api/users/:id", deleteUser);
+
+router.get("/api/protected", authenticateJWT, (req, res) => { //richiede il token e mostra i dati decodificati
+  res.json({
+    message: "Accesso autorizzato!",
+    user: (req as any).user
+  });
+});
 
 export default router;
 
