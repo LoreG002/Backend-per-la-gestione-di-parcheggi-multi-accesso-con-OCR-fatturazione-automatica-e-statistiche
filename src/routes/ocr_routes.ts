@@ -18,12 +18,16 @@ const createOCR: RequestHandler = async(req,res): Promise<void> => {
         logger: info => console.log(info)
       });
 
-      let plate = result.data.text.trim().replace(/\s/g, "").toUpperCase();
+      let plateRaw = result.data.text.trim().toUpperCase();
 
-      if (!plate || plate.length < 6) {
-        res.status(400).json({ message: "Targa non riconosciuta." });
-        return;
-      }
+       // Rimuove tutto ciò che NON è A-Z o 0-9
+      let plate = plateRaw.replace(/[^A-Z0-9]/g, "");
+
+      // Opzionale: Stampa debug per capire cosa hai letto
+      console.log("OCR RAW:", plateRaw);
+      console.log("OCR CLEAN:", plate);
+    
+    
 
       const transit = await Transit.create({
         plate,

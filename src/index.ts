@@ -18,6 +18,7 @@ import { Tariff } from "./models/tariff_model";
 import { now } from "sequelize/types/utils";
 import { log } from "console";
 import ocrRoutes from "./routes/ocr_routes";
+import invoicePdfRoutes from "./routes/invoicePdf_routes";
 
 
 
@@ -53,6 +54,7 @@ app.use(invoiceRoutes);
 app.use(userRoutes);
 app.use(authRoutes);
 app.use(ocrRoutes);
+app.use(invoicePdfRoutes);
 
 const PORT = process.env.PORT;
 
