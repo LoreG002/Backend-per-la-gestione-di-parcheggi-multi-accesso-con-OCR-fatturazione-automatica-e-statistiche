@@ -14,6 +14,10 @@ import invoiceRoutes from "./routes/invoice_routes";
 import { User } from "./models/user_model";
 import userRoutes from "./routes/user_routes";
 import authRoutes from "./routes/auth_routes";
+import { Tariff } from "./models/tariff_model";
+import { now } from "sequelize/types/utils";
+import { log } from "console";
+
 
 
 // Relazioni
@@ -31,6 +35,9 @@ Transit.belongsTo(Invoice, { foreignKey: "invoiceId" });
 
 User.hasMany(Invoice, { foreignKey: "userId" });
 Invoice.belongsTo(User, { foreignKey: "userId" });
+
+VehicleType.hasMany(Tariff, { foreignKey: "vehicleTypeId" });
+Tariff.belongsTo(VehicleType, { foreignKey: "vehicleTypeId" });
 
 dotenv.config();
 
@@ -63,11 +70,21 @@ testConnection();
         console.log("Tabella Transit sincronizzata!");
         await User.sync({ alter: true });
         console.log("Tabella User sincronizzata!");
+        await Tariff.sync({ alter: true });
+        console.log("Tabella Tariff sincronizzata!");
         
     } catch(error){
         console.log("Errore nella sincro della tabella parking:", error);
     }
 })();
+
+const timestamp= "2025-07-04T11:30:00.000Z";
+const date= new Date(timestamp);
+const giornodellasettimana= date.getDay();
+console.log("oggi è :", giornodellasettimana);
+
+
+
 
 app.get("/", (req, res) => {
   res.send("Il progetto è pronto");

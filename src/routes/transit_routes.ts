@@ -5,6 +5,9 @@ import { VehicleType } from "../models/vehicleType_model";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { Invoice } from "../models/invoice_model";
 import { AuthRequest } from "../middlewares/auth.middleware";
+import { where } from "sequelize";
+import { Tariff } from "../models/tariff_model";
+import { Op } from "sequelize";
 
 const router = Router();
 
@@ -35,8 +38,32 @@ const createTransit: RequestHandler = async (req, res): Promise<void> => {
       const durata = new Date(timestamp).getTime() - new Date(ingresso.timestamp).getTime();
       const durataInOre = durata / (1000 * 60 * 60);
 
-      const tariffaOraria = 2;
-      const costo = parseFloat((durataInOre * tariffaOraria).toFixed(2));  //due numeri dopo la virgola
+      const dataUscita = new Date (timestamp);
+      const giornoSettimana= dataUscita.getDay(); //Lunedi (1), Martedi (2)...Sabato (6), Domenica (0)
+      console.log("il giorno della settimana è:" , giornoSettimana);
+      const dayType = (giornoSettimana==0 || giornoSettimana == 6) ? "festivo" : "feriale";
+      console.log("e quindi è: ", dayType);
+
+      const oraUscita = dataUscita.getUTCHours();
+      console.log("ora uscita: ", oraUscita);
+
+      const tariffa = await Tariff.findOne({
+        where:{
+          vehicleTypeId,
+          dayType,
+          startHour: {[Op.lte]: oraUscita},   //cerca dove startHour è minore o uguale dell'ora di uscita
+          endHour: {[Op.gt]: oraUscita}       //cerca dove endHour è maggiore dell'ora di uscita
+
+        }
+      });
+
+      if(!tariffa){
+        res.status(400).json({ message: "Nessuna tariffa trovata"});
+        return;
+      }
+      
+      //const tariffaOraria = 2;
+      const costo = parseFloat((durataInOre * parseFloat(tariffa.pricePerHour.toString())).toFixed(2));  //due numeri dopo la virgola
 
       //fattura
       const invoice = await Invoice.create({
