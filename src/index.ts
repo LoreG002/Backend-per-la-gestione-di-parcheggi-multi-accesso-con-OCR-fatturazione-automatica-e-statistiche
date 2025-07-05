@@ -87,10 +87,6 @@ const date= new Date(timestamp);
 const giornodellasettimana= date.getDay();
 console.log("oggi è :", giornodellasettimana);
 
-console.log("ciao");
-
-
-
 
 app.get("/", (req, res) => {
   res.send("Il progetto è pronto");
