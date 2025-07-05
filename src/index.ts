@@ -87,6 +87,8 @@ const date= new Date(timestamp);
 const giornodellasettimana= date.getDay();
 console.log("oggi è :", giornodellasettimana);
 
+console.log("ciao");
+
 
 
 
