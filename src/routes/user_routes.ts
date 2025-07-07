@@ -1,6 +1,8 @@
 import { Router, RequestHandler } from "express";
 import { User } from "../models/user_model";
 import { authenticateJWT } from "../middlewares/auth.middleware";
+import * as bcrypt from "bcrypt";
+
 
 const router = Router();
 
@@ -62,7 +64,10 @@ router.get("/api/users", async (req, res) => {
 
 router.post("/api/users", async (req, res) => {
   try {
-    const { email, passwordHash, role, credit } = req.body;
+    const { email, password, role, credit } = req.body;
+
+    // hash per la paswword
+    const passwordHash = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       email,

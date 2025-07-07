@@ -40,6 +40,24 @@ router.get("/api/invoices", async (req, res) => {
   }
 });
 
+// ✅ GET: Ottieni una singola fattura per ID
+router.get("/api/invoices/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const invoice = await Invoice.findByPk(id);
+
+    if (!invoice) {
+      res.status(404).json({ message: "Fattura non trovata." });
+      return;
+    }
+
+    res.json(invoice);
+  } catch (error) {
+    console.error("Errore nel recupero della fattura:", error);
+    res.status(500).json({ message: "Errore nel recupero della fattura." });
+  }
+});
+
 const deleteInvoice: RequestHandler = async (req, res): Promise<void> => {
   try {
     const { id } = req.params;
