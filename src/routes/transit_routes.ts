@@ -8,6 +8,8 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import { where } from "sequelize";
 import { Tariff } from "../models/tariff_model";
 import { Op } from "sequelize";
+import { checkParkingAvailability } from "../helpers/parking_helper";
+
 
 const router = Router();
 
@@ -15,6 +17,15 @@ const createTransit: RequestHandler = async (req, res): Promise<void> => {
   try {
     const { plate, vehicleTypeId, gateId, timestamp, direction, invoiceId } = req.body;
 
+        // ✅ Controllo disponibilità SOLO per entrata
+    if (direction === "entrata") {
+      const available = await checkParkingAvailability(gateId);
+      if (!available) {
+        res.status(400).json({ message: "Parcheggio pieno. Accesso negato." });
+        return;
+      }
+    }
+    
     const transit = await Transit.create({
       plate,
       vehicleTypeId,
