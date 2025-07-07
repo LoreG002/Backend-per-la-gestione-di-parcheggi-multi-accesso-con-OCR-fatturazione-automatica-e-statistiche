@@ -3,6 +3,8 @@ import multer from "multer";
 import Tesseract from "tesseract.js";
 import { Transit } from "../models/transit_model";
 import { authenticateJWT } from "../middlewares/auth.middleware";
+import { checkParkingAvailability } from "../helpers/parking_helper";
+
 
 const router = Router();
 
@@ -27,7 +29,14 @@ const createOCR: RequestHandler = async(req,res): Promise<void> => {
       console.log("OCR RAW:", plateRaw);
       console.log("OCR CLEAN:", plate);
     
-    
+      // ✅ Controllo disponibilità parcheggio
+      const gateId = parseInt(req.body.gateId);
+      const available = await checkParkingAvailability(gateId);
+      if (!available) {
+        res.status(403).json({ message: "Parcheggio pieno. Accesso negato." });
+        return;
+    }
+
 
       const transit = await Transit.create({
         plate,
