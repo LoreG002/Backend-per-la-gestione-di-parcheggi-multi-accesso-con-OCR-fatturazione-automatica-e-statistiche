@@ -13,6 +13,7 @@ import multer from "multer";
 import Tesseract from "tesseract.js";
 import { Request, ParamsDictionary, Response } from "express-serve-static-core";
 import { ParsedQs } from "qs";
+import PDFDocument from "pdfkit"
 
 
 
@@ -264,5 +265,66 @@ router.post(
     }
   }
 );
+
+router.get("/api/transits/search", authenticateJWT, async (req, res) => { // /api/transits/search?plates=PA234AV&startDate=2024-01-01&endDate=2025-12-31&format=pdf
+  try {
+    const { plates, startDate, endDate, format } = req.query;
+    const plateArray = typeof plates === "string" ? plates.split(",").map(p => p.trim().toUpperCase()) : [];
+
+    if (!startDate || !endDate || plateArray.length === 0) {
+      res.status(400).json({ message: "Inserire targhe, startDate ed endDate" });
+      return;
+    }
+
+    const start = new Date(startDate as string);
+    const end = new Date(endDate as string);
+
+    // Recupera transiti filtrati
+    const whereCondition: any = {
+      plate: { [Op.in]: plateArray },
+      timestamp: { [Op.between]: [start, end] },
+    };
+
+    // Limitazione per utenti non admin
+    const user = (req as AuthRequest).user;
+    if (user.role === "user") {
+      whereCondition["$Invoice.userId$"] = user.id;
+    }
+
+    const transits = await Transit.findAll({
+      where: whereCondition,
+      include: [Gate, VehicleType, Invoice],
+      order: [["timestamp", "DESC"]],
+    });
+
+    if (format === "pdf") {
+      const doc = new PDFDocument();
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", "attachment; filename=transits.pdf");
+      doc.pipe(res);
+
+      doc.fontSize(16).text("Report Transiti", { align: "center" }).moveDown();
+
+      transits.forEach((t, i) => {
+        doc.fontSize(12).text(`Targa: ${t.plate}`);
+        doc.text(`Data: ${t.timestamp}`);
+        doc.text(`Varco: ${t.gate?.id}`);
+        doc.text(`Direzione: ${t.direction}`);
+        doc.text(`Tipo veicolo: ${t.vehicleType?.name}`);
+        doc.text(`Costo: € ${t.invoice?.amount ?? "N/A"}`);
+        doc.moveDown();
+        if (i < transits.length - 1) doc.moveDown();
+      });
+
+      doc.end();
+    } else {
+      res.json(transits);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Errore nella ricerca dei transiti" });
+  }
+});
+
 
 export default router;

@@ -1,5 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database";
+import { Gate } from "./gate_model";
+import { VehicleType } from "./vehicleType_model";
+import { Invoice } from "./invoice_model";
 
 export interface TransitAttributes {
   id?: number;
@@ -19,6 +22,10 @@ export class Transit extends Model<TransitAttributes> implements TransitAttribut
   public timestamp!: Date;
   public direction!: "entrata" | "uscita";
   public invoiceId!: number | null;
+
+  public gate?: Gate;
+  public vehicleType?: VehicleType;
+  public invoice?: Invoice;
 }
 
 Transit.init(
