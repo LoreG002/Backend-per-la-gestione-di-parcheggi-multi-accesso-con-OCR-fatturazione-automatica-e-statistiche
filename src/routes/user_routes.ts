@@ -9,7 +9,7 @@ const router = Router();
 const updateUser: RequestHandler = async (req, res): Promise<void> => {
   try {
     const { id } = req.params;
-    const { email, passwordHash, role, credit } = req.body;
+    const { email, password, role, credit } = req.body;
 
     const user = await User.findByPk(id);
 
@@ -19,7 +19,9 @@ const updateUser: RequestHandler = async (req, res): Promise<void> => {
     }
 
     user.email = email;
-    user.passwordHash = passwordHash;
+    if (password) {
+    user.passwordHash = await bcrypt.hash(password, 10);
+    }
     user.role = role;
     user.credit = credit;
 
