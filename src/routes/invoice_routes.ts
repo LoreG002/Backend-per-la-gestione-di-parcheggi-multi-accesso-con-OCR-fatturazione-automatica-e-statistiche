@@ -2,6 +2,9 @@ import { Router, RequestHandler } from "express";
 import { Invoice } from "../models/invoice_model";
 import { authenticateJWT, AuthRequest } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
+import { Op } from "sequelize";
+import { Transit } from "../models/transit_model";
+
 
 const router = Router();
 
@@ -162,6 +165,49 @@ router.delete(
   authorizeRoles("operatore"),
   deleteInvoice
 );
+
+
+router.get("/api/invoices/by-vehicles", authenticateJWT, async (req, res) => {
+  try {
+    const userId = (req as AuthRequest).user.id;
+    const { status, startDate, endDate } = req.query;
+
+    // Trova tutti i transit dell’utente con fattura
+    const whereTransit: any = {
+      userId,
+      invoiceId: { [Op.ne]: null }, // solo se è associato a fattura
+    };
+
+    if (startDate || endDate) {
+      whereTransit.timestamp = {};
+      if (startDate) whereTransit.timestamp[Op.gte] = new Date(startDate as string);
+      if (endDate) whereTransit.timestamp[Op.lte] = new Date(endDate as string);
+    }
+
+    const transits = await Transit.findAll({
+      where: whereTransit,
+      attributes: ["invoiceId"],
+    });
+
+    const invoiceIds = transits.map((t) => t.invoiceId);
+
+    const whereInvoice: any = { id: invoiceIds };
+
+    if (status) {
+      whereInvoice.status = status;
+    }
+
+    const invoices = await Invoice.findAll({
+      where: whereInvoice,
+    });
+
+    res.json(invoices);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Errore nel recupero delle fatture legate ai veicoli." });
+  }
+});
+
 
 export default router;
 
