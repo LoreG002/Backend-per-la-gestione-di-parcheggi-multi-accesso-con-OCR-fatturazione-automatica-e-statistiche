@@ -163,7 +163,7 @@ router.get("/api/stats/parking-usage", authenticateJWT, async (req,res) =>{ // /
         
 });
 
-router.get("/api/stats/parking/:parkingId", authenticateJWT, async (req,res) => { // /api/stats/parking/2?startDate=2024-01-01&endDate=2024-12-31
+router.get("/api/stats/parking/:parkingId", authenticateJWT, async (req,res) => { // /api/stats/parking/3?startDate=2024-01-01&endDate=2025-12-31
     try {
         const { parkingId } = req.params;
         const { startDate, endDate, format} = req.query;

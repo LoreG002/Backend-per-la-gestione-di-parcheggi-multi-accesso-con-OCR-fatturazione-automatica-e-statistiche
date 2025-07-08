@@ -9,11 +9,68 @@ import { where } from "sequelize";
 import { Tariff } from "../models/tariff_model";
 import { Op } from "sequelize";
 import { checkParkingAvailability } from "../helpers/parking_helper";
+import multer from "multer";
+import Tesseract from "tesseract.js";
+import { Request, ParamsDictionary, Response } from "express-serve-static-core";
+import { ParsedQs } from "qs";
+
+
 
 
 const router = Router();
 
-const createTransit: RequestHandler = async (req, res): Promise<void> => {
+const createOCR = async(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,res: Response<any, Record<string, any>, number>) => {
+    try {
+        if (!req.file) {
+        res.status(400).json({ message: "Immagine Targa non trovata." });
+        return;
+        }
+      console.log("File ricevuto:", req.file.path); 
+
+      const result = await Tesseract.recognize(req.file.path, "eng", {
+        logger: info => console.log(info)
+      });
+
+      let plateRaw = result.data.text.trim().toUpperCase();
+
+       // Rimuove tutto ciò che NON è A-Z o 0-9
+      let plate = plateRaw.replace(/[^A-Z0-9]/g, "");
+
+      // Opzionale: Stampa debug per capire cosa hai letto
+      console.log("OCR RAW:", plateRaw);
+      console.log("OCR CLEAN:", plate);
+    
+      // ✅ Controllo disponibilità parcheggio
+      const gateId = parseInt(req.body.gateId);
+      const available = await checkParkingAvailability(gateId);
+      if (!available) {
+        res.status(403).json({ message: "Parcheggio pieno. Accesso negato." });
+        return;
+    }
+
+
+      const transit = await Transit.create({
+        plate,
+        vehicleTypeId: req.body.vehicleTypeId,
+        gateId: req.body.gateId,
+        timestamp: new Date(),
+        direction: "entrata",
+        invoiceId: null
+      });
+
+      res.status(201).json({
+        message: "Transito creato con OCR.",
+        plate,
+        transit
+      });
+    } catch(error){
+        console.error(error);
+        res.status(500).json({message: "Errore nell'elaborazione OCR"});
+    }
+  };
+
+
+const createTransit= async(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,res: Response<any, Record<string, any>, number>) => {
   try {
     const { plate, vehicleTypeId, gateId, timestamp, direction, invoiceId } = req.body;
 
@@ -169,5 +226,43 @@ router.put("/api/transits/:id", updateTransit);
 router.delete("/api/transits/:id", deleteTransit);
 
 router.post("/api/transits", authenticateJWT, createTransit);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "upload/"),
+  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
+});
+const upload = multer({ storage });
+
+router.post(
+  "/api/transits/auto",
+  authenticateJWT,
+  upload.single("image"), // opzionale: viene ignorata se non serve
+  async (req, res) => {
+    try {
+      const gateId = parseInt(req.body.gateId);
+      if (!gateId || isNaN(gateId)) {
+        res.status(400).json({ message: "gateId non valido" });
+        return;
+      }
+
+      const gate = await Gate.findByPk(gateId);
+      if (!gate) {
+        res.status(404).json({ message: "Varco non trovato" });
+        return;
+      }
+
+      if (gate.type === "standard") {
+        return await createOCR(req, res);
+      } else if (gate.type === "smart") {
+        return await createTransit(req, res);
+      } else {
+        res.status(400).json({ message: "Tipo varco sconosciuto" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Errore nella gestione del varco auto." });
+    }
+  }
+);
 
 export default router;
