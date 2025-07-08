@@ -21,7 +21,8 @@ import { log } from "console";
 import invoicePdfRoutes from "./routes/invoicePdf_routes";
 import statsroutes from "./routes/stats_routes";
 
-
+import { UserVehicle } from "./models/userVehicle_model";
+import userVehicleRoutes from "./routes/userVehicle_routes";
 
 // Relazioni
 Parking.hasMany(Gate, { foreignKey: "parkingId" });
@@ -42,6 +43,9 @@ Invoice.belongsTo(User, { foreignKey: "userId" });
 VehicleType.hasMany(Tariff, { foreignKey: "vehicleTypeId" });
 Tariff.belongsTo(VehicleType, { foreignKey: "vehicleTypeId" });
 
+User.hasMany(UserVehicle, { foreignKey: "userId" });
+UserVehicle.belongsTo(User, { foreignKey: "userId" });
+
 dotenv.config();
 
 const app = express();
@@ -58,30 +62,33 @@ app.use(authRoutes);
 app.use(invoicePdfRoutes);
 app.use(statsroutes);
 
+app.use(userVehicleRoutes);
+
 const PORT = process.env.PORT;
 
 testConnection();
 
-(async() => {
-    try {
-        await Parking.sync({alter: true});
-        console.log("Tabella Parking Sincronizzata")
-        await VehicleType.sync({ alter: true });
-        console.log("Tabella VehicleType sincronizzata!");
-        await Gate.sync({ alter: true });
-        console.log("Tabella Gate sincronizzata!");
-        await Invoice.sync({ alter: true });
-        console.log("Tabella Invoice sincronizzata!");
-        await Transit.sync({ alter: true });
-        console.log("Tabella Transit sincronizzata!");
-        await User.sync({ alter: true });
-        console.log("Tabella User sincronizzata!");
-        await Tariff.sync({ alter: true });
-        console.log("Tabella Tariff sincronizzata!");
-        
-    } catch(error){
-        console.log("Errore nella sincro della tabella parking:", error);
-    }
+(async () => {
+  try {
+    await Parking.sync({ alter: true });
+    console.log("Tabella Parking sincronizzata");
+    await VehicleType.sync({ alter: true });
+    console.log("Tabella VehicleType sincronizzata!");
+    await Gate.sync({ alter: true });
+    console.log("Tabella Gate sincronizzata!");
+    await Invoice.sync({ alter: true });
+    console.log("Tabella Invoice sincronizzata!");
+    await Transit.sync({ alter: true });
+    console.log("Tabella Transit sincronizzata!");
+    await User.sync({ alter: true });
+    console.log("Tabella User sincronizzata!");
+    await Tariff.sync({ alter: true });
+    console.log("Tabella Tariff sincronizzata!");
+    await UserVehicle.sync({ alter: true });
+    console.log("Tabella UserVehicle sincronizzata!");
+  } catch (error) {
+    console.log("Errore nella sincro delle tabelle:", error);
+  }
 })();
 
 const timestamp= "2025-07-04T11:30:00.000Z";
@@ -99,6 +106,4 @@ app.use(parkingRoutes);
 app.listen(PORT, () => {
   console.log(`Server avviato sulla porta ${PORT}`);
 });
-
-
 
