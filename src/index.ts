@@ -17,7 +17,7 @@ import authRoutes from "./routes/auth_routes";
 import { Tariff } from "./models/tariff_model";
 import { now } from "sequelize/types/utils";
 import { log } from "console";
-import ocrRoutes from "./routes/ocr_routes";
+
 import invoicePdfRoutes from "./routes/invoicePdf_routes";
 import statsroutes from "./routes/stats_routes";
 
@@ -54,7 +54,7 @@ app.use(transitRoutes);
 app.use(invoiceRoutes);
 app.use(userRoutes);
 app.use(authRoutes);
-app.use(ocrRoutes);
+
 app.use(invoicePdfRoutes);
 app.use(statsroutes);
 
