@@ -1,7 +1,8 @@
 import { Router, RequestHandler } from "express";
 import { User } from "../models/user_model";
-import { authenticateJWT } from "../middlewares/auth.middleware";
+import { authenticateJWT, AuthRequest } from "../middlewares/auth.middleware";
 import * as bcrypt from "bcrypt";
+import { authorizeRoles } from "../middlewares/role.middleware";
 
 
 const router = Router();
@@ -95,6 +96,47 @@ router.get("/api/protected", authenticateJWT, (req, res) => { //richiede il toke
     user: (req as any).user
   });
 });
+
+// ✅ PATCH: Ricarica credito utente (solo operatore)
+const ricaricaCredito: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { amount } = req.body;
+
+    const importo = parseFloat(amount); // nel caso arrivi come stringa
+
+    if (isNaN(importo) || importo <= 0) {
+      res.status(400).json({ message: "Importo non valido." });
+      return;
+    }
+
+    const user = await User.findByPk(id);
+    if (!user) {
+      res.status(404).json({ message: "Utente non trovato." });
+      return;
+    }
+
+    user.credit = parseFloat(user.credit.toString()) + importo;
+    await user.save();
+
+    res.json({
+      message: "Credito ricaricato con successo.",
+      credit: user.credit,
+      userId: user.id,
+    });
+  } catch (error) {
+    console.error("Errore nella ricarica del credito:", error);
+    res.status(500).json({ message: "Errore durante la ricarica del credito." });
+  }
+};
+
+router.patch(
+  "/api/users/:id/ricarica",
+  authenticateJWT,
+  authorizeRoles("operatore"),
+  ricaricaCredito
+);
+
 
 export default router;
 

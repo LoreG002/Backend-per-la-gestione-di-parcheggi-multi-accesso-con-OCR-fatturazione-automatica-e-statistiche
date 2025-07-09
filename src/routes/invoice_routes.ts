@@ -4,30 +4,100 @@ import { authenticateJWT, AuthRequest } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
 import { Op } from "sequelize";
 import { Transit } from "../models/transit_model";
+import { UserVehicle } from "../models/userVehicle_model";
 
 
 const router = Router();
 
 router.get("/api/invoices", authenticateJWT, async (req, res) => {
   try {
-    const user = (req as AuthRequest).user;
+    const authUser = (req as AuthRequest).user;
 
-    let invoices;
+    const where: any = {};
 
-    if (user.role === "operatore") {
-      // Operatore può vedere tutte le fatture
-      invoices = await Invoice.findAll();
-    } else {
-      // Utente vede solo le sue
-      invoices = await Invoice.findAll({ where: { userId: user.id } });
+    // Filtro per userId solo se è un utente
+    if (authUser.role === "user") {
+      where.userId = authUser.id;
     }
+
+    const invoices = await Invoice.findAll({
+      where,
+      include: [
+        {
+          model: Transit,
+          required: false,
+        },
+      ],
+    });
 
     res.json(invoices);
   } catch (error) {
-    console.error(error);
+    console.error("Errore nella get /api/invoices:", error);
     res.status(500).json({ message: "Errore nel recupero delle fatture." });
   }
 });
+
+// ✅ GET: Stato pagamento fatture per i veicoli dell’utente (con filtri)
+const getInvoiceStatus: RequestHandler = async (req, res) => {
+  try {
+    const authUser = (req as AuthRequest).user;
+    const { status, startDate, endDate, plate } = req.query;
+
+    // 1. Trova le targhe associate all’utente
+    const userVehicles = await UserVehicle.findAll({
+      where: { userId: authUser.id },
+    });
+    const userPlates = userVehicles.map((v) => v.plate);
+
+    if (userPlates.length === 0) {
+      res.json({ invoices: [] });
+      return;
+    }
+
+    // 2. Filtro sulle fatture dell’utente
+    const invoiceWhere: any = { userId: authUser.id };
+    if (status === "pagato" || status === "non pagato") {
+      invoiceWhere.status = status;
+    }
+
+    const invoices = await Invoice.findAll({ where: invoiceWhere });
+
+    // 3. Verifica i transiti associati
+    const result = [];
+
+    for (const invoice of invoices) {
+      const transitWhere: any = {
+        invoiceId: invoice.id,
+        plate: plate ? plate : { [Op.in]: userPlates },
+      };
+
+      if (startDate || endDate) {
+        transitWhere.timestamp = {};
+        if (startDate) transitWhere.timestamp[Op.gte] = new Date(startDate as string);
+        if (endDate) transitWhere.timestamp[Op.lte] = new Date(endDate as string);
+      }
+
+      const transits = await Transit.findAll({ where: transitWhere });
+
+      if (transits.length > 0) {
+        result.push({
+          invoiceId: invoice.id,
+          amount: invoice.amount,
+          status: invoice.status,
+          dueDate: invoice.dueDate,
+          transits,
+        });
+      }
+    }
+
+    res.json({ invoices: result });
+  } catch (error) {
+    console.error("Errore in /api/invoices/status:", error);
+    res.status(500).json({ message: "Errore nel recupero delle fatture." });
+  }
+};
+
+router.get("/api/invoices/status/by-user", authenticateJWT, getInvoiceStatus);
 
 
 // ✅ GET: Ottieni una singola fattura per ID (solo se appartiene all’utente)
@@ -167,48 +237,9 @@ router.delete(
 );
 
 
-router.get("/api/invoices/by-vehicles", authenticateJWT, async (req, res) => {
-  try {
-    const userId = (req as AuthRequest).user.id;
-    const { status, startDate, endDate } = req.query;
 
-    // Trova tutti i transit dell’utente con fattura
-    const whereTransit: any = {
-      userId,
-      invoiceId: { [Op.ne]: null }, // solo se è associato a fattura
-    };
 
-    if (startDate || endDate) {
-      whereTransit.timestamp = {};
-      if (startDate) whereTransit.timestamp[Op.gte] = new Date(startDate as string);
-      if (endDate) whereTransit.timestamp[Op.lte] = new Date(endDate as string);
-    }
-
-    const transits = await Transit.findAll({
-      where: whereTransit,
-      attributes: ["invoiceId"],
-    });
-
-    const invoiceIds = transits.map((t) => t.invoiceId);
-
-    const whereInvoice: any = { id: invoiceIds };
-
-    if (status) {
-      whereInvoice.status = status;
-    }
-
-    const invoices = await Invoice.findAll({
-      where: whereInvoice,
-    });
-
-    res.json(invoices);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Errore nel recupero delle fatture legate ai veicoli." });
-  }
-});
 
 
 export default router;
-
 
