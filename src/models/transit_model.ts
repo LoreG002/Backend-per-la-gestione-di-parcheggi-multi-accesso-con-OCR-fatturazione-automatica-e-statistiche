@@ -23,9 +23,18 @@ export class Transit extends Model<TransitAttributes> implements TransitAttribut
   public direction!: "entrata" | "uscita";
   public invoiceId!: number | null;
 
-  public gate?: Gate;
-  public vehicleType?: VehicleType;
-  public invoice?: Invoice;
+  Gate?: {
+    id: number;
+    name: string;
+    direction: string;
+    type: string;
+  };
+  VehicleType?: {
+    name: string;
+  };
+  Invoice?: {
+    amount: number;
+  };
 }
 
 Transit.init(

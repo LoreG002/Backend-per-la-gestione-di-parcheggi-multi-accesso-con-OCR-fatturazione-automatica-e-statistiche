@@ -5,7 +5,7 @@ import { VehicleType } from "../models/vehicleType_model";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { Invoice } from "../models/invoice_model";
 import { AuthRequest } from "../middlewares/auth.middleware";
-import { where } from "sequelize";
+import { Model, where } from "sequelize";
 import { Tariff } from "../models/tariff_model";
 import { Op } from "sequelize";
 import { checkParkingAvailability } from "../helpers/parking_helper";
@@ -14,6 +14,8 @@ import Tesseract from "tesseract.js";
 import { Request, ParamsDictionary, Response } from "express-serve-static-core";
 import { ParsedQs } from "qs";
 import PDFDocument from "pdfkit"
+import { UserVehicle } from "../models/userVehicle_model";
+
 
 
 
@@ -266,54 +268,57 @@ router.post(
   }
 );
 
-router.get("/api/transits/search", authenticateJWT, async (req, res) => { // /api/transits/search?plates=PA234AV&startDate=2024-01-01&endDate=2025-12-31&format=pdf
+router.post("/api/transits/search", authenticateJWT, async (req: AuthRequest, res: Response) => {
   try {
-    const { plates, startDate, endDate, format } = req.query;
-    const plateArray = typeof plates === "string" ? plates.split(",").map(p => p.trim().toUpperCase()) : [];
+    const { plates, from, to, format } = req.body;
 
-    if (!startDate || !endDate || plateArray.length === 0) {
-      res.status(400).json({ message: "Inserire targhe, startDate ed endDate" });
+    if (!plates || !Array.isArray(plates) || plates.length === 0) {
+      res.status(400).json({ message: "Devi specificare almeno una targa." });
       return;
     }
 
-    const start = new Date(startDate as string);
-    const end = new Date(endDate as string);
+    const startDate = new Date(from);
+    const endDate = new Date(to);
 
-    // Recupera transiti filtrati
-    const whereCondition: any = {
-      plate: { [Op.in]: plateArray },
-      timestamp: { [Op.between]: [start, end] },
-    };
+    let allowedPlates = plates;
 
-    // Limitazione per utenti non admin
-    const user = (req as AuthRequest).user;
-    if (user.role === "user") {
-      whereCondition["$Invoice.userId$"] = user.id;
+    if (req.user.role !== "operatore") {
+      const userVehicles = await UserVehicle.findAll({ where: { userId: req.user.id } });
+      const userPlates = userVehicles.map(v => v.plate);
+      allowedPlates = plates.filter(p => userPlates.includes(p));
+    }
+
+    if (allowedPlates.length === 0) {
+      res.status(403).json({ message: "Nessuna targa autorizzata." });
+      return;
     }
 
     const transits = await Transit.findAll({
-      where: whereCondition,
+      where: {
+        plate: { [Op.in]: allowedPlates },
+        timestamp: { [Op.between]: [startDate, endDate] },
+      },
       include: [Gate, VehicleType, Invoice],
-      order: [["timestamp", "DESC"]],
+      order: [["timestamp", "ASC"]],
     });
 
     if (format === "pdf") {
       const doc = new PDFDocument();
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Disposition", "attachment; filename=transits.pdf");
-      doc.pipe(res);
 
-      doc.fontSize(16).text("Report Transiti", { align: "center" }).moveDown();
+      doc.pipe(res);
+      doc.fontSize(16).text("Report Transiti", { underline: true }).moveDown();
 
       transits.forEach((t, i) => {
         doc.fontSize(12).text(`Targa: ${t.plate}`);
         doc.text(`Data: ${t.timestamp}`);
-        doc.text(`Varco: ${t.gate?.id}`);
+        doc.text(`Varco: ${t.Gate?.name ?? "N/A"}`);
         doc.text(`Direzione: ${t.direction}`);
-        doc.text(`Tipo veicolo: ${t.vehicleType?.name}`);
-        doc.text(`Costo: € ${t.invoice?.amount ?? "N/A"}`);
-        doc.moveDown();
+        doc.text(`Tipo veicolo: ${t.VehicleType?.name ?? "N/A"}`);
+        doc.text(`Costo: € ${t.Invoice?.amount ?? "N/A"}`);
         if (i < transits.length - 1) doc.moveDown();
+        doc.moveDown();
       });
 
       doc.end();
@@ -321,10 +326,11 @@ router.get("/api/transits/search", authenticateJWT, async (req, res) => { // /ap
       res.json(transits);
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Errore nella ricerca dei transiti" });
+    console.error("Errore ricerca transiti:", error);
+    res.status(500).json({ message: "Errore nella ricerca transiti." });
   }
 });
+
 
 
 export default router;
