@@ -4,28 +4,14 @@ import { testConnection } from "./database";
 import { Parking } from "./models/parking_model";
 import parkingRoutes from "./routes/parking_routes";
 import { VehicleType } from "./models/vehicleType_model";
-import vehicleTypeRoutes from "./routes/vehicleType_routes";
 import { Gate } from "./models/gate_model";
-import gateRoutes from "./routes/gate_routes";
 import { Transit } from "./models/transit_model";
-import transitRoutes from "./routes/transit_routes";
 import { Invoice } from "./models/invoice_model";
-import invoiceRoutes from "./routes/invoice_routes";
 import { User } from "./models/user_model";
-import userRoutes from "./routes/user_routes";
-import authRoutes from "./routes/auth_routes";
 import { Tariff } from "./models/tariff_model";
-import { now } from "sequelize/types/utils";
-import { log } from "console";
 import app from "./app";
-
-import invoicePdfRoutes from "./routes/invoicePdf_routes";
-import statsroutes from "./routes/stats_routes";
-
 import { UserVehicle } from "./models/userVehicle_model";
-import userVehicleRoutes from "./routes/userVehicle_routes";
 
-import tariffRoutes from "./routes/tariff_routes";
 
 // Relazioni
 Parking.hasMany(Gate, { foreignKey: "parkingId" });

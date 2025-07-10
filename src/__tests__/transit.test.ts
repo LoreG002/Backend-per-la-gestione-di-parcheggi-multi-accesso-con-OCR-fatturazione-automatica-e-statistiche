@@ -7,7 +7,6 @@ import { Gate } from "../models/gate_model";
 import { VehicleType } from "../models/vehicleType_model";
 import { Invoice } from "../models/invoice_model";
 
-
 Gate.hasMany(Transit, { foreignKey: "gateId" });
 Transit.belongsTo(Gate, { foreignKey: "gateId" });
 
@@ -40,3 +39,5 @@ describe("Transits API", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 });
+
+
