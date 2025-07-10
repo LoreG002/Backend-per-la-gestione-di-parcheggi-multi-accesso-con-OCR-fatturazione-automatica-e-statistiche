@@ -55,7 +55,7 @@ const deleteUser: RequestHandler = async (req, res): Promise<void> => {
   }
 };
 
-router.get("/api/users", async (req, res) => {
+router.get("/api/users", authenticateJWT, authorizeRoles("operatore"), async (req, res) => {
   try {
     const users = await User.findAll();
     res.json(users);
@@ -65,7 +65,7 @@ router.get("/api/users", async (req, res) => {
   }
 });
 
-router.post("/api/users", async (req, res) => {
+router.post("/api/users", authenticateJWT, authorizeRoles("operatore"), async (req, res) => {
   try {
     const { email, password, role, credit } = req.body;
 
@@ -86,9 +86,9 @@ router.post("/api/users", async (req, res) => {
   }
 });
 
-router.put("/api/users/:id", updateUser);
+router.put("/api/users/:id", authenticateJWT, authorizeRoles("operatore"), updateUser);
 
-router.delete("/api/users/:id", deleteUser);
+router.delete("/api/users/:id", authenticateJWT, authorizeRoles("operatore"), deleteUser);
 
 router.get("/api/protected", authenticateJWT, (req, res) => { //richiede il token e mostra i dati decodificati
   res.json({
@@ -137,6 +137,22 @@ router.patch(
   ricaricaCredito
 );
 
+router.get("/api/users/me", authenticateJWT, async (req, res) => {
+  try {
+    const userId = (req as AuthRequest).user.id;
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "Utente non trovato." });
+      return;
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Errore nel recupero dei dati utente:", error);
+    res.status(500).json({ message: "Errore nel recupero dei dati utente." });
+  }
+});
 
 export default router;
 
