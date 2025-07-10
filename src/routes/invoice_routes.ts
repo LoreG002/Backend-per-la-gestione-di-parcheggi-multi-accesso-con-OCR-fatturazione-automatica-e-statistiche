@@ -267,6 +267,58 @@ router.delete(
 );
 
 
+import PDFDocument from "pdfkit";
+
+const downloadInvoiceReceipt: RequestHandler = async (req, res): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const userId = (req as AuthRequest).user.id;
+
+    const invoice = await Invoice.findOne({ where: { id, userId } });
+
+    if (!invoice) {
+      res.status(404).json({ message: "Fattura non trovata o accesso negato." });
+      return;
+    }
+
+    if (invoice.status !== "pagato") {
+      res.status(400).json({ message: "La fattura non è ancora stata pagata." });
+      return;
+    }
+
+    // Recupera l'utente per stampare i dati
+    const { User } = await import("../models/user_model");
+    const user = await User.findByPk(userId);
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename=ricevuta_fattura_${id}.pdf`);
+
+    const doc = new PDFDocument();
+    doc.pipe(res);
+
+    doc.fontSize(18).text("Ricevuta di Pagamento", { underline: true }).moveDown();
+
+    doc.fontSize(12).text(`ID Fattura: ${invoice.id}`);
+    doc.text(`Importo: € ${invoice.amount}`);
+    doc.text(`Stato: ${invoice.status}`);
+    doc.text(`Data emissione: ${invoice.createdAt}`);
+    doc.text(`Data scadenza: ${invoice.dueDate}`);
+    doc.moveDown();
+
+    doc.text(`Utente: ${user?.id ?? "N/A"} (${user?.email ?? "N/A"})`);
+    doc.text(`ID Utente: ${user?.id}`);
+
+    doc.end();
+  } catch (error) {
+    console.error("Errore generazione ricevuta:", error);
+    res.status(500).json({ message: "Errore nella generazione della ricevuta." });
+  }
+};
+
+router.get("/api/invoices/:id/receipt", authenticateJWT, downloadInvoiceReceipt);
+
+
+
 
 
 
