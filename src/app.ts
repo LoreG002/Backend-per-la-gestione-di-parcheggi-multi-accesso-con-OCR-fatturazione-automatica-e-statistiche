@@ -11,6 +11,7 @@ import authRoutes from "./routes/auth_routes";
 import invoicePdfRoutes from "./routes/invoicePdf_routes";
 import statsroutes from "./routes/stats_routes";
 import userVehicleRoutes from "./routes/userVehicle_routes";
+import tariffRoutes from "./routes/tariff_routes";
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ app.use(authRoutes);
 app.use(invoicePdfRoutes);
 app.use(statsroutes);
 app.use(userVehicleRoutes);
+app.use(tariffRoutes);
 
 // Rotta di test base
 app.get("/", (req, res) => {
