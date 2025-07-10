@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { Parking } from "../models/parking_model";
 import { RequestHandler } from "express";
+import { authenticateJWT } from "../middlewares/auth.middleware";
+import { authorizeRoles } from "../middlewares/role.middleware";
+
 
 const router = Router();
 
@@ -48,7 +51,7 @@ const deleteParking: RequestHandler = async (req, res): Promise<void> => {
   }
 };
 
-router.post("/api/parkings", async (req,res)=>{
+router.post("/api/parkings", authenticateJWT, authorizeRoles("operatore"), async (req,res)=>{
     console.log("Richiesta POST ricevuta:", req.body);
 
     try{
@@ -79,8 +82,8 @@ router.get("/api/parkings", async (req, res) => {
 
 
 
-router.put("/api/parkings/:id", updateParking);
+router.put("/api/parkings/:id", authenticateJWT, authorizeRoles("operatore"), updateParking);
 
-router.delete("/api/parkings/:id", deleteParking);
+router.delete("/api/parkings/:id", authenticateJWT, authorizeRoles("operatore"), deleteParking);
 
 export default router;
