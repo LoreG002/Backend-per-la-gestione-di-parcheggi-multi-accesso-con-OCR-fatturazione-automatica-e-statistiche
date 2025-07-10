@@ -2,6 +2,22 @@ import request from "supertest";
 import express from "express";
 import transitRoutes from "../routes/transit_routes";
 
+import { Transit } from "../models/transit_model";
+import { Gate } from "../models/gate_model";
+import { VehicleType } from "../models/vehicleType_model";
+import { Invoice } from "../models/invoice_model";
+
+
+Gate.hasMany(Transit, { foreignKey: "gateId" });
+Transit.belongsTo(Gate, { foreignKey: "gateId" });
+
+VehicleType.hasMany(Transit, { foreignKey: "vehicleTypeId" });
+Transit.belongsTo(VehicleType, { foreignKey: "vehicleTypeId" });
+
+Invoice.hasMany(Transit, { foreignKey: "invoiceId" });
+Transit.belongsTo(Invoice, { foreignKey: "invoiceId" });
+
+
 // Setup finto app Express solo per test
 const app = express();
 app.use(express.json());
