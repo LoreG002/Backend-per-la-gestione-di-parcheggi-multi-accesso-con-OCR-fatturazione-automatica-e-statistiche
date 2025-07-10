@@ -138,10 +138,39 @@ const payInvoice: RequestHandler = async (req, res): Promise<void> => {
       return;
     }
 
+    // Recupera l'utente per controllare il credito
+    const { User } = await import("../models/user_model");
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "Utente non trovato." });
+      return;
+    }
+
+    const creditoDisponibile = parseFloat(user.credit.toString());
+    const importoFattura = parseFloat(invoice.amount.toString());
+
+    if (creditoDisponibile < importoFattura) {
+      res.status(400).json({
+        message: "Credito insufficiente per effettuare il pagamento.",
+        credit: creditoDisponibile,
+        required: importoFattura,
+      });
+      return;
+    }
+
+    // Esegui il pagamento
     invoice.status = "pagato";
     await invoice.save();
 
-    res.json({ message: "Fattura pagata con successo.", invoice });
+    user.credit = creditoDisponibile - importoFattura;
+    await user.save();
+
+    res.json({
+      message: "Fattura pagata con successo.",
+      invoice,
+      nuovoCredito: user.credit,
+    });
   } catch (error) {
     console.error("Errore nel pagamento della fattura:", error);
     res.status(500).json({ message: "Errore nel pagamento della fattura." });
@@ -149,6 +178,7 @@ const payInvoice: RequestHandler = async (req, res): Promise<void> => {
 };
 
 router.patch("/api/invoices/:id/pay", authenticateJWT, payInvoice);
+
 
 // ✅ POST: Creazione fattura (solo per operatori, ma opzionale perché generate automaticamente)
 router.post(
