@@ -17,6 +17,7 @@ import authRoutes from "./routes/auth_routes";
 import { Tariff } from "./models/tariff_model";
 import { now } from "sequelize/types/utils";
 import { log } from "console";
+import app from "./app";
 
 import invoicePdfRoutes from "./routes/invoicePdf_routes";
 import statsroutes from "./routes/stats_routes";
@@ -47,22 +48,6 @@ User.hasMany(UserVehicle, { foreignKey: "userId" });
 UserVehicle.belongsTo(User, { foreignKey: "userId" });
 
 dotenv.config();
-
-const app = express();
-app.use(express.json());
-
-app.use(parkingRoutes);
-app.use(vehicleTypeRoutes);
-app.use(gateRoutes);
-app.use(transitRoutes);
-app.use(invoiceRoutes);
-app.use(userRoutes);
-app.use(authRoutes);
-
-app.use(invoicePdfRoutes);
-app.use(statsroutes);
-
-app.use(userVehicleRoutes);
 
 const PORT = process.env.PORT;
 
@@ -106,4 +91,5 @@ app.use(parkingRoutes);
 app.listen(PORT, () => {
   console.log(`Server avviato sulla porta ${PORT}`);
 });
+
 
