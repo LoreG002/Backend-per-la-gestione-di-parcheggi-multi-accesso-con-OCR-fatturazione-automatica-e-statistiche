@@ -1,6 +1,9 @@
 import { Router, RequestHandler } from "express";
 import { Gate } from "../models/gate_model";
 import { Parking } from "../models/parking_model";
+import { authenticateJWT } from "../middlewares/auth.middleware";
+import { authorizeRoles } from "../middlewares/role.middleware";
+
 
 const router = Router();
 
@@ -65,7 +68,7 @@ router.get("/api/gates", async (req, res) => {
   }
 });
 
-router.post("/api/gates", async (req, res) => {
+router.post("/api/gates", authenticateJWT, authorizeRoles("operatore"), async (req, res) => {
   try {
     const { name, parkingId, type, direction } = req.body;
 
@@ -83,8 +86,8 @@ router.post("/api/gates", async (req, res) => {
   }
 });
 
-router.put("/api/gates/:id", updateGate);
+router.put("/api/gates/:id", authenticateJWT, authorizeRoles("operatore"), updateGate);
 
-router.delete("/api/gates/:id", deleteGate);
+router.delete("/api/gates/:id", authenticateJWT, authorizeRoles("operatore"), deleteGate);
 
 export default router;

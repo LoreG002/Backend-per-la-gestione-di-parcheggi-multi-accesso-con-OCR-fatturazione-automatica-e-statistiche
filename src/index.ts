@@ -25,6 +25,8 @@ import statsroutes from "./routes/stats_routes";
 import { UserVehicle } from "./models/userVehicle_model";
 import userVehicleRoutes from "./routes/userVehicle_routes";
 
+import tariffRoutes from "./routes/tariff_routes";
+
 // Relazioni
 Parking.hasMany(Gate, { foreignKey: "parkingId" });
 Gate.belongsTo(Parking, { foreignKey: "parkingId" });

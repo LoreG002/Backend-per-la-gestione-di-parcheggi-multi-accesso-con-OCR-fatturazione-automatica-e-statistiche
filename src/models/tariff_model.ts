@@ -3,6 +3,7 @@ import { sequelize } from "../database";
 
 export interface TariffAttributes {
   id?: number;
+  parkingId: number; // ← nuovo campo
   vehicleTypeId: number;
   startHour: number;
   endHour: number;
@@ -12,6 +13,7 @@ export interface TariffAttributes {
 
 export class Tariff extends Model<TariffAttributes> implements TariffAttributes {
   public id!: number;
+  public parkingId!: number;
   public vehicleTypeId!: number;
   public startHour!: number;
   public endHour!: number;
@@ -25,6 +27,15 @@ Tariff.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    parkingId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "parkings", // nome tabella parcheggi
+        key: "id",
+      },
+      onDelete: "CASCADE",
     },
     vehicleTypeId: {
       type: DataTypes.INTEGER,
