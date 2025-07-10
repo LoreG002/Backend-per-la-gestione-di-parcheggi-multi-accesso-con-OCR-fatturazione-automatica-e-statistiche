@@ -15,6 +15,7 @@ import { Request, ParamsDictionary, Response } from "express-serve-static-core";
 import { ParsedQs } from "qs";
 import PDFDocument from "pdfkit"
 import { UserVehicle } from "../models/userVehicle_model";
+import { authorizeRoles } from "../middlewares/role.middleware";
 
 
 
@@ -208,27 +209,42 @@ const deleteTransit: RequestHandler = async (req, res): Promise<void> => {
   }
 };
 
-router.get("/api/transits", async (req, res) => {
+router.get("/api/transits", authenticateJWT, async (req, res) => {
   try {
+    const user = (req as AuthRequest).user;
+
+    let whereCondition: any = {};
+
+    if (user.role === "utente") {
+      const userVehicles = await UserVehicle.findAll({ where: { userId: user.id } });
+      const userPlates = userVehicles.map((v) => v.plate);
+
+      if (userPlates.length === 0) {
+        res.json([]);
+        return;
+      }
+
+      whereCondition.plate = { [Op.in]: userPlates };
+    }
+
     const transits = await Transit.findAll({
-      include: [
-        { model: Gate },
-        { model: VehicleType },
-        { model: Invoice}
-      ]
+      where: whereCondition,
+      include: [Gate, VehicleType, Invoice],
+      order: [["timestamp", "DESC"]],
     });
+
     res.json(transits);
   } catch (error) {
-    console.error(error);
+    console.error("Errore nel recupero dei transiti:", error);
     res.status(500).json({ message: "Errore nel recupero dei transiti." });
   }
 });
 
-router.put("/api/transits/:id", updateTransit);
+router.put("/api/transits/:id", authorizeRoles("operatore"), updateTransit);
 
-router.delete("/api/transits/:id", deleteTransit);
+router.delete("/api/transits/:id", authorizeRoles("operatore"), deleteTransit);
 
-router.post("/api/transits", authenticateJWT, createTransit);
+router.post("/api/transits", authenticateJWT, authorizeRoles("operatore"), createTransit);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "upload/"),
@@ -239,6 +255,7 @@ const upload = multer({ storage });
 router.post(
   "/api/transits/auto",
   authenticateJWT,
+  authorizeRoles("operatore"),
   upload.single("image"), // opzionale: viene ignorata se non serve
   async (req, res) => {
     try {
