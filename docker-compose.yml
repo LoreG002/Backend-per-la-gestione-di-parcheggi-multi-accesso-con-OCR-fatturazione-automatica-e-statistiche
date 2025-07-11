@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: lorenzo
+      POSTGRES_PASSWORD: ciao
+      POSTGRES_DB: parkingdb
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: express_app
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=lorenzo
+      - DB_PASS=ciao
+      - DB_NAME=parkingdb
+    depends_on:
+      - db
+
+volumes:
+  dbdata:
