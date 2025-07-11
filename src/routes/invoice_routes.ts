@@ -332,7 +332,7 @@ router.get("/api/invoices/:id/receipt", authenticateJWT, async (req, res) => {
 
     doc.moveDown();
     doc.text("Dati utente:", { underline: true });
-    doc.text(`Nome: ${user.name}`);
+    doc.text(`Nome: ${user.id}`);
     doc.text(`Email: ${user.email}`);
 
     doc.end();
