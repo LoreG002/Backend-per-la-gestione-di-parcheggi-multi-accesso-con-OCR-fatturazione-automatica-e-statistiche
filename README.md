@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="[https://user-images.githubusercontent.com/123456789/immagine.jpg](https://imgur.com/a/JNb6uCN)" alt="Illustrazione Parcheggio" width="400"/>
+  <img src="https://i.imgur.com/oPvGIh9.jpeg" alt="Illustrazione Parcheggio" width="400"/>
 </div>
 
 # 🚗 Sviluppo Back-End per un Sistema di Controllo Accessi e Gestione Parcheggi Universitari
