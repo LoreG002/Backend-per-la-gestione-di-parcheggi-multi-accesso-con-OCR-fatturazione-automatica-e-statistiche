@@ -1,8 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database";
-import { Gate } from "./gate_model";
-import { VehicleType } from "./vehicleType_model";
-import { Invoice } from "./invoice_model";
 
 export interface TransitAttributes {
   id?: number;

@@ -1,4 +1,3 @@
-import express from "express";
 import dotenv from "dotenv";
 import { testConnection } from "./database";
 import { Parking } from "./models/parking_model";

@@ -5,7 +5,6 @@ import { VehicleType } from "../models/vehicleType_model";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { Invoice } from "../models/invoice_model";
 import { AuthRequest } from "../middlewares/auth.middleware";
-import { Model, where } from "sequelize";
 import { Tariff } from "../models/tariff_model";
 import { Op } from "sequelize";
 import { checkParkingAvailability } from "../helpers/parking_helper";
