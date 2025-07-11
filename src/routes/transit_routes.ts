@@ -17,68 +17,62 @@ import PDFDocument from "pdfkit"
 import { UserVehicle } from "../models/userVehicle_model";
 import { authorizeRoles } from "../middlewares/role.middleware";
 
-
-
-
-
 const router = Router();
 
 const createOCR = async(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,res: Response<any, Record<string, any>, number>) => {
-    try {
-        if (!req.file) {
-        res.status(400).json({ message: "Immagine Targa non trovata." });
-        return;
-        }
-      console.log("File ricevuto:", req.file.path); 
+  try {
+    if (!req.file) {
+      res.status(400).json({ message: "Immagine Targa non trovata." });
+      return;
+    }
+    console.log("File ricevuto:", req.file.path);
 
-      const result = await Tesseract.recognize(req.file.path, "eng", {
-        logger: info => console.log(info)
-      });
+    const result = await Tesseract.recognize(req.file.path, "eng", {
+      logger: info => console.log(info)
+    });
 
-      let plateRaw = result.data.text.trim().toUpperCase();
+    const plateRaw = result.data.text.trim().toUpperCase();
 
-       // Rimuove tutto ciò che NON è A-Z o 0-9
-      let plate = plateRaw.replace(/[^A-Z0-9]/g, "");
+    // Rimuove tutto ciò che NON è A-Z o 0-9
+    const plate = plateRaw.replace(/[^A-Z0-9]/g, "");
 
-      // Opzionale: Stampa debug per capire cosa hai letto
-      console.log("OCR RAW:", plateRaw);
-      console.log("OCR CLEAN:", plate);
-    
-      // ✅ Controllo disponibilità parcheggio
-      const gateId = parseInt(req.body.gateId);
-      const available = await checkParkingAvailability(gateId);
-      if (!available) {
-        res.status(403).json({ message: "Parcheggio pieno. Accesso negato." });
-        return;
+    // Opzionale: Stampa debug per capire cosa hai letto
+    console.log("OCR RAW:", plateRaw);
+    console.log("OCR CLEAN:", plate);
+
+    // ✅ Controllo disponibilità parcheggio
+    const gateId = parseInt(req.body.gateId);
+    const available = await checkParkingAvailability(gateId);
+    if (!available) {
+      res.status(403).json({ message: "Parcheggio pieno. Accesso negato." });
+      return;
     }
 
+    const transit = await Transit.create({
+      plate,
+      vehicleTypeId: req.body.vehicleTypeId,
+      gateId: req.body.gateId,
+      timestamp: new Date(),
+      direction: "entrata",
+      invoiceId: null
+    });
 
-      const transit = await Transit.create({
-        plate,
-        vehicleTypeId: req.body.vehicleTypeId,
-        gateId: req.body.gateId,
-        timestamp: new Date(),
-        direction: "entrata",
-        invoiceId: null
-      });
+    res.status(201).json({
+      message: "Transito creato con OCR.",
+      plate,
+      transit
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: "Errore nell'elaborazione OCR"});
+  }
+};
 
-      res.status(201).json({
-        message: "Transito creato con OCR.",
-        plate,
-        transit
-      });
-    } catch(error){
-        console.error(error);
-        res.status(500).json({message: "Errore nell'elaborazione OCR"});
-    }
-  };
-
-
-const createTransit= async(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,res: Response<any, Record<string, any>, number>) => {
+const createTransit = async(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,res: Response<any, Record<string, any>, number>) => {
   try {
     const { plate, vehicleTypeId, gateId, timestamp, direction, invoiceId } = req.body;
 
-        // ✅ Controllo disponibilità SOLO per entrata
+    // ✅ Controllo disponibilità SOLO per entrata
     if (direction === "entrata") {
       const available = await checkParkingAvailability(gateId);
       if (!available) {
@@ -86,7 +80,7 @@ const createTransit= async(req: Request<ParamsDictionary, any, any, ParsedQs, Re
         return;
       }
     }
-    
+
     const transit = await Transit.create({
       plate,
       vehicleTypeId,
@@ -111,9 +105,9 @@ const createTransit= async(req: Request<ParamsDictionary, any, any, ParsedQs, Re
       const durataInOre = durata / (1000 * 60 * 60);
 
       const dataUscita = new Date (timestamp);
-      const giornoSettimana= dataUscita.getDay(); //Lunedi (1), Martedi (2)...Sabato (6), Domenica (0)
+      const giornoSettimana = dataUscita.getDay(); //Lunedi (1), Martedi (2)...Sabato (6), Domenica (0)
       console.log("il giorno della settimana è:" , giornoSettimana);
-      const dayType = (giornoSettimana==0 || giornoSettimana == 6) ? "festivo" : "feriale";
+      const dayType = (giornoSettimana == 0 || giornoSettimana == 6) ? "festivo" : "feriale";
       console.log("e quindi è: ", dayType);
 
       const oraUscita = dataUscita.getUTCHours();
@@ -129,11 +123,11 @@ const createTransit= async(req: Request<ParamsDictionary, any, any, ParsedQs, Re
         }
       });
 
-      if(!tariffa){
+      if (!tariffa) {
         res.status(400).json({ message: "Nessuna tariffa trovata"});
         return;
       }
-      
+
       //const tariffaOraria = 2;
       const costo = parseFloat((durataInOre * parseFloat(tariffa.pricePerHour.toString())).toFixed(2));  //due numeri dopo la virgola
 
@@ -144,7 +138,7 @@ const createTransit= async(req: Request<ParamsDictionary, any, any, ParsedQs, Re
         status: "non pagato",
         dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
-      
+
       //collego ingresso e uscita alla fattura
       ingresso.invoiceId = invoice.id;
       transit.invoiceId = invoice.id;
@@ -158,8 +152,6 @@ const createTransit= async(req: Request<ParamsDictionary, any, any, ParsedQs, Re
     res.status(500).json({ message: "Errore nella creazione del transito." });
   }
 };
-
-
 
 const updateTransit: RequestHandler = async (req, res): Promise<void> => {
   try {
@@ -213,7 +205,7 @@ router.get("/api/transits", authenticateJWT, async (req, res) => {
   try {
     const user = (req as AuthRequest).user;
 
-    let whereCondition: any = {};
+    const whereCondition: any = {};
 
     if (user.role === "utente") {
       const userVehicles = await UserVehicle.findAll({ where: { userId: user.id } });
@@ -347,7 +339,5 @@ router.post("/api/transits/search", authenticateJWT, async (req: AuthRequest, re
     res.status(500).json({ message: "Errore nella ricerca transiti." });
   }
 });
-
-
 
 export default router;

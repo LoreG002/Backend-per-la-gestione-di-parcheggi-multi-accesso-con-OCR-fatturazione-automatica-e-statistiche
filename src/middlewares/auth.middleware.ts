@@ -6,7 +6,7 @@ export interface AuthRequest extends Request {  //estente Request per avere anch
 }
 
 export const authenticateJWT = (
-  req: AuthRequest, 
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ): void => {

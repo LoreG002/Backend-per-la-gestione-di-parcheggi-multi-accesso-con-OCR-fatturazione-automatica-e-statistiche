@@ -12,7 +12,6 @@ import { Tariff } from "./models/tariff_model";
 import app from "./app";
 import { UserVehicle } from "./models/userVehicle_model";
 
-
 // Relazioni
 Parking.hasMany(Gate, { foreignKey: "parkingId" });
 Gate.belongsTo(Parking, { foreignKey: "parkingId" });
@@ -64,11 +63,10 @@ testConnection();
   }
 })();
 
-const timestamp= "2025-07-04T11:30:00.000Z";
-const date= new Date(timestamp);
-const giornodellasettimana= date.getDay();
+const timestamp = "2025-07-04T11:30:00.000Z";
+const date = new Date(timestamp);
+const giornodellasettimana = date.getDay();
 console.log("oggi è :", giornodellasettimana);
-
 
 app.get("/", (req, res) => {
   res.send("Il progetto è pronto");
@@ -79,5 +77,3 @@ app.use(parkingRoutes);
 app.listen(PORT, () => {
   console.log(`Server avviato sulla porta ${PORT}`);
 });
-
-

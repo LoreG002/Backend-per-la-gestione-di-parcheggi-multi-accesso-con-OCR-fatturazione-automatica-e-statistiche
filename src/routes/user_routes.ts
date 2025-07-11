@@ -4,7 +4,6 @@ import { authenticateJWT, AuthRequest } from "../middlewares/auth.middleware";
 import * as bcrypt from "bcrypt";
 import { authorizeRoles } from "../middlewares/role.middleware";
 
-
 const router = Router();
 
 const updateUser: RequestHandler = async (req, res): Promise<void> => {
@@ -21,7 +20,7 @@ const updateUser: RequestHandler = async (req, res): Promise<void> => {
 
     user.email = email;
     if (password) {
-    user.passwordHash = await bcrypt.hash(password, 10);
+      user.passwordHash = await bcrypt.hash(password, 10);
     }
     user.role = role;
     user.credit = credit;
@@ -155,4 +154,3 @@ router.get("/api/users/me", authenticateJWT, async (req, res) => {
 });
 
 export default router;
-

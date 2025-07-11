@@ -343,5 +343,3 @@ router.get("/api/invoices/:id/receipt", authenticateJWT, async (req, res) => {
 });
 
 export default router;
-
-

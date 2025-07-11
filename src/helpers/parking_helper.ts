@@ -17,7 +17,7 @@ export async function checkParkingAvailability(gateId: number): Promise<boolean>
     order: [["timestamp", "ASC"]]
   });
 
-  let currentInside = new Set<string>();
+  const currentInside = new Set<string>();
   for (const t of transits) {
     if (t.direction === "entrata") currentInside.add(t.plate);
     else if (t.direction === "uscita") currentInside.delete(t.plate);

@@ -4,7 +4,6 @@ import { RequestHandler } from "express";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
 
-
 const router = Router();
 
 const updateParking: RequestHandler = async (req, res): Promise<void> => {
@@ -33,40 +32,40 @@ const updateParking: RequestHandler = async (req, res): Promise<void> => {
 };
 
 const deleteParking: RequestHandler = async (req, res): Promise<void> => {
-  try{
+  try {
     const { id } = req.params;
 
     const parking = await Parking.findByPk(id);
 
-    if(!parking){
+    if (!parking) {
       res.status(404).json({ message: "Parcheggio non trovato." });
       return;
     }
     await parking.destroy();
 
     res.json({ message: "Parcheggio eliminato con successo."});
-  }catch(error){
+  } catch (error) {
     console.error(error);
     res.status(500).json({message: "Errore nel delete del parcheggio"})
   }
 };
 
 router.post("/api/parkings", authenticateJWT, authorizeRoles("operatore"), async (req,res)=>{
-    console.log("Richiesta POST ricevuta:", req.body);
+  console.log("Richiesta POST ricevuta:", req.body);
 
-    try{
-      const {name, location, capacity} = req.body;
+  try {
+    const {name, location, capacity} = req.body;
 
-      const parking = await Parking.create({ //await attende che viene risolta la promise
-        name,
-        location,
-        capacity,
-      });
-      res.status(201).json(parking);
-    } catch(error){
-      console.error(error);
-      res.status(500).json({message: "Errore nella creazione del parcheggio"});
-    }
+    const parking = await Parking.create({ //await attende che viene risolta la promise
+      name,
+      location,
+      capacity,
+    });
+    res.status(201).json(parking);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: "Errore nella creazione del parcheggio"});
+  }
 
 });
 
@@ -79,8 +78,6 @@ router.get("/api/parkings", async (req, res) => {
     res.status(500).json({ message: "Errore nel recupero dei parcheggi." });
   }
 });
-
-
 
 router.put("/api/parkings/:id", authenticateJWT, authorizeRoles("operatore"), updateParking);
 
