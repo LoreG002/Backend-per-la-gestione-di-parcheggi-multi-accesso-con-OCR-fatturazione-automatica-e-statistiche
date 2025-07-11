@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/oPvGIh9.jpeg" alt="Illustrazione Parcheggio" width="400"/>
 </div>
 
-# 🚗 Sviluppo Back-End per un Sistema di Controllo Accessi e Gestione Parcheggi Universitari
+# 🚗 Sviluppo Back-End per un Sistema di Controllo Accessi e Gestione Parcheggi
 
 [![Postgres](https://img.shields.io/badge/Made%20with-postgres-%23316192.svg?style=plastic&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![NodeJS](https://img.shields.io/badge/Made%20with-node.js-6DA55F?style=plastic&logo=node.js&logoColor=white)](https://nodejs.org/en)
