@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
+import { Op } from "sequelize";
 import * as TransitService from "../services/transit.service";
 import { generateTransitPDF } from "../helpers/pdf.helper";
 import Tesseract from "tesseract.js";
 import { UserVehicle } from "../models/userVehicle.model";
 import { AuthRequest } from "../middlewares/auth.middleware";
 import { Gate } from "../models/gate.model";
+import { VehicleType } from "../models/vehicleType.model";
+import { Invoice } from "../models/invoice.model";
+import { Transit } from "../models/transit.model";
 
 export const createTransitAuto = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -59,7 +63,7 @@ export const getAllTransits = async (req: AuthRequest, res: Response): Promise<v
         res.json([]);
         return;
       }
-      whereCondition.plate = { $in: plates };
+      whereCondition.plate = { [Op.in]: plates };
     }
 
     const transits = await TransitService.getAllTransits(whereCondition);
@@ -91,10 +95,18 @@ export const searchTransits = async (req: AuthRequest, res: Response) => {
       return;
     }
 
-    const transits = await TransitService.searchTransits(allowedPlates, new Date(from), new Date(to));
+    const transits = await TransitService.searchTransits(
+      allowedPlates,
+      new Date(from),
+      new Date(to)
+    ) as (Transit & {
+      Gate?: Gate;
+      VehicleType?: VehicleType;
+      Invoice?: Invoice;
+    })[];
 
     if (format === "pdf") {
-      generateTransitPDF(res, transits);
+      generateTransitPDF(transits, res);
     } else {
       res.json(transits);
     }
