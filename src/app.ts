@@ -5,11 +5,11 @@ import parkingRoutes from "./routes/parking.routes";
 import vehicleTypeRoutes from "./routes/vehicleType.routes";
 import gateRoutes from "./routes/gate.routes";
 import transitRoutes from "./routes/transit.routes";
-import invoiceRoutes from "./routes/invoice_routes";
+import invoiceRoutes from "./routes/invoice.routes";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
-import invoicePdfRoutes from "./routes/invoicePdf_routes";
-import statsroutes from "./routes/stats_routes";
+import invoicePdfRoutes from "./routes/invoicePdf.routes";
+import statsroutes from "./routes/stats.routes";
 import userVehicleRoutes from "./routes/userVehicle.routes";
 import tariffRoutes from "./routes/tariff.routes";
 

@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import invoiceRoutes from "../routes/invoice_routes";
+import invoiceRoutes from "../routes/invoice.routes";
 import { Invoice } from "../models/invoice.model";
 
 jest.mock("../models/invoice_model");
