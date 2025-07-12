@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 import parkingRoutes from "./routes/parking.routes";
 import vehicleTypeRoutes from "./routes/vehicleType_routes";
-import gateRoutes from "./routes/gate_routes";
+import gateRoutes from "./routes/gate.routes";
 import transitRoutes from "./routes/transit_routes";
 import invoiceRoutes from "./routes/invoice_routes";
 import userRoutes from "./routes/user.routes";
