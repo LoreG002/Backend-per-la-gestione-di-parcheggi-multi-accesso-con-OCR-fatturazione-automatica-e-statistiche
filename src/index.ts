@@ -1,15 +1,15 @@
 import dotenv from "dotenv";
 import { testConnection } from "./database";
-import { Parking } from "./models/parking_model";
-import parkingRoutes from "./routes/parking_routes";
-import { VehicleType } from "./models/vehicleType_model";
-import { Gate } from "./models/gate_model";
-import { Transit } from "./models/transit_model";
-import { Invoice } from "./models/invoice_model";
-import { User } from "./models/user_model";
-import { Tariff } from "./models/tariff_model";
+import { Parking } from "./models/parking.model";
+import parkingRoutes from "./routes/parking.routes";
+import { VehicleType } from "./models/vehicleType.model";
+import { Gate } from "./models/gate.model";
+import { Transit } from "./models/transit.model";
+import { Invoice } from "./models/invoice.model";
+import { User } from "./models/user.model";
+import { Tariff } from "./models/tariff.model";
 import app from "./app";
-import { UserVehicle } from "./models/userVehicle_model";
+import { UserVehicle } from "./models/userVehicle.model";
 
 // Relazioni
 Parking.hasMany(Gate, { foreignKey: "parkingId" });

@@ -1,6 +1,6 @@
-import { Transit } from "../models/transit_model";
-import { Gate } from "../models/gate_model";
-import { Parking } from "../models/parking_model";
+import { Transit } from "../models/transit.model";
+import { Gate } from "../models/gate.model";
+import { Parking } from "../models/parking.model";
 
 export async function checkParkingAvailability(gateId: number): Promise<boolean> {
   const gate = await Gate.findByPk(gateId);

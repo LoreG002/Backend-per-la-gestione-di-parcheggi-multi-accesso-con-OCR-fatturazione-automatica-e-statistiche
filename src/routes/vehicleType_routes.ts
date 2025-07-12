@@ -1,5 +1,5 @@
 import { Router, RequestHandler } from "express";
-import { VehicleType } from "../models/vehicleType_model";
+import { VehicleType } from "../models/vehicleType.model";
 
 const router = Router();
 

@@ -1,13 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import parkingRoutes from "./routes/parking_routes";
+import parkingRoutes from "./routes/parking.routes";
 import vehicleTypeRoutes from "./routes/vehicleType_routes";
 import gateRoutes from "./routes/gate_routes";
 import transitRoutes from "./routes/transit_routes";
 import invoiceRoutes from "./routes/invoice_routes";
-import userRoutes from "./routes/user_routes";
-import authRoutes from "./routes/auth_routes";
+import userRoutes from "./routes/user.routes";
+import authRoutes from "./routes/auth.routes";
 import invoicePdfRoutes from "./routes/invoicePdf_routes";
 import statsroutes from "./routes/stats_routes";
 import userVehicleRoutes from "./routes/userVehicle_routes";

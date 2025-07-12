@@ -1,10 +1,10 @@
 import { Router, RequestHandler } from "express";
-import { Invoice } from "../models/invoice_model";
+import { Invoice } from "../models/invoice.model";
 import { authenticateJWT, AuthRequest } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
 import { Op } from "sequelize";
-import { Transit } from "../models/transit_model";
-import { UserVehicle } from "../models/userVehicle_model";
+import { Transit } from "../models/transit.model";
+import { UserVehicle } from "../models/userVehicle.model";
 
 const router = Router();
 
@@ -152,7 +152,7 @@ const payInvoice: RequestHandler = async (req, res): Promise<void> => {
     }
 
     // Recupera l'utente per controllare il credito disponibile
-    const { User } = await import("../models/user_model");
+    const { User } = await import("../models/user.model");
     const user = await User.findByPk(userId);
 
     if (!user) {
@@ -287,7 +287,7 @@ router.delete(
 
 // GET: Download PDF della ricevuta di pagamento (solo utente che possiede la fattura)
 import pdfkit from "pdfkit";
-import { User } from "../models/user_model";
+import { User } from "../models/user.model";
 
 router.get("/api/invoices/:id/receipt", authenticateJWT, async (req, res) => {
   try {

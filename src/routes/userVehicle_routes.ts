@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { UserVehicle } from "../models/userVehicle_model";
+import { UserVehicle } from "../models/userVehicle.model";
 import { authenticateJWT, AuthRequest } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
 

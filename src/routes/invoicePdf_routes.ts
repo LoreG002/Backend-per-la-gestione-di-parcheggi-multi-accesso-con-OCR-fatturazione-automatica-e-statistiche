@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { Invoice } from "../models/invoice_model";
-import { User } from "../models/user_model";
+import { Invoice } from "../models/invoice.model";
+import { User } from "../models/user.model";
 import PDFDocument from "pdfkit"
 import QRCode from "qrcode";
 import { authenticateJWT } from "../middlewares/auth.middleware";

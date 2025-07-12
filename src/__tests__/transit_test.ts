@@ -2,10 +2,10 @@ import request from "supertest";
 import express from "express";
 import transitRoutes from "../routes/transit_routes";
 
-import { Transit } from "../models/transit_model";
-import { Gate } from "../models/gate_model";
-import { Tariff } from "../models/tariff_model";
-import { Invoice } from "../models/invoice_model";
+import { Transit } from "../models/transit.model";
+import { Gate } from "../models/gate.model";
+import { Tariff } from "../models/tariff.model";
+import { Invoice } from "../models/invoice.model";
 
 // Mock dei modelli e middleware
 jest.mock("../models/transit_model");

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { Invoice } from "../models/invoice_model";
-import { Transit } from "../models/transit_model";
-import { Gate } from "../models/gate_model";
-import { Parking } from "../models/parking_model";
+import { Invoice } from "../models/invoice.model";
+import { Transit } from "../models/transit.model";
+import { Gate } from "../models/gate.model";
+import { Parking } from "../models/parking.model";
 import { Op, fn, col } from "sequelize";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { literal } from "sequelize";

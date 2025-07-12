@@ -1,7 +1,7 @@
 import request from "supertest";
 import express from "express";
 import invoiceRoutes from "../routes/invoice_routes";
-import { Invoice } from "../models/invoice_model";
+import { Invoice } from "../models/invoice.model";
 
 jest.mock("../models/invoice_model");
 
@@ -103,7 +103,7 @@ describe("Invoice API", () => {
       save: saveInvoice,
     });
 
-    const { User } = await import("../models/user_model");
+    const { User } = await import("../models/user.model");
     (User.findByPk as jest.Mock).mockResolvedValue({
       id: 1,
       credit: 50,

@@ -1,6 +1,6 @@
 import { sequelize } from "../database";
-import { User } from "../models/user_model";
-import { hashPassword } from "../helpers/auth_helper";
+import { User } from "../models/user.model";
+import { hashPassword } from "../helpers/auth.helper";
 
 (async () => {
   await sequelize.authenticate();

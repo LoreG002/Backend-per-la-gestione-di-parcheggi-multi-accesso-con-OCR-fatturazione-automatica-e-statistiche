@@ -1,5 +1,5 @@
 import { sequelize } from "../database";
-import { Tariff } from "../models/tariff_model";
+import { Tariff } from "../models/tariff.model";
 
 (async () => {
   await sequelize.authenticate();

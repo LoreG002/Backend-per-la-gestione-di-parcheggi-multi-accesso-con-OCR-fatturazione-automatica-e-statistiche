@@ -1,6 +1,6 @@
 import { Router, RequestHandler } from "express";
-import { Gate } from "../models/gate_model";
-import { Parking } from "../models/parking_model";
+import { Gate } from "../models/gate.model";
+import { Parking } from "../models/parking.model";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
 

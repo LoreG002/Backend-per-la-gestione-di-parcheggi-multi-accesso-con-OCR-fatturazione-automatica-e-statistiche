@@ -1,19 +1,19 @@
 import { Router, RequestHandler } from "express";
-import { Transit } from "../models/transit_model";
-import { Gate } from "../models/gate_model";
-import { VehicleType } from "../models/vehicleType_model";
+import { Transit } from "../models/transit.model";
+import { Gate } from "../models/gate.model";
+import { VehicleType } from "../models/vehicleType.model";
 import { authenticateJWT } from "../middlewares/auth.middleware";
-import { Invoice } from "../models/invoice_model";
+import { Invoice } from "../models/invoice.model";
 import { AuthRequest } from "../middlewares/auth.middleware";
-import { Tariff } from "../models/tariff_model";
+import { Tariff } from "../models/tariff.model";
 import { Op } from "sequelize";
-import { checkParkingAvailability } from "../helpers/parking_helper";
+import { checkParkingAvailability } from "../helpers/parking.helper";
 import multer from "multer";
 import Tesseract from "tesseract.js";
 import { Request, ParamsDictionary, Response } from "express-serve-static-core";
 import { ParsedQs } from "qs";
 import PDFDocument from "pdfkit"
-import { UserVehicle } from "../models/userVehicle_model";
+import { UserVehicle } from "../models/userVehicle.model";
 import { authorizeRoles } from "../middlewares/role.middleware";
 
 const router = Router();
