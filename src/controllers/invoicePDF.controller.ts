@@ -1,25 +1,28 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { Invoice } from "../models/invoice.model";
-import { User } from "../models/user.model";
-import { generateInvoicePDF } from "../helpers/pdf.helper";
+import { AuthRequest } from "../middlewares/auth.middleware";
+import { generateInvoicePDF } from "../helpers/pdf.helper"; // <-- la tua funzione
 
-export const getInvoicePdf = async (req: Request, res: Response): Promise<void> => {
+export const getInvoicePdf = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const invoiceId = parseInt(req.params.id);
-
-    const invoice = await Invoice.findByPk(invoiceId, {
-      include: [User],
-    });
+    const invoice = await Invoice.findByPk(invoiceId);
 
     if (!invoice) {
       res.status(404).json({ message: "Fattura non trovata." });
       return;
     }
 
-    // ✅ Type assertion per indicare che `User` è incluso
-    await generateInvoicePDF(invoice as Invoice & { User: User }, res);
+    // 🔐 Blocco utenti non autorizzati
+    if (req.user?.role === "utente" && invoice.userId !== req.user.id) {
+      res.status(403).json({ message: "Accesso negato: la fattura non ti appartiene." });
+      return;
+    }
+
+    // ✅ Passa anche res alla funzione helper
+    await generateInvoicePDF(invoice as any, res);
   } catch (error) {
-    console.error("Errore generazione PDF:", error);
-    res.status(500).json({ message: "Errore nella generazione del PDF." });
+    console.error("Errore nella generazione del PDF:", error);
+    res.status(500).json({ message: "Errore interno durante la generazione del PDF." });
   }
 };
