@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { Op } from "sequelize";
 import * as TransitService from "../services/transit.service";
 import { generateTransitPDF } from "../helpers/pdf.helper";
@@ -9,20 +9,19 @@ import { Gate } from "../models/gate.model";
 import { VehicleType } from "../models/vehicleType.model";
 import { Invoice } from "../models/invoice.model";
 import { Transit } from "../models/transit.model";
+import { ApiError } from "../helpers/ApiError";
 
-export const createTransitAuto = async (req: AuthRequest, res: Response): Promise<void> => {
+export const createTransitAuto = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const gateId = parseInt(req.body.gateId);
     const gate = await Gate.findByPk(gateId);
     if (!gate) {
-      res.status(404).json({ message: "Varco non trovato" });
-      return;
+      return next(new ApiError(404, "Varco non trovato"));
     }
 
     if (gate.type === "standard") {
       if (!req.file) {
-        res.status(400).json({ message: "Immagine Targa non trovata." });
-        return;
+        return next(new ApiError(400, "Immagine Targa non trovata."));
       }
 
       const result = await Tesseract.recognize(req.file.path, "eng");
@@ -48,11 +47,11 @@ export const createTransitAuto = async (req: AuthRequest, res: Response): Promis
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: (error as Error).message });
+    next(error);
   }
 };
 
-export const getAllTransits = async (req: AuthRequest, res: Response): Promise<void> => {
+export const getAllTransits = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const whereCondition: any = {};
 
@@ -70,17 +69,16 @@ export const getAllTransits = async (req: AuthRequest, res: Response): Promise<v
     res.json(transits);
   } catch (error) {
     console.error("Errore getAllTransits:", error);
-    res.status(500).json({ message: "Errore interno." });
+    next(error);
   }
 };
 
-export const searchTransits = async (req: AuthRequest, res: Response) => {
+export const searchTransits = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { plates, from, to, format } = req.body;
 
     if (!plates || !Array.isArray(plates) || plates.length === 0) {
-      res.status(400).json({ message: "Devi specificare almeno una targa." });
-      return;
+      return next(new ApiError(400, "Devi specificare almeno una targa."));
     }
 
     let allowedPlates = plates;
@@ -91,8 +89,7 @@ export const searchTransits = async (req: AuthRequest, res: Response) => {
     }
 
     if (allowedPlates.length === 0) {
-      res.status(403).json({ message: "Nessuna targa autorizzata." });
-      return;
+      return next(new ApiError(403, "Nessuna targa autorizzata."));
     }
 
     const transits = await TransitService.searchTransits(
@@ -112,34 +109,32 @@ export const searchTransits = async (req: AuthRequest, res: Response) => {
     }
   } catch (error) {
     console.error("Errore searchTransits:", error);
-    res.status(500).json({ message: "Errore ricerca transiti." });
+    next(error);
   }
 };
 
-export const updateTransit = async (req: Request, res: Response): Promise<void> => {
+export const updateTransit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const updated = await TransitService.updateTransit(parseInt(req.params.id), req.body);
     if (!updated) {
-      res.status(404).json({ message: "Transito non trovato." });
-      return;
+      return next(new ApiError(404, "Transito non trovato."));
     }
     res.json(updated);
   } catch (error) {
     console.error("Errore updateTransit:", error);
-    res.status(500).json({ message: "Errore aggiornamento transito." });
+    next(error);
   }
 };
 
-export const deleteTransit = async (req: Request, res: Response): Promise<void> => {
+export const deleteTransit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const deleted = await TransitService.deleteTransit(parseInt(req.params.id));
     if (!deleted) {
-      res.status(404).json({ message: "Transito non trovato." });
-      return;
+      return next(new ApiError(404, "Transito non trovato."));
     }
     res.json({ message: "Transito eliminato con successo." });
   } catch (error) {
     console.error("Errore deleteTransit:", error);
-    res.status(500).json({ message: "Errore eliminazione transito." });
+    next(error);
   }
 };

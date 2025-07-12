@@ -12,6 +12,7 @@ import invoicePdfRoutes from "./routes/invoicePdf.routes";
 import statsroutes from "./routes/stats.routes";
 import userVehicleRoutes from "./routes/userVehicle.routes";
 import tariffRoutes from "./routes/tariff.routes";
+import { errorHandler } from "./middlewares/error.middleware";
 
 dotenv.config();
 const app = express();
@@ -35,5 +36,7 @@ app.use(tariffRoutes);
 app.get("/", (req, res) => {
   res.send("Il progetto è pronto");
 });
+
+app.use(errorHandler);
 
 export default app;
