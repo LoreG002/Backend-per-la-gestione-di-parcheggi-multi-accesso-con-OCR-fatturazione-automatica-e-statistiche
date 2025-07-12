@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import transitRoutes from "../routes/transit_routes";
+import transitRoutes from "../routes/transit.routes";
 
 import { Transit } from "../models/transit.model";
 import { Gate } from "../models/gate.model";
