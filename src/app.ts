@@ -10,7 +10,7 @@ import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import invoicePdfRoutes from "./routes/invoicePdf_routes";
 import statsroutes from "./routes/stats_routes";
-import userVehicleRoutes from "./routes/userVehicle_routes";
+import userVehicleRoutes from "./routes/userVehicle.routes";
 import tariffRoutes from "./routes/tariff.routes";
 
 dotenv.config();
