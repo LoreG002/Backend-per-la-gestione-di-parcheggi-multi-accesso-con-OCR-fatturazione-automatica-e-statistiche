@@ -2,6 +2,7 @@ import { Response, NextFunction } from "express";
 import * as InvoiceService from "../services/invoice.service";
 import { AuthRequest } from "../middlewares/auth.middleware";
 import { ApiError } from "../helpers/ApiError";
+import { Invoice } from "../models/invoice.model";
 
 export const getAllInvoices = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -35,12 +36,18 @@ export const getInvoiceStatus = async (req: AuthRequest, res: Response, next: Ne
 export const payInvoice = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const invoiceId = parseInt(req.params.id);
-    const updated = await InvoiceService.payInvoice(invoiceId);
+    const invoice = await Invoice.findByPk(invoiceId);
 
-    if (!updated) {
-      return next(new ApiError(404, "Fattura non trovata."));
+    if (!invoice) {
+      throw new ApiError(404, "Fattura non trovata.");
     }
 
+    // 🔐 Controllo proprietà: l'utente può pagare solo le proprie fatture
+    if (req.user.role === "utente" && invoice.userId !== req.user.id) {
+      throw new ApiError(403, "Non puoi pagare una fattura non associata al tuo account.");
+    }
+
+    const updated = await InvoiceService.payInvoice(invoiceId);
     res.json(updated);
   } catch (error) {
     console.error("Errore payInvoice:", error);

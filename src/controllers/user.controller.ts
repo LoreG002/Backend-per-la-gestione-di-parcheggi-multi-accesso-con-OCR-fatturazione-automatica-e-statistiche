@@ -1,10 +1,23 @@
 import { Request, Response, NextFunction } from "express";
-import * as UserService from "../services/user.service";
+import { AuthRequest } from "../middlewares/auth.middleware";
 import { ApiError } from "../helpers/ApiError";
+import * as UserService from "../services/user.service";
 
-export const getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getAllUsers = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const users = await UserService.getAllUsers();
+    const userId = req.user.role === "utente" ? req.user.id : undefined;
+
+    let users;
+    if (userId) {
+      const user = await UserService.getUserById(userId);
+      if (!user) {
+        return next(new ApiError(404, "Utente non trovato."));
+      }
+      users = [user]; // restituisce solo se stesso
+    } else {
+      users = await UserService.getAllUsers(); // operatore → tutti
+    }
+
     res.json(users);
   } catch (error) {
     console.error("Errore in getAllUsers:", error);
