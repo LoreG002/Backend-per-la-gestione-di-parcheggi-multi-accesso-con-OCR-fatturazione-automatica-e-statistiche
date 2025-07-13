@@ -25,7 +25,7 @@ export const generateInvoicePDF = async (
   doc.fontSize(16).text("FATTURA", { align: "center", underline: true }).moveDown();
 
   doc.fontSize(12).text(`ID Fattura: ${invoice.id}`);
-  doc.text(`Utente: ${invoice.User.email}`);
+  doc.text(`Utente: ${invoice.User.id}`);
   doc.text(`Importo: €${invoice.amount}`);
   doc.text(`Stato: ${invoice.status}`);
   doc.text(`Data creazione: ${invoice.createdAt.toLocaleString()}`);
