@@ -20,14 +20,14 @@ export const getInvoicePdf = async (
       return next(new ApiError(404, "Fattura non trovata."));
     }
 
-    // 🔐 Controllo accesso
+    // Controllo accesso
     if (req.user?.role === "utente" && invoice.userId !== req.user.id) {
       return next(new ApiError(403, "Accesso negato: la fattura non ti appartiene."));
     }
 
-    // ✅ Generazione PDF
+    // Generazione PDF
     await generateInvoicePDF(invoice as any, res);
-    // ⚠️ Non chiamare next() qui! La risposta è già stata inviata dal PDF
+    // Non chiamare next() qui! La risposta è già stata inviata dal PDF
   } catch (error) {
     console.error("Errore nella generazione del PDF:", error);
     // Se res è già stato scritto, evita doppia risposta

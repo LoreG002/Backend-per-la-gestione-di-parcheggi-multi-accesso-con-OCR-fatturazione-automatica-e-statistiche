@@ -1,5 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
+import { testConnection } from "./database";
+
+import { Parking } from "./models/parking.model";
+import { VehicleType } from "./models/vehicleType.model";
+import { Gate } from "./models/gate.model";
+import { Transit } from "./models/transit.model";
+import { Invoice } from "./models/invoice.model";
+import { User } from "./models/user.model";
+import { Tariff } from "./models/tariff.model";
+import { UserVehicle } from "./models/userVehicle.model";
 
 import parkingRoutes from "./routes/parking.routes";
 import vehicleTypeRoutes from "./routes/vehicleType.routes";
@@ -15,8 +25,11 @@ import tariffRoutes from "./routes/tariff.routes";
 import { errorHandler } from "./middlewares/error.middleware";
 
 dotenv.config();
-const app = express();
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
 app.use(express.json());
 
 // Rotte
@@ -32,11 +45,71 @@ app.use(statsroutes);
 app.use(userVehicleRoutes);
 app.use(tariffRoutes);
 
-// Rotta di test base
+// Test base
 app.get("/", (req, res) => {
   res.send("Il progetto è pronto");
 });
 
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Endpoint non trovato',
+    path: req.originalUrl,
+    method: req.method
+  });
+});
+
+// Error handler middleware
 app.use(errorHandler);
 
-export default app;
+// Relazioni Sequelize
+Parking.hasMany(Gate, { foreignKey: "parkingId" });
+Gate.belongsTo(Parking, { foreignKey: "parkingId" });
+
+Gate.hasMany(Transit, { foreignKey: "gateId" });
+Transit.belongsTo(Gate, { foreignKey: "gateId" });
+
+VehicleType.hasMany(Transit, { foreignKey: "vehicleTypeId" });
+Transit.belongsTo(VehicleType, { foreignKey: "vehicleTypeId" });
+
+Invoice.hasMany(Transit, { foreignKey: "invoiceId" });
+Transit.belongsTo(Invoice, { foreignKey: "invoiceId" });
+
+User.hasMany(Invoice, { foreignKey: "userId" });
+Invoice.belongsTo(User, { foreignKey: "userId" });
+
+VehicleType.hasMany(Tariff, { foreignKey: "vehicleTypeId" });
+Tariff.belongsTo(VehicleType, { foreignKey: "vehicleTypeId" });
+
+User.hasMany(UserVehicle, { foreignKey: "userId" });
+UserVehicle.belongsTo(User, { foreignKey: "userId" });
+
+// Avvio server + Sync DB
+testConnection();
+
+(async () => {
+  try {
+    await Parking.sync({ alter: true });
+    console.log("Tabella Parking sincronizzata");
+    await VehicleType.sync({ alter: true });
+    console.log("Tabella VehicleType sincronizzata!");
+    await Gate.sync({ alter: true });
+    console.log("Tabella Gate sincronizzata!");
+    await User.sync({ alter: true });
+    console.log("Tabella User sincronizzata!");
+    await Invoice.sync({ alter: true });
+    console.log("Tabella Invoice sincronizzata!");
+    await Transit.sync({ alter: true });
+    console.log("Tabella Transit sincronizzata!");
+    await Tariff.sync({ alter: true });
+    console.log("Tabella Tariff sincronizzata!");
+    await UserVehicle.sync({ alter: true });
+    console.log("Tabella UserVehicle sincronizzata!");
+
+    app.listen(PORT, () => {
+      console.log(`Server avviato sulla porta ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Errore nella sincro delle tabelle:", error);
+  }
+})();

@@ -31,7 +31,7 @@ export const generateInvoicePDF = async (
   doc.text(`Data creazione: ${invoice.createdAt.toLocaleString()}`);
   doc.text(`Scadenza: ${invoice.dueDate.toLocaleString()}`).moveDown();
 
-  const qrData = `${invoice.userId}|${invoice.id}|${invoice.amount}`;
+  const qrData = `"UserId: "${invoice.userId}|"InvoiceId: " ${invoice.id}|"Importo: "${invoice.amount}`;
   const qrImage = await QRCode.toDataURL(qrData);
 
   doc.image(qrImage, {

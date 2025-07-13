@@ -8,7 +8,7 @@ export const getUserVehiclesByUserId = UserVehicleDAO.getUserVehiclesByUserId;
 
 export const deleteUserVehicle = UserVehicleDAO.deleteUserVehicle;
 
-// ✅ Nuova funzione per operatori: tutti gli utenti con le targhe associate
+// Nuova funzione per operatori: tutti gli utenti con le targhe associate
 export const getAllUsersWithVehicles = async () => {
   return UserVehicle.findAll({
     include: [

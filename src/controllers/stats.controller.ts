@@ -22,7 +22,7 @@ export const getRevenueStats = async (req: Request, res: Response, next: NextFun
       res.json(stats);
     }
   } catch (error) {
-    console.error("Errore getRevenueStats:", error);
+    console.error("Errore nel calcolo dei guadagni:", error);
     next(error);
   }
 };

@@ -68,7 +68,7 @@ export const getAllTransits = async (req: AuthRequest, res: Response, next: Next
     const transits = await TransitService.getAllTransits(whereCondition);
     res.json(transits);
   } catch (error) {
-    console.error("Errore getAllTransits:", error);
+    console.error("Errore nell'ottenere i transiti:", error);
     next(error);
   }
 };
@@ -108,7 +108,7 @@ export const searchTransits = async (req: AuthRequest, res: Response, next: Next
       res.json(transits);
     }
   } catch (error) {
-    console.error("Errore searchTransits:", error);
+    console.error("Errore nel cercare i transiti:", error);
     next(error);
   }
 };
@@ -121,7 +121,7 @@ export const updateTransit = async (req: Request, res: Response, next: NextFunct
     }
     res.json(updated);
   } catch (error) {
-    console.error("Errore updateTransit:", error);
+    console.error("Errore nel modificare i transiti:", error);
     next(error);
   }
 };
@@ -134,7 +134,7 @@ export const deleteTransit = async (req: Request, res: Response, next: NextFunct
     }
     res.json({ message: "Transito eliminato con successo." });
   } catch (error) {
-    console.error("Errore deleteTransit:", error);
+    console.error("Errore nell'eliminare un transito:", error);
     next(error);
   }
 };

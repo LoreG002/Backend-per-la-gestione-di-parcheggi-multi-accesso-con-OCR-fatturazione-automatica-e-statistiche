@@ -39,7 +39,7 @@ export const updateTariff = async (req: Request, res: Response, next: NextFuncti
     }
     res.json(updated);
   } catch (error) {
-    console.error("Errore updateTariff:", error);
+    console.error("Errore nel modificare la tariffa:", error);
     next(error);
   }
 };
@@ -53,7 +53,7 @@ export const deleteTariff = async (req: Request, res: Response, next: NextFuncti
     }
     res.json({ message: "Tariffa eliminata con successo." });
   } catch (error) {
-    console.error("Errore deleteTariff:", error);
+    console.error("Errore nell'eliminare la tariffa:", error);
     next(error);
   }
 };
