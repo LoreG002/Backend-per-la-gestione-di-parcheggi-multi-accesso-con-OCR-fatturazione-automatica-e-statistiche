@@ -2,7 +2,7 @@ import { validateTransitDates } from "../middlewares/validateTransitDates.middle
 import httpMocks from "node-mocks-http";
 
 describe("validateTransitDates middleware", () => {
-  it("should call next() when dates are valid", () => {
+  it("dovrebbe chiamare next() quando le date sono valide", () => {
     const req = httpMocks.createRequest({
       method: "POST",
       body: {
@@ -19,7 +19,7 @@ describe("validateTransitDates middleware", () => {
     expect(res._isEndCalled()).toBe(false); // la risposta non è stata inviata
   });
 
-  it("should return 400 if date format is invalid", () => {
+  it("dovrebbe restituire 400 se il formato della data non è valido", () => {
     const req = httpMocks.createRequest({
       method: "POST",
       body: {
@@ -37,7 +37,7 @@ describe("validateTransitDates middleware", () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  it("should return 400 if uscita is before ingresso", () => {
+  it("dovrebbe restituire 400 se uscita è prima di ingresso", () => {
     const req = httpMocks.createRequest({
       method: "POST",
       body: {

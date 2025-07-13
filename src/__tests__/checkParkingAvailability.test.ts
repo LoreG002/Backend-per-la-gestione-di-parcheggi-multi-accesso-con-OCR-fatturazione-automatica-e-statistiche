@@ -13,7 +13,7 @@ describe("checkParkingAvailability", () => {
     jest.clearAllMocks(); // pulisce i mock ad ogni test
   });
 
-  it("should return true if there is available parking space", async () => {
+  it("dovrebbe restituire true se c'è spazio disponibile per il parcheggio", async () => {
     (Gate.findByPk as jest.Mock).mockResolvedValue({ id: 1, parkingId: 100 });
     (Parking.findByPk as jest.Mock).mockResolvedValue({ id: 100, capacity: 10 });
 
@@ -29,7 +29,7 @@ describe("checkParkingAvailability", () => {
     expect(result).toBe(true);
   });
 
-  it("should return false if parking is full", async () => {
+  it("dovrebbe restituire false se il parcheggio è pieno", async () => {
     (Gate.findByPk as jest.Mock).mockResolvedValue({ id: 2, parkingId: 101 });
     (Parking.findByPk as jest.Mock).mockResolvedValue({ id: 101, capacity: 3 });
 
@@ -43,13 +43,13 @@ describe("checkParkingAvailability", () => {
     expect(result).toBe(false);
   });
 
-  it("should throw an error if gate is not found", async () => {
+  it("dovrebbe generare un errore se il gate non viene trovato", async () => {
     (Gate.findByPk as jest.Mock).mockResolvedValue(null);
 
     await expect(checkParkingAvailability(999)).rejects.toThrow("Gate non valido.");
   });
 
-  it("should throw an error if parking is not found", async () => {
+  it("dovrebbe generare un errore se il parcheggio non viene trovato", async () => {
     (Gate.findByPk as jest.Mock).mockResolvedValue({ id: 3, parkingId: 999 });
     (Parking.findByPk as jest.Mock).mockResolvedValue(null);
 
