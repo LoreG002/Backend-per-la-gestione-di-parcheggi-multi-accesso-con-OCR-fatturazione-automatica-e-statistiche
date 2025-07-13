@@ -20,7 +20,7 @@ export const getAllUsers = async (req: AuthRequest, res: Response, next: NextFun
 
     res.json(users);
   } catch (error) {
-    console.error("Errore in getAllUsers:", error);
+    console.error("Errore nel restituire gli utenti:", error);
     next(error);
   }
 };
@@ -33,7 +33,7 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
     }
     res.json(user);
   } catch (error) {
-    console.error("Errore in getUserById:", error);
+    console.error("Errore nel restituire l'utente:", error);
     next(error);
   }
 };
@@ -43,7 +43,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     const user = await UserService.createUser(req.body);
     res.status(201).json(user);
   } catch (error) {
-    console.error("Errore in createUser:", error);
+    console.error("Errore nella creazione dell'utente:", error);
     next(error);
   }
 };
@@ -56,7 +56,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     }
     res.json(user);
   } catch (error) {
-    console.error("Errore in updateUser:", error);
+    console.error("Errore nella modifica dell'utente:", error);
     next(error);
   }
 };
@@ -69,7 +69,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     }
     res.json({ message: "Utente eliminato con successo." });
   } catch (error) {
-    console.error("Errore in deleteUser:", error);
+    console.error("Errore nell'eliminare l'utente:", error);
     next(error);
   }
 };

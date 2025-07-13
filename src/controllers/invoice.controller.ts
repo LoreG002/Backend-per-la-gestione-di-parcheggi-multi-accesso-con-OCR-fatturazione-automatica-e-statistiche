@@ -10,7 +10,7 @@ export const getAllInvoices = async (req: AuthRequest, res: Response, next: Next
     const invoices = await InvoiceService.getAllInvoices(userId);
     res.json(invoices);
   } catch (error) {
-    console.error("Errore getAllInvoices:", error);
+    console.error("Errore nel restituire tutte le fatture :", error);
     next(error);
   }
 };
@@ -28,7 +28,7 @@ export const getInvoiceStatus = async (req: AuthRequest, res: Response, next: Ne
     const results = await InvoiceService.getInvoiceStatus(req.user.id, filters);
     res.json(results);
   } catch (error) {
-    console.error("Errore getInvoiceStatus:", error);
+    console.error("Errore nel restituire lo status della fattura:", error);
     next(error);
   }
 };
@@ -50,7 +50,7 @@ export const payInvoice = async (req: AuthRequest, res: Response, next: NextFunc
     const updated = await InvoiceService.payInvoice(invoiceId);
     res.json(updated);
   } catch (error) {
-    console.error("Errore payInvoice:", error);
+    console.error("Errore nel pagare la fattura:", error);
     next(error);
   }
 };
