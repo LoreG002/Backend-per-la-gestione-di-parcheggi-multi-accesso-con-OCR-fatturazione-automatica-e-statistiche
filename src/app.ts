@@ -13,6 +13,7 @@ import statsroutes from "./routes/stats.routes";
 import userVehicleRoutes from "./routes/userVehicle.routes";
 import tariffRoutes from "./routes/tariff.routes";
 import { errorHandler } from "./middlewares/error.middleware";
+import { ApiError } from "./helpers/ApiError";
 
 dotenv.config();
 const app = express();
@@ -35,6 +36,11 @@ app.use(tariffRoutes);
 // Rotta di test base
 app.get("/", (req, res) => {
   res.send("Il progetto è pronto");
+});
+
+// Middleware 404 - rotta non trovata
+app.use((req, res, next) => {
+  next(new ApiError(404, "Endpoint non trovato"));
 });
 
 app.use(errorHandler);
