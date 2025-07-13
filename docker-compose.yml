@@ -5,9 +5,9 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_USER: lorenzo
-      POSTGRES_PASSWORD: ciao
-      POSTGRES_DB: parkingdb
+      POSTGRES_USER: DB_USER
+      POSTGRES_PASSWORD: DB_PASS
+      POSTGRES_DB: DB_NAME
     volumes:
       - dbdata:/var/lib/postgresql/data
     ports:
@@ -24,10 +24,10 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - DB_HOST=db
-      - DB_USER=lorenzo
-      - DB_PASS=ciao
-      - DB_NAME=parkingdb
+      - DB_HOST= DB_HOST
+      - DB_USER=DB_USER
+      - DB_PASS=DB_PASS
+      - DB_NAME=DB_NAME
     depends_on:
       - db
 
