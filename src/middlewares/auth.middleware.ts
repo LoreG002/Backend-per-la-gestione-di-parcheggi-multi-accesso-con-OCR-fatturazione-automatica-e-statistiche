@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../helpers/auth_helper";
+import { verifyToken } from "../helpers/auth.helper";
 
 export interface AuthRequest extends Request {  //estente Request per avere anche req.user
   user?: any;
 }
 
 export const authenticateJWT = (
-  req: AuthRequest, 
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ): void => {
