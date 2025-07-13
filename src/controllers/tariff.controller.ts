@@ -7,7 +7,7 @@ export const getAllTariffs = async (_req: Request, res: Response, next: NextFunc
     const tariffs = await TariffService.getAllTariffs();
     res.json(tariffs);
   } catch (error) {
-    console.error("Errore getAllTariffs:", error);
+    console.error("Errore nel restituire tutte le tariffe:", error);
     next(error);
   }
 };
@@ -25,7 +25,7 @@ export const createTariff = async (req: Request, res: Response, next: NextFuncti
     });
     res.status(201).json(tariff);
   } catch (error) {
-    console.error("Errore createTariff:", error);
+    console.error("Errore nel creare la tariffa:", error);
     next(error);
   }
 };
