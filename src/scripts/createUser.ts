@@ -19,3 +19,5 @@ import { hashPassword } from "../helpers/auth_helper";
 
   process.exit();
 })();
+
+//seed e migrations
