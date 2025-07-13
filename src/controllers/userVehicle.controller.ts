@@ -16,8 +16,14 @@ export const createUserVehicle = async (req: Request, res: Response, next: NextF
 
 export const getUserVehicles = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const userId = req.user.id;
-    const vehicles = await UserVehicleService.getUserVehiclesByUserId(userId);
+    let vehicles;
+
+    if (req.user.role === "operatore") {
+      vehicles = await UserVehicleService.getAllUsersWithVehicles();
+    } else {
+      vehicles = await UserVehicleService.getUserVehiclesByUserId(req.user.id);
+    }
+
     res.json(vehicles);
   } catch (error) {
     console.error("Errore nel recupero dei veicoli:", error);
