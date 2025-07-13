@@ -23,6 +23,7 @@ import statsroutes from "./routes/stats.routes";
 import userVehicleRoutes from "./routes/userVehicle.routes";
 import tariffRoutes from "./routes/tariff.routes";
 import { errorHandler } from "./middlewares/error.middleware";
+import { ApiError } from "./helpers/ApiError";
 
 dotenv.config();
 

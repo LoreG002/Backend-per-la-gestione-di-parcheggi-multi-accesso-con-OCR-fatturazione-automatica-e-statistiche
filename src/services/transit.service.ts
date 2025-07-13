@@ -4,20 +4,21 @@ import { TransitAttributes } from "../models/transit.model";
 import { Invoice } from "../models/invoice.model";
 import { Tariff } from "../models/tariff.model";
 import { Op } from "sequelize";
+import { ApiError } from "../helpers/ApiError";
 
 export const createTransit = async (input: Omit<TransitAttributes, "id"> & { userId?: number }) => {
   const { plate, vehicleTypeId, gateId, timestamp, direction, userId } = input;
 
   if (direction === "entrata") {
     const available = await checkParkingAvailability(gateId);
-    if (!available) throw new Error("Parcheggio pieno. Accesso negato.");
+    if (!available) throw new ApiError(400, "Parcheggio pieno. Accesso negato.");
   }
 
   const transit = await TransitDAO.createTransit(input);
 
   if (direction === "uscita" && userId) {
     const ingresso = await TransitDAO.findLatestEntranceWithoutInvoice(plate);
-    if (!ingresso) throw new Error("Ingresso non trovato. Non posso generare la fattura.");
+    if (!ingresso) throw new ApiError(400, "Ingresso non trovato. Non posso generare la fattura.");
 
     const durata = new Date(timestamp).getTime() - new Date(ingresso.timestamp).getTime();
     const durataInOre = durata / (1000 * 60 * 60);
@@ -36,7 +37,7 @@ export const createTransit = async (input: Omit<TransitAttributes, "id"> & { use
       },
     });
 
-    if (!tariffa) throw new Error("Nessuna tariffa trovata.");
+    if (!tariffa) throw new ApiError(400, "Nessuna tariffa trovata.");
 
     const costo = parseFloat((durataInOre * parseFloat(tariffa.pricePerHour.toString())).toFixed(2));
 
