@@ -7,6 +7,18 @@ interface GateInput {
   direction: "entrata" | "uscita" | "bidirezionale";
 }
 
+export const getAllGates = async () => {
+  return await GateDAO.getAllGates();
+};
+
+export const getGateById = async (id: number) => {
+  return await GateDAO.getGateById(id);
+};
+
+export const createGate = async (data: GateInput) => {
+  return await GateDAO.createGate(data);
+};
+
 export const updateGate = async (id: number, updates: GateInput) => {
   return await GateDAO.updateGate(id, updates);
 };

@@ -4,6 +4,10 @@ export const getGateById = async (id: number) => {
   return await Gate.findByPk(id);
 };
 
+export const getAllGates = async () => {
+  return await Gate.findAll();
+};
+
 export const createGate = async (data: Omit<GateAttributes, "id">) => {
   return await Gate.create(data);
 };
