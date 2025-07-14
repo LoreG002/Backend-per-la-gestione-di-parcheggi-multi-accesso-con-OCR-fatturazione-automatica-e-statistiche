@@ -11,7 +11,7 @@
 			"name": "Gate",
 			"item": [
 				{
-					"name": "UpdateGate",
+					"name": "CreateGate",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -23,11 +23,11 @@
 								}
 							]
 						},
-						"method": "PUT",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Varco Modificato\"\n}",
+							"raw": "{\r\n    \"name\": \"Centro Ingresso 2\",\r\n    \"parkingId\": 1,\r\n    \"type\": \"standard\",\r\n    \"direction\": \"entrata\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -35,7 +35,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/gates/2",
+							"raw": "http://localhost:3000/api/gates",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -43,39 +43,7 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"gates",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteGate",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/gates/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"gates",
-								"2"
+								"gates"
 							]
 						}
 					},
@@ -150,7 +118,7 @@
 					"response": []
 				},
 				{
-					"name": "CreateGate",
+					"name": "UpdateGate",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -162,11 +130,11 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Centro Ingresso 2\",\r\n    \"parkingId\": 1,\r\n    \"type\": \"standard\",\r\n    \"direction\": \"entrata\"\r\n}",
+							"raw": "{\n  \"name\": \"Varco Modificato\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -174,7 +142,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/gates",
+							"raw": "http://localhost:3000/api/gates/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -182,7 +150,39 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"gates"
+								"gates",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteGate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/gates/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"gates",
+								"2"
 							]
 						}
 					},
@@ -742,36 +742,6 @@
 			"name": "UserVehicle",
 			"item": [
 				{
-					"name": "GetUserVehicle",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/user-vehicles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"user-vehicles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "CreateUserVehicle",
 					"request": {
 						"auth": {
@@ -788,13 +758,43 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\":\"3\",\r\n    \"plate\":\"DD789GG\",\r\n    \"vehicleTypeId\":\"moto\"\r\n}",
+							"raw": "{\r\n    \"userId\":\"3\",\r\n    \"plate\":\"DD789Gh\",\r\n    \"vehicleTypeId\":\"moto\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
+						"url": {
+							"raw": "http://localhost:3000/api/user-vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user-vehicles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUserVehicle",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "http://localhost:3000/api/user-vehicles",
 							"protocol": "http",
@@ -830,7 +830,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/user-vehicles/5",
+							"raw": "http://localhost:3000/api/user-vehicles/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -839,7 +839,7 @@
 							"path": [
 								"api",
 								"user-vehicles",
-								"5"
+								"8"
 							]
 						}
 					},
@@ -853,8 +853,30 @@
 				{
 					"name": "GetAllTariffs",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/tariffs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"tariffs"
+							]
+						}
 					},
 					"response": []
 				},
@@ -963,6 +985,41 @@
 		{
 			"name": "User",
 			"item": [
+				{
+					"name": "DeleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"3\",\r\n    \"plate\":\"DD789GG\",\r\n    \"vehicleTypeId\":\"moto\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "GetAllUsers",
 					"protocolProfileBehavior": {
@@ -1106,41 +1163,6 @@
 								"users",
 								"1",
 								"credit"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteUser",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userId\":\"3\",\r\n    \"plate\":\"DD789GG\",\r\n    \"vehicleTypeId\":\"moto\"\r\n}"
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/users/4",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"users",
-								"4"
 							]
 						}
 					},
