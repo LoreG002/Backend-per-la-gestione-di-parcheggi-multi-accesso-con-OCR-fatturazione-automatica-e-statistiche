@@ -2,10 +2,23 @@ import { Request, Response, NextFunction } from "express";
 import * as UserVehicleService from "../services/userVehicle.service";
 import { AuthRequest } from "../middlewares/auth.middleware";
 import { ApiError } from "../helpers/ApiError";
+import * as UserService from "../services/user.service";
 
-export const createUserVehicle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createUserVehicle = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userId, plate, vehicleTypeId } = req.body;
+
+    // 👇 Questo controllo rimane necessario anche con role.middleware
+    const targetUser = await UserService.getUserById(userId);
+
+    if (!targetUser) {
+      return next(new ApiError(404, "Utente di destinazione non trovato."));
+    }
+
+    if (targetUser.role === "operatore") {
+      return next(new ApiError(403, "Non è possibile assegnare veicoli a utenti con ruolo operatore."));
+    }
+
     const newVehicle = await UserVehicleService.createUserVehicle({ userId, plate, vehicleTypeId });
     res.status(201).json(newVehicle);
   } catch (error) {
