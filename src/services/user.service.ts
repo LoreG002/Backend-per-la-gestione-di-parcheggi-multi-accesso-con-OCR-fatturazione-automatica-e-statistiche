@@ -1,19 +1,11 @@
 import bcrypt from "bcrypt";
 import * as UserDAO from "../dao/user.dao";
-import { UserAttributes } from "../models/user.model";
 
 interface CreateUserInput {
   email: string;
   password: string;
   role: "utente" | "operatore";
   credit: number;
-}
-
-interface UpdateUserInput {
-  email?: string;
-  password?: string;
-  role?: "utente" | "operatore";
-  credit?: number;
 }
 
 export const getAllUsers = async () => {
@@ -34,21 +26,16 @@ export const createUser = async (data: CreateUserInput) => {
   });
 };
 
-export const updateUser = async (id: number, updates: UpdateUserInput) => {
-  const user = await UserDAO.getUserById(id);
+export const updateUserCredit = async (userId: number, amount: number) => {
+  const user = await UserDAO.getUserById(userId);
   if (!user) return null;
 
-  const updatedData: Partial<UserAttributes> = {
-    email: updates.email ?? user.email,
-    role: updates.role ?? user.role,
-    credit: updates.credit ?? user.credit,
-  };
+  const current = Number(user.credit);
+  const added = Number(amount);
 
-  if (updates.password) {
-    updatedData.passwordHash = await bcrypt.hash(updates.password, 10);
-  }
+  const updatedCredit = Math.round((current + added) * 100) / 100;
 
-  return await UserDAO.updateUser(id, updatedData);
+  return await UserDAO.updateUser(userId, { credit: updatedCredit });
 };
 
 export const deleteUser = async (id: number) => {

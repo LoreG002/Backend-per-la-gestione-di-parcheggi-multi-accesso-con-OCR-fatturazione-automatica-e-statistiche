@@ -8,7 +8,7 @@ const router = Router();
 router.get("/api/users", authenticateJWT, UserController.getAllUsers);
 router.get("/api/users/:id", authenticateJWT, authorizeRoles("operatore"), UserController.getUserById);
 router.post("/api/users", authenticateJWT, authorizeRoles("operatore"), UserController.createUser);
-router.put("/api/users/:id", authenticateJWT, authorizeRoles("operatore"), UserController.updateUser);
+router.put("/api/users/:id/credit", authenticateJWT, authorizeRoles("operatore"), UserController.rechargeUserCredit);
 router.delete("/api/users/:id", authenticateJWT, authorizeRoles("operatore"), UserController.deleteUser);
 
 export default router;

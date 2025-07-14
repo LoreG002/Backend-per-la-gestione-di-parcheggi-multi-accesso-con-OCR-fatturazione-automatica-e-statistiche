@@ -8,7 +8,6 @@ export const createUserVehicle = async (req: AuthRequest, res: Response, next: N
   try {
     const { userId, plate, vehicleTypeId } = req.body;
 
-    // 👇 Questo controllo rimane necessario anche con role.middleware
     const targetUser = await UserService.getUserById(userId);
 
     if (!targetUser) {

@@ -48,15 +48,28 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const rechargeUserCredit = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const user = await UserService.updateUser(Number(req.params.id), req.body);
+    const userId = Number(req.params.id);
+    const { amount } = req.body;
+
+    if (isNaN(userId)) {
+      return next(new ApiError(400, "ID utente non valido."));
+    }
+
+    if (typeof amount !== "number" || amount <= 0) {
+      return next(new ApiError(400, "L'importo della ricarica deve essere un numero positivo."));
+    }
+
+    const user = await UserService.getUserById(userId);
     if (!user) {
       return next(new ApiError(404, "Utente non trovato."));
     }
-    res.json(user);
+
+    const updatedUser = await UserService.updateUserCredit(userId, amount); // funzione da creare nel service
+    res.status(200).json(updatedUser);
   } catch (error) {
-    console.error("Errore nella modifica dell'utente:", error);
+    console.error("Errore durante la ricarica del credito:", error);
     next(error);
   }
 };

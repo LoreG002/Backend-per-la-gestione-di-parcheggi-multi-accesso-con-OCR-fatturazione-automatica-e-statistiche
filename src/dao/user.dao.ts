@@ -15,6 +15,11 @@ export const createUser = async (data: Omit<UserAttributes, "id">) => {
 export const updateUser = async (id: number, updates: Partial<UserAttributes>) => {
   const user = await User.findByPk(id);
   if (!user) return null;
+
+  if (updates.credit !== undefined) {
+    updates.credit = Number(updates.credit);
+  }
+
   return await user.update(updates);
 };
 
