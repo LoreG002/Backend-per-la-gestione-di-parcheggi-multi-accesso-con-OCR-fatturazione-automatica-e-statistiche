@@ -5,7 +5,7 @@ import { authorizeRoles } from "../middlewares/role.middleware";
 
 const router = Router();
 
-router.get("/api/vehicle-types", VehicleTypeController.getAllVehicleTypes);
+router.get("/api/vehicle-types", authenticateJWT, VehicleTypeController.getAllVehicleTypes);
 router.put("/api/vehicle-types/:id", authenticateJWT, authorizeRoles("operatore"), VehicleTypeController.updateVehicleType);
 router.delete("/api/vehicle-types/:id", authenticateJWT, authorizeRoles("operatore"), VehicleTypeController.deleteVehicleType);
 

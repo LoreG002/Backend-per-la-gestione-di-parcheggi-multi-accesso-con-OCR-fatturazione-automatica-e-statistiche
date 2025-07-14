@@ -15,7 +15,7 @@ const upload = multer({ storage });
 router.post("/api/transits/auto", authenticateJWT, authorizeRoles("operatore"), upload.single("image"), validateTransitDates, TransitController.createTransitAuto);
 router.get("/api/transits", authenticateJWT, TransitController.getAllTransits);
 router.post("/api/transits/search", authenticateJWT, TransitController.searchTransits);
-router.put("/api/transits/:id", authorizeRoles("operatore"), validateTransitDates, TransitController.updateTransit);
-router.delete("/api/transits/:id", authorizeRoles("operatore"), TransitController.deleteTransit);
+router.put("/api/transits/:id", authenticateJWT, authorizeRoles("operatore"), validateTransitDates, TransitController.updateTransit);
+router.delete("/api/transits/:id", authenticateJWT, authorizeRoles("operatore"), TransitController.deleteTransit);
 
 export default router;
