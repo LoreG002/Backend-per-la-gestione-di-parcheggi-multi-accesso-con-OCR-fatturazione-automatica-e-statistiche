@@ -3,8 +3,8 @@
 		"_postman_id": "432e84f5-1823-40ee-a522-9a9c358a934a",
 		"name": "ProgettoPA API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "46734712",
-		"_collection_link": "https://lorenzogiannetti.postman.co/workspace/ProgettoPA-Workspace~abb3e6d2-03a2-410c-853f-6c1a9bf6ce2e/collection/46734712-432e84f5-1823-40ee-a522-9a9c358a934a?action=share&source=collection_link&creator=46734712"
+		"_exporter_id": "46736493",
+		"_collection_link": "https://lorenzogiannetti.postman.co/workspace/ProgettoPA-Workspace~abb3e6d2-03a2-410c-853f-6c1a9bf6ce2e/collection/46734712-432e84f5-1823-40ee-a522-9a9c358a934a?action=share&source=collection_link&creator=46736493"
 	},
 	"item": [
 		{
@@ -739,7 +739,7 @@
 			]
 		},
 		{
-			"name": "userVehicle",
+			"name": "UserVehicle",
 			"item": [
 				{
 					"name": "GetUserVehicle",
@@ -772,36 +772,6 @@
 					"response": []
 				},
 				{
-					"name": "GetUserVehicle",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/user-vehicles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"user-vehicles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "CreateUserVehicle",
 					"request": {
 						"auth": {
@@ -835,80 +805,6 @@
 							"path": [
 								"api",
 								"user-vehicles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CreateUserVehicle",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userId\":\"3\",\r\n    \"plate\":\"DD789GG\",\r\n    \"vehicleTypeId\":\"moto\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/user-vehicles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"user-vehicles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DeleteUserVehicle",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/user-vehicles/5",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"user-vehicles",
-								"5"
 							]
 						}
 					},
@@ -1105,10 +1001,7 @@
 					"response": []
 				},
 				{
-					"name": "GetAllUsers",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "GetUserById",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1121,43 +1014,124 @@
 							]
 						},
 						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"prova@utente.com\",\r\n    \"password\":\"password\",\r\n    \"role\":\"utente\",\r\n    \"credit\":\"50\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RechargeUserCredit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"amount\": 50\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/1/credit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"1",
+								"credit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"userId\":\"3\",\r\n    \"plate\":\"DD789GG\",\r\n    \"vehicleTypeId\":\"moto\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetUserById",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/users/3",
+							"raw": "http://localhost:3000/api/users/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1166,150 +1140,9 @@
 							"path": [
 								"api",
 								"users",
-								"3"
+								"4"
 							]
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetUserById",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/users/3",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"users",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CreateUser",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"prova@utente.com\",\r\n    \"password\":\"password\",\r\n    \"role\":\"utente\",\r\n    \"credit\":\"50\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "CreateUser",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{JWT_TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"prova@utente.com\",\r\n    \"password\":\"password\",\r\n    \"role\":\"utente\",\r\n    \"credit\":\"50\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/users",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "UpdateUser",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "UpdateUser",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": []
 					},
 					"response": []
 				}
