@@ -1,4 +1,5 @@
 node_modules/
 dist/
 .env
-"postman/.postman_environment.json"
+postman/.postman_environment.json
+
