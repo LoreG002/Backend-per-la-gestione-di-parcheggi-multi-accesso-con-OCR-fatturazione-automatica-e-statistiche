@@ -5,6 +5,7 @@ import { generateInvoicePDF } from "../helpers/pdf.helper";
 import { ApiError } from "../helpers/ApiError";
 import { User } from "../models/user.model";
 
+// Restituisce la versione PDF di una fattura, se autorizzato
 export const getInvoicePdf = async (
   req: AuthRequest,
   res: Response,
@@ -12,6 +13,8 @@ export const getInvoicePdf = async (
 ): Promise<void> => {
   try {
     const invoiceId = parseInt(req.params.id);
+
+    // Recupera la fattura con l’utente associato
     const invoice = await Invoice.findByPk(invoiceId, {
       include: [{ model: User }],
     });
@@ -20,17 +23,19 @@ export const getInvoicePdf = async (
       return next(new ApiError(404, "Fattura non trovata."));
     }
 
-    // Controllo accesso
+    // Autorizzazione: un utente può scaricare solo le proprie fatture
     if (req.user?.role === "utente" && invoice.userId !== req.user.id) {
       return next(new ApiError(403, "Accesso negato: la fattura non ti appartiene."));
     }
 
-    // Generazione PDF
+    // Generazione e invio del PDF direttamente nella risposta
     await generateInvoicePDF(invoice as any, res);
-    // Non chiamare next() qui! La risposta è già stata inviata dal PDF
+
+    // ⚠️ Nessuna chiamata a next(): la risposta è già stata inviata dal PDF helper
   } catch (error) {
     console.error("Errore nella generazione del PDF:", error);
-    // Se res è già stato scritto, evita doppia risposta
+
+    // Evita doppia risposta se il PDF è già stato inviato
     if (!res.headersSent) {
       next(new ApiError(500, "Errore nella generazione del PDF."));
     }

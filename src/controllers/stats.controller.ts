@@ -3,10 +3,12 @@ import * as StatsService from "../services/stats.service";
 import { generateRevenuePDF } from "../helpers/stats.helper";
 import { ApiError } from "../helpers/ApiError";
 
+// Restituisce le statistiche di fatturato in un intervallo temporale, in JSON o PDF
 export const getRevenueStats = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { startDate, endDate, format } = req.query;
 
+    // Validazione parametri obbligatori
     if (!startDate || !endDate) {
       return next(new ApiError(400, "Le date di inizio e di fine sono obbligatorie."));
     }
@@ -14,8 +16,10 @@ export const getRevenueStats = async (req: Request, res: Response, next: NextFun
     const start = new Date(startDate as string);
     const end = new Date(endDate as string);
 
+    // Calcolo delle statistiche tramite service
     const stats = await StatsService.calculateRevenueStats(start, end);
 
+    // Formato risposta: JSON o PDF
     if (format === "pdf") {
       await generateRevenuePDF(stats, res);
     } else {

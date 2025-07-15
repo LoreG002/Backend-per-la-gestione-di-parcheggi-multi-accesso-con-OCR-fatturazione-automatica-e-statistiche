@@ -4,6 +4,7 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import { ApiError } from "../helpers/ApiError";
 import * as UserService from "../services/user.service";
 
+// Crea un nuovo veicolo associato a un utente
 export const createUserVehicle = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { userId, plate, vehicleTypeId } = req.body;
@@ -14,6 +15,7 @@ export const createUserVehicle = async (req: AuthRequest, res: Response, next: N
       return next(new ApiError(404, "Utente di destinazione non trovato."));
     }
 
+    // Solo gli utenti con ruolo "utente" possono avere veicoli associati
     if (targetUser.role === "operatore") {
       return next(new ApiError(403, "Non è possibile assegnare veicoli a utenti con ruolo operatore."));
     }
@@ -26,6 +28,7 @@ export const createUserVehicle = async (req: AuthRequest, res: Response, next: N
   }
 };
 
+// Restituisce l'elenco dei veicoli: tutti se operatore, solo propri se utente
 export const getUserVehicles = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     let vehicles;
@@ -43,15 +46,19 @@ export const getUserVehicles = async (req: AuthRequest, res: Response, next: Nex
   }
 };
 
+// Elimina un veicolo associato a un utente tramite ID
 export const deleteUserVehicle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const success = await UserVehicleService.deleteUserVehicle(parseInt(req.params.id));
+
     if (!success) {
       return next(new ApiError(404, "Veicolo non trovato."));
     }
+
     res.json({ message: "Veicolo eliminato con successo." });
   } catch (error) {
     console.error("Errore nella eliminazione del veicolo:", error);
     next(error);
   }
 };
+
