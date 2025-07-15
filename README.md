@@ -118,18 +118,22 @@ Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automati
 
 ## 📚 Diagrammi UML 
 
+## 🗃️ Schema ER (Entità-Relazioni)
+   
+   ![Schema ER](src/assets/Schema%20ER.png)
+
 ### ✅ Diagrammi dei Casi d'Uso
 
-- Actors :
+-
   ![Actors](src/assets/Actors.drawio.png)
 
-- Login :
+- 
   ![Use Case Login](src/assets/Login.drawio.png)
 
-- Utente :
+- 
   ![Use Case Utente](src/assets/Use%20Case%20Utente.drawio.png)
 
-- Operatore:
+- 
   ![Use Case Operatore](src/assets/Use%20Case%20Operatore.drawio.png)
 
 ---
