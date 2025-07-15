@@ -164,11 +164,12 @@ Per eseguire il progetto in locale è necessario avere installati Docker e Docke
 1. Clonare il repository:
 
    ```bash
-   git clone https://github.com/NOME-UTENTE/NOME-REPO.git
-   cd NOME-REPO
+   git clone https://github.com/LoreG002/Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automatica-e-statistiche.git
+   cd Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automatica-e-statistiche
 
 2. Creare un file .env nella root del progetto con le seguenti variabili di ambiente:
   
+  ```bash
    PORT=3000
    JWT_SECRET=supersegreto
    DB_HOST=db
@@ -178,7 +179,8 @@ Per eseguire il progetto in locale è necessario avere installati Docker e Docke
 
 3. Avviare l’ambiente con Docker:
 
-   docker-compose up --build
+  ```bash
+  docker-compose up --build
 
 
 
