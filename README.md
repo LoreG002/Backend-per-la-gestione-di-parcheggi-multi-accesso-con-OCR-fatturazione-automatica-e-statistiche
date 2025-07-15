@@ -25,7 +25,15 @@ Il sistema è stato pensato per essere scalabile, sicuro e flessibile, integrand
 
 ## 🛠️ Tecnologie utilizzate
 
-- 
+- **Node.js** & **Express.js** – per la creazione del server RESTful.
+- **TypeScript** – per tipizzazione forte e maggiore robustezza.
+- **PostgreSQL** – come database relazionale.
+- **Sequelize** – ORM per la gestione del database.
+- **JWT (JSON Web Tokens)** – per autenticazione e gestione sessioni.
+- **Jest** – per l’esecuzione di test automatici.
+- **Docker** & **Docker Compose** – per ambienti di sviluppo e distribuzione coerenti.
+- **Postman** – per test manuali delle API.
+- **PDFKit / QR-code** – per la generazione di documenti PDF e codici QR.
 
 ---
 
@@ -149,6 +157,29 @@ Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automati
 | GET /api/stats/fatturato | ![Stats.Fatturato](src/assets/Get.api.stats.fatturato.png) |
 
 ---
+## 🚀 Come avviare il progetto
+
+Per eseguire il progetto in locale è necessario avere installati Docker e Docker Compose.
+
+1. Clonare il repository:
+
+   ```bash
+   git clone https://github.com/NOME-UTENTE/NOME-REPO.git
+   cd NOME-REPO
+
+2. Creare un file .env nella root del progetto con le seguenti variabili di ambiente:
+  
+   PORT=3000
+   JWT_SECRET=supersegreto
+   DB_HOST=db
+   DB_USER=postgres
+   DB_PASSWORD=postgres
+   DB_NAME=parcheggi
+
+3. Avviare l’ambiente con Docker:
+
+   docker-compose up --build
+
 
 
 ## 👥 Autori
