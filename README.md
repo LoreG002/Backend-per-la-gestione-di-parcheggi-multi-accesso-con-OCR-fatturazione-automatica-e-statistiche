@@ -75,9 +75,58 @@ Il sistema deve garantire le seguenti funzionalità:
 
 ---
 
+## 📁 Struttura del progetto
+
+📁 Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automatica-e-statistiche-main/
+│   📄 .dockerignore
+│   📄 .gitignore
+│   📄 Dockerfile
+│   📄 README.md
+│   📄 docker-compose.yml
+│   📄 eslint.config.cjs
+│   📄 jest.config.cjs
+│   📄 package.json
+│   📄 package-lock.json
+│
+├── 📁 postman/
+│   └── 📄 ProgettoPA API.postman_collection.json
+│
+├── 📁 src/
+│   ├── 📄 app.ts
+│   │
+│   ├── 📁 assets/
+│   │   └── Diagrammi UML (casi d’uso, sequenze) in formato PNG
+│   │
+│   ├── 📁 __tests__/
+│   │   └── Test automatici Jest per middleware e helper
+│   │
+│   ├── 📁 controllers/
+│   │   └── Controller REST per ogni dominio (auth, gate, invoice, etc.)
+│   │
+│   ├── 📁 dao/
+│   │   └── Data Access Object per ciascun modello
+│   │
+│   ├── 📁 helpers/
+│   │   └── Funzioni di utilità (PDF, Auth, Errori, Statistiche)
+│   │
+│   ├── 📁 middlewares/
+│   │   └── Middleware per autenticazione, ruoli, validazioni, errori
+│   │
+│   ├── 📁 models/
+│   │   └── Definizione dei modelli Sequelize
+│   │
+│   ├── 📁 routes/
+│   │   └── Definizione delle rotte REST (auth, users, gates, etc.)
+│
+│   📄 database.ts
+
+
+---
+
 ## 📚 Diagrammi UML 
 
 ### ✅ Diagrammi dei Casi d'Uso
+
 - Actors :
   ![Actors](src/assets/Actors.drawio.png)
 
@@ -115,13 +164,6 @@ Il sistema deve garantire le seguenti funzionalità:
 | GET /api/stats/fatturato | ![Stats.Fatturato](src/assets/Get.api.stats.fatturato.png) |
 
 ---
-
-## 📁 Struttura del progetto
-
-*(Questa sezione sarà completata in seguito)*
-
----
-
 
 
 ## 👥 Autori
