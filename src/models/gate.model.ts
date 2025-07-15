@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database";
 
+// Interfaccia che definisce gli attributi di un Gate
 export interface GateAttributes {
   id?: number;
   name: string;
@@ -9,6 +10,7 @@ export interface GateAttributes {
   direction: "entrata" | "uscita" | "bidirezionale";
 }
 
+// Classe Gate che estende il Model di Sequelize
 export class Gate extends Model<GateAttributes> implements GateAttributes {
   public id!: number;
   public name!: string;
@@ -17,6 +19,7 @@ export class Gate extends Model<GateAttributes> implements GateAttributes {
   public direction!: "entrata" | "uscita" | "bidirezionale";
 }
 
+// Inizializzazione del modello Gate
 Gate.init(
   {
     id: {
@@ -32,23 +35,23 @@ Gate.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "parkings",
+        model: "parkings", // Relazione con la tabella Parkings
         key: "id",
       },
-      onDelete: "CASCADE",  //se elimino un parcheggio si eliminano i gate
+      onDelete: "CASCADE", // Elimina i gate associati se il parcheggio viene cancellato
     },
     type: {
-      type: DataTypes.ENUM("standard", "smart"),
+      type: DataTypes.ENUM("standard", "smart"), // Tipo di gate
       allowNull: false,
     },
     direction: {
-      type: DataTypes.ENUM("entrata", "uscita", "bidirezionale"),
+      type: DataTypes.ENUM("entrata", "uscita", "bidirezionale"), // Direzione supportata dal gate
       allowNull: false,
     },
   },
   {
     sequelize,
     tableName: "gates",
-    timestamps: false,
+    timestamps: false, // Disabilita i campi createdAt e updatedAt
   }
 );

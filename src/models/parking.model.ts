@@ -1,44 +1,46 @@
-import {DataTypes, Model} from "sequelize";  //model è la classe base di tutti i modelli Sequelize, Datatypes contiene i tipi STRING INTEGER..
+import { DataTypes, Model } from "sequelize"; // Model è la classe base di Sequelize, DataTypes definisce i tipi (STRING, INTEGER, ecc.)
+import { sequelize } from "../database"; // Import della connessione al database
 
-import { sequelize } from "../database"; //importiamo la connessione
-
+// Interfaccia che definisce gli attributi del modello Parking
 export interface ParkingAttributes {
-    id?: number;    //opzionale perche viene generato dal DB
-    name: string;
-    location: string;
-    capacity: number;
+  id?: number;          // ID opzionale perché viene generato automaticamente dal DB
+  name: string;         // Nome del parcheggio
+  location: string;     // Posizione geografica o indirizzo
+  capacity: number;     // Numero massimo di posti disponibili
 }
 
-export class Parking extends Model <ParkingAttributes> implements ParkingAttributes {
+// Classe Parking che estende Model e implementa ParkingAttributes
+export class Parking extends Model<ParkingAttributes> implements ParkingAttributes {
   public id!: number;
   public name!: string;
-  public location!: string;    //il ! garantisce a typescript che quegli attributi ci saranno
+  public location!: string;
   public capacity!: number;
 }
 
+// Inizializzazione del modello Parking
 Parking.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true,              // Chiave primaria
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false,              // Campo obbligatorio
     },
     location: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false,              // Campo obbligatorio
     },
     capacity: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false,              // Campo obbligatorio
     },
   },
   {
-    sequelize, // connessione
-    tableName: "parkings",
-    timestamps: false, // non crea createdAt e updatedAt che non sono utili
+    sequelize,                        // Collegamento alla connessione del database
+    tableName: "parkings",            // Nome della tabella nel database
+    timestamps: false,                // Disabilita i campi createdAt e updatedAt
   }
 );

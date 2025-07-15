@@ -1,16 +1,19 @@
 import { Op } from "sequelize";
 import { Transit, TransitAttributes } from "../models/transit.model";
 
+// Crea un nuovo transito
 export const createTransit = async (data: Omit<TransitAttributes, "id">) => {
   return await Transit.create(data);
 };
 
+// Aggiorna un transito esistente se trovato, altrimenti restituisce null
 export const updateTransit = async (id: number, updates: Partial<TransitAttributes>) => {
   const transit = await Transit.findByPk(id);
   if (!transit) return null;
   return await transit.update(updates);
 };
 
+// Elimina un transito se esistente, altrimenti restituisce null
 export const deleteTransit = async (id: number) => {
   const transit = await Transit.findByPk(id);
   if (!transit) return null;
@@ -18,6 +21,7 @@ export const deleteTransit = async (id: number) => {
   return true;
 };
 
+// Restituisce tutti i transiti che soddisfano una certa condizione, includendo entità correlate
 export const getAllTransits = async (whereCondition = {}) => {
   return await Transit.findAll({
     where: whereCondition,
@@ -26,6 +30,7 @@ export const getAllTransits = async (whereCondition = {}) => {
   });
 };
 
+// Trova l'ultimo transito in entrata senza fattura associata per una determinata targa
 export const findLatestEntranceWithoutInvoice = async (plate: string) => {
   return await Transit.findOne({
     where: { plate, direction: "entrata", invoiceId: null },
@@ -33,6 +38,7 @@ export const findLatestEntranceWithoutInvoice = async (plate: string) => {
   });
 };
 
+// Cerca i transiti filtrando per targhe e intervallo temporale, includendo entità collegate
 export const searchTransits = async (plates: string[], from: Date, to: Date) => {
   return await Transit.findAll({
     where: {
