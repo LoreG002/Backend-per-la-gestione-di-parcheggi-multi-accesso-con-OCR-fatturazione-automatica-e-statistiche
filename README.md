@@ -77,48 +77,31 @@ Il sistema deve garantire le seguenti funzionalità:
 
 ## 📁 Struttura del progetto
 
-📁 Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automatica-e-statistiche-main/
-│   📄 .dockerignore
-│   📄 .gitignore
-│   📄 Dockerfile
-│   📄 README.md
-│   📄 docker-compose.yml
-│   📄 eslint.config.cjs
-│   📄 jest.config.cjs
-│   📄 package.json
-│   📄 package-lock.json
+Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automatica-e-statistiche/
 │
-├── 📁 postman/
-│   └── 📄 ProgettoPA API.postman_collection.json
+├── postman/
+│   └── ProgettoPA API.postman_collection.json
 │
-├── 📁 src/
-│   ├── 📄 app.ts
-│   │
-│   ├── 📁 assets/
-│   │   └── Diagrammi UML (casi d’uso, sequenze) in formato PNG
-│   │
-│   ├── 📁 __tests__/
-│   │   └── Test automatici Jest per middleware e helper
-│   │
-│   ├── 📁 controllers/
-│   │   └── Controller REST per ogni dominio (auth, gate, invoice, etc.)
-│   │
-│   ├── 📁 dao/
-│   │   └── Data Access Object per ciascun modello
-│   │
-│   ├── 📁 helpers/
-│   │   └── Funzioni di utilità (PDF, Auth, Errori, Statistiche)
-│   │
-│   ├── 📁 middlewares/
-│   │   └── Middleware per autenticazione, ruoli, validazioni, errori
-│   │
-│   ├── 📁 models/
-│   │   └── Definizione dei modelli Sequelize
-│   │
-│   ├── 📁 routes/
-│   │   └── Definizione delle rotte REST (auth, users, gates, etc.)
+├── src/
+│   ├── __tests__/                  # Test automatici con Jest
+│   ├── assets/                    # Diagrammi UML (sequenze, casi d’uso, E-R)
+│   ├── controllers/               # Controller REST per ogni dominio
+│   ├── dao/                       # Data Access Object
+│   ├── helpers/                   # Funzioni di utilità (PDF, errori, ecc.)
+│   ├── middlewares/              # Middleware di autenticazione, validazione, ruoli
+│   ├── models/                    # Modelli Sequelize (definizione schema DB)
+│   ├── routes/                    # Definizione delle API REST
+│   └── app.ts                     # Entry point principale dell’applicazione
 │
-│   📄 database.ts
+├── .dockerignore
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── jest.config.cjs
+├── eslint.config.cjs
+├── package.json
+├── package-lock.json
+├── README.md
 
 
 ---
