@@ -114,7 +114,53 @@ Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automati
 ```
 
 
+## 🧱 Pattern Architetturali Utilizzati
+
+Il progetto adotta un'architettura modulare ispirata al pattern **Model-View-Controller (MVC)**, opportunamente adattata al contesto di un'applicazione **interamente back-end** e **RESTful**.
+
+### 🔄 Adattamento del pattern MVC
+
+Nel nostro caso, la classica struttura `Model → View → Controller` è stata adattata come segue:
+
+- **Model**  
+  Contiene la definizione delle entità del dominio, realizzate tramite Sequelize. I modelli rappresentano lo schema delle tabelle del database e includono relazioni, vincoli e metadati.
+
+- **Controller**  
+  Gestisce le richieste HTTP e funge da intermediario tra il client e la logica applicativa. I controller raccolgono i dati dalle richieste, invocano i servizi appropriati e restituiscono le risposte nel formato atteso (JSON o file PDF).
+
+- **Service (al posto della View)**  
+  In assenza di un'interfaccia grafica, il layer **Service** sostituisce il ruolo tradizionale della "View". I servizi contengono la **logica applicativa pura**, come il calcolo degli importi, la gestione dei pagamenti, la logica dei transiti, ecc.  
+  Questo layer favorisce la riusabilità e mantiene i controller snelli e focalizzati solo sulla gestione delle richieste.
+
+> 📝 Questo approccio mantiene i vantaggi del pattern MVC (separazione delle responsabilità), adattandoli a un'architettura back-end moderna basata su API REST.
+
 ---
+
+### 🗃️ DAO (Data Access Object)
+
+Per isolare l'accesso al database, il progetto utilizza il pattern **DAO (Data Access Object)**. Ogni entità ha un modulo DAO dedicato all’interno della cartella `dao/`, responsabile delle operazioni CRUD e delle query complesse.
+
+- Questo layer consente di:
+  - Separare la logica applicativa dalla persistenza
+  - Facilitare la scrittura di test automatici
+  - Centralizzare e riutilizzare l’accesso ai dati
+
+Esempi:
+- `transitDao.ts` → operazioni su transiti, ingresso/uscita, calcoli permanenza
+- `invoiceDao.ts` → gestione fatture, filtri per utente e stato pagamento
+- `parkingDao.ts` → query su disponibilità posti, gestione parcheggi e varchi
+
+---
+
+### ✅ Vantaggi dell’approccio adottato
+
+- **Separazione chiara** tra accesso ai dati, logica applicativa e gestione HTTP
+- Alta **manutenibilità** e **scalabilità** del progetto
+- Facilità nell’**integrazione di test** e nel debugging
+- **Estendibilità**: nuovi domini si implementano creando Model + DAO + Service + Controller
+
+Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robusta, coerente e facilmente estendibile, in linea con le best practice per sistemi RESTful di media-alta complessità.
+
 
 ## 📚 Diagrammi UML 
 
