@@ -77,23 +77,22 @@ Il sistema deve garantire le seguenti funzionalità:
 
 ## 📁 Struttura del progetto
 
-
-
+```text
 Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automatica-e-statistiche/
 │
 ├── postman/
-│ └── ProgettoPA API.postman_collection.json
+│   └── ProgettoPA API.postman_collection.json
 │
 ├── src/
-│ ├── tests/ # Test automatici con Jest
-│ ├── assets/ # Diagrammi UML (sequenze, casi d’uso, E-R)
-│ ├── controllers/ # Controller REST per ogni dominio
-│ ├── dao/ # Data Access Object
-│ ├── helpers/ # Funzioni di utilità (PDF, errori, ecc.)
-│ ├── middlewares/ # Middleware di autenticazione, validazione, ruoli
-│ ├── models/ # Modelli Sequelize (definizione schema DB)
-│ ├── routes/ # Definizione delle API REST
-│ └── app.ts # Entry point principale dell’applicazione
+│   ├── __tests__/                  # Test automatici con Jest
+│   ├── assets/                    # Diagrammi UML (sequenze, casi d’uso, E-R)
+│   ├── controllers/               # Controller REST per ogni dominio
+│   ├── dao/                       # Data Access Object
+│   ├── helpers/                   # Funzioni di utilità (PDF, errori, ecc.)
+│   ├── middlewares/              # Middleware di autenticazione, validazione, ruoli
+│   ├── models/                    # Modelli Sequelize (definizione schema DB)
+│   ├── routes/                    # Definizione delle API REST
+│   └── app.ts                     # Entry point principale dell’applicazione
 │
 ├── .dockerignore
 ├── .gitignore
@@ -104,6 +103,7 @@ Backend-per-la-gestione-di-parcheggi-multi-accesso-con-OCR-fatturazione-automati
 ├── package.json
 ├── package-lock.json
 ├── README.md
+
 
 
 ---
