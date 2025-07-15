@@ -75,12 +75,44 @@ Il sistema deve garantire le seguenti funzionalità:
 
 ---
 
-## 📚 Diagrammi UML (in fase di stesura)
+## 📚 Diagrammi UML 
 
-Saranno inclusi:
-- Diagramma dei casi d'uso (Use Case)
-- Diagrammi di sequenza
-- Diagrammi dell’architettura dei pacchetti
+### ✅ Diagrammi dei Casi d'Uso
+- Actors :
+  ![Actors](src/assets/Actors.drawio.png)
+
+- Login :
+  ![Use Case Login](src/assets/Login.drawio.png)
+
+- Utente :
+  ![Use Case Utente](src/assets/Use%20Case%20Utente.drawio.png)
+
+- Operatore:
+  ![Use Case Operatore](src/assets/Use%20Case%20Operatore.drawio.png)
+
+---
+
+### 📈 Diagrammi delle Sequenze principali
+
+| Endpoint | Immagine |
+|---------|----------|
+| Login | ![Login](src/assets/LogIn.png) |
+| GET /api/invoices | ![Get.Invoice](src/assets/Get.Api.Invoice.png) |
+| GET /api/invoices/:id/pdf | ![Get.Invoice.PDF](src/assets/Get.api.invoices.id.pdf.png) |
+| POST /api/invoices/:id/pay | ![Pay.Invoice](src/assets/POST.api.invoice.id.pay.png) |
+| GET /api/gates | ![Get.Gates](src/assets/Get.api.gates.png) |
+| PUT /api/gates/:id | ![Put.Gates](src/assets/PUT.api.gates.id.png) |
+| POST /api/parkings | ![Post.Parkings](src/assets/POST.api.parkings.png) |
+| GET /api/parkings/:id/available | ![Available.Parkings](src/assets/get.api.parkings.id.available.png) |
+| POST /api/tariffs | ![Post.Tariffs](src/assets/POST.api.tariffs.png) |
+| POST /api/transit/search | ![Search.Transit](src/assets/POST.api.transit.search.png) |
+| POST /api/transits/auto | ![Auto.Transit](src/assets/POST.api.transits.auto.png) |
+| GET /api/vehicle-types | ![Vehicle.Types](src/assets/GET.api.vehicle-types.png) |
+| PUT /api/vehicle-types/:id | ![Put.Vehicle.Types](src/assets/PUT.api.vehicle-types.id.png) |
+| POST /api/users | ![Post.Users](src/assets/POST.api.users.png) |
+| PUT /api/users/:id | ![Put.Users](src/assets/PUT.api.users.id.png) |
+| POST /api/user-vehicles | ![User.Vehicles](src/assets/POST.api.user-vehicles.png) |
+| GET /api/stats/fatturato | ![Stats.Fatturato](src/assets/Get.api.stats.fatturato.png) |
 
 ---
 
