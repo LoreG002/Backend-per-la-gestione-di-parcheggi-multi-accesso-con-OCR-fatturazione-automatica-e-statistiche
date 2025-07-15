@@ -1,26 +1,31 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../helpers/auth.helper";
 
-export interface AuthRequest extends Request {  //estente Request per avere anche req.user
+// Estensione dell'interfaccia Request per includere l'oggetto utente
+export interface AuthRequest extends Request {
   user?: any;
 }
 
+// Middleware di autenticazione JWT
 export const authenticateJWT = (
   req: AuthRequest,
   res: Response,
   next: NextFunction
 ): void => {
-  const authHeader = req.headers.authorization; //controllo la presenza dell'header
+  const authHeader = req.headers.authorization;
 
+  // Verifica la presenza dell'header Authorization
   if (!authHeader) {
     res.status(401).json({ message: "Token mancante" });
     return;
   }
 
-  const token = authHeader.split(" ")[1]; // formato: "Bearer <token>" quindi estrae il token
+  // Estrae il token dalla stringa "Bearer <token>"
+  const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = verifyToken(token); //se è valido mette i dati dentro req.user
+    // Verifica e decodifica il token, assegnando i dati all'oggetto req.user
+    const decoded = verifyToken(token);
     req.user = decoded;
     next();
   } catch (error) {
