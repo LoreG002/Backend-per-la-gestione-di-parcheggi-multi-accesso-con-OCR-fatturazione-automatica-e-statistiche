@@ -162,6 +162,52 @@ Esempi:
 
 Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robusta, coerente e facilmente estendibile, in linea con le best practice per sistemi RESTful di media-alta complessità.
 
+## 📡 API Endpoint – Panoramica
+
+| Metodo | Endpoint                          | Descrizione                                              | Accesso         |
+|--------|-----------------------------------|----------------------------------------------------------|-----------------|
+| `POST` | `/api/login`                      | Autenticazione e ottenimento token JWT                   | Utente e Operatore |
+| `GET`  | `/api/users`                      | Restituisce gli utenti (solo per operatore)              | Operatore       |
+| `GET`  | `/api/users/:id`                  | Dati di un singolo utente                                | Utente e Operatore |
+| `POST` | `/api/users`                      | Crea un nuovo utente                                     | Operatore       |
+| `PUT`  | `/api/users/:id/recharge`         | Ricarica credito utente                                  | Utente          |
+| `DELETE` | `/api/users/:id`               | Elimina un utente                                        | Operatore       |
+| `GET`  | `/api/transits`                   | Elenco transiti (solo propri per utenti)                 | Utente e Operatore |
+| `POST` | `/api/transits`                   | Registra un nuovo transito                               | Operatore       |
+| `PUT`  | `/api/transits/:id`               | Aggiorna un transito                                     | Operatore       |
+| `DELETE`| `/api/transits/:id`              | Elimina un transito                                      | Operatore       |
+| `GET`  | `/api/invoices`                   | Fatture associate all’utente                             | Utente          |
+| `POST` | `/api/invoices/:id/pay`           | Effettua il pagamento di una fattura                     | Utente          |
+| `GET`  | `/api/stats/revenue`              | Statistiche di fatturato tra due date                    | Operatore       |
+| `GET`  | `/api/parkings`                   | Elenco parcheggi                                         | Operatore       |
+| `POST` | `/api/parkings`                   | Crea un nuovo parcheggio                                 | Operatore       |
+| `PUT`  | `/api/parkings/:id`               | Modifica un parcheggio                                   | Operatore       |
+| `DELETE`| `/api/parkings/:id`              | Elimina un parcheggio                                    | Operatore       |
+| `GET`  | `/api/gates`                      | Elenco varchi                                            | Operatore       |
+| `POST` | `/api/gates`                      | Crea un nuovo varco                                      | Operatore       |
+| `PUT`  | `/api/gates/:id`                  | Modifica un varco                                        | Operatore       |
+| `DELETE`| `/api/gates/:id`                 | Elimina un varco                                         | Operatore       |
+| `GET`  | `/api/tariffs`                    | Elenco tariffe                                           | Operatore       |
+| `POST` | `/api/tariffs`                    | Crea una nuova tariffa                                   | Operatore       |
+| `PUT`  | `/api/tariffs/:id`                | Modifica una tariffa                                     | Operatore       |
+| `DELETE`| `/api/tariffs/:id`               | Elimina una tariffa                                      | Operatore       |
+| `GET`  | `/api/vehicle-types`              | Tipologie di veicolo disponibili                         | Operatore       |
+| `PUT`  | `/api/vehicle-types/:id`          | Modifica una tipologia di veicolo                        | Operatore       |
+| `DELETE`| `/api/vehicle-types/:id`         | Elimina una tipologia di veicolo                         | Operatore       |
+| `GET`  | `/api/user-vehicles`              | Elenco veicoli associati all’utente                      | Utente e Operatore |
+| `POST` | `/api/user-vehicles`              | Associa un veicolo a un utente                           | Utente          |
+| `DELETE`| `/api/user-vehicles/:id`         | Rimuove un veicolo dell’utente                           | Utente          |
+
+---
+
+### 🛡️ Legenda accesso
+
+- **Utente**: autenticato con ruolo `"utente"`
+- **Operatore**: autenticato con ruolo `"operatore"`
+- **Entrambi**: endpoint accessibile a entrambi i ruoli con comportamenti differenziati
+
+
+
 
 ## 📚 Diagrammi UML 
 
