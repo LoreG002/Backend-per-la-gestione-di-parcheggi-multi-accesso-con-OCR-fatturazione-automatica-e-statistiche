@@ -365,6 +365,26 @@ Per eseguire il progetto in locale è necessario avere installati Docker e Docke
   docker-compose up --build
   ```
 
+---
+ 
+## 🌱 Popolamento del database (Seed)
+ 
+Per testare il sistema con dati già pronti, è disponibile uno script `seed.ts` che crea:
+ 
+- Utenti demo (`utente@demo.com` e `operatore@demo.com`)
+- Parcheggi e varchi associati
+- Tipologie di veicoli e tariffe
+- Veicoli utenti, transiti e relative fatture
+ 
+### ▶️ Esecuzione del seed
+ 
+Per eseguire lo script:
+ 
+1. Assicurati che il database sia accessibile (es. con `docker-compose up`)
+2. Esegui il seed con il comando:
+ 
+```bash
+npx ts-node src/seed.ts
 
 ## 👥 Autori
 
