@@ -138,6 +138,32 @@ Nel nostro caso, la classica struttura `Model → View → Controller` è stata 
 
 ---
 
+
+#### 🔁 Singleton
+
+All’interno del progetto è stato adottato il **Singleton Pattern** per la gestione della connessione al database, in particolare nel file `database.ts`.
+
+Questo pattern garantisce che **esista una sola istanza condivisa di `Sequelize`** in tutta l'applicazione, evitando la creazione di connessioni multiple e potenzialmente ridondanti. L'implementazione è resa possibile tramite:
+
+- un **costruttore privato** nella classe `Database`, che impedisce l'istanziazione esterna;
+- un metodo statico `getInstance()` che restituisce l’unica istanza creata (o la inizializza, se non ancora esistente);
+- un metodo statico `testConnection()` che consente di verificare la connessione al DB.
+
+Questa scelta promuove **efficienza, riutilizzabilità e sicurezza** nella gestione della risorsa di connessione.
+
+📁 *File di riferimento:* `src/database.ts`
+
+```ts
+private static instance: Sequelize;
+
+public static getInstance(): Sequelize {
+  if (!Database.instance) {
+    Database.instance = new Sequelize(...);
+  }
+  return Database.instance;
+}
+
+
 ### 🗃️ DAO (Data Access Object)
 
 Per isolare l'accesso al database, il progetto utilizza il pattern **DAO (Data Access Object)**. Ogni entità ha un modulo DAO dedicato all’interno della cartella `dao/`, responsabile delle operazioni CRUD e delle query complesse.
@@ -302,7 +328,7 @@ Il backend  registra un nuovo transito, restituendo i dati principali dell’eve
 
 ![Risposta](./src/assets/test3.png)
 
-In questo esempio, la targa `GD970CHW` è stata riconosciuta correttamente e viene registrato un transito di **entrata** con `invoiceId: null`, in quanto non è ancora associata una fattura.
+In questo esempio, la targa `CZ889KF` è stata riconosciuta correttamente e viene registrato un transito di **entrata** con `invoiceId: null`, in quanto non è ancora associata una fattura.
 
 ## 🚀 Come avviare il progetto
 
