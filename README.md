@@ -175,7 +175,7 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 | `DELETE` | `/api/users/:id`               | Elimina un utente                                        | Operatore       |
 | `GET`  | `/api/transits`                   | Elenco transiti (solo propri per utenti)                 | Utente e Operatore |
 | `POST` | `/api/transits/auto`              | registrare automaticamente un transito di un veicolo     | Operatore       |
-| `POST` | `/api/transits/search`            | serve per cercare e filtrare i transiti dei veicoli      | Utente e Operatore  |
+| `POST` | `/api/transits/search`            | cerca e filtra i transiti dei veicoli (utente vede solo i suoi)   | Utente e Operatore  |
 | `PUT`  | `/api/transits/:id`               | Aggiorna un transito                                     | Operatore       |
 | `DELETE`| `/api/transits/:id`              | Elimina un transito                                      | Operatore       |
 | `GET`  | `/api/invoices`                   | Visualizza le fatture     (solo propie per utente)       | Utente e Operatore |
