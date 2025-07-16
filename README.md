@@ -168,15 +168,15 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 |--------|-----------------------------------|----------------------------------------------------------|-----------------|
 | `POST` | `/api/login`                      | Autenticazione e ottenimento token JWT                   | Utente e Operatore |
 | `GET`  | `/api/users`                      | Restituisce gli utenti (solo per operatore)              | Operatore       |
-| `GET`  | `/api/users/:id`                  | Dati di un singolo utente                                | Utente e Operatore |
+| `GET`  | `/api/users/:id`                  | Dati di un singolo utente  (solo propri per utenti)      | Utente e Operatore |
 | `POST` | `/api/users`                      | Crea un nuovo utente                                     | Operatore       |
-| `PUT`  | `/api/users/:id/recharge`         | Ricarica credito utente                                  | Utente          |
+| `PUT`  | `/api/users/:id/recharge`         | Ricarica credito utente                                  | Operatore          |
 | `DELETE` | `/api/users/:id`               | Elimina un utente                                        | Operatore       |
 | `GET`  | `/api/transits`                   | Elenco transiti (solo propri per utenti)                 | Utente e Operatore |
 | `POST` | `/api/transits`                   | Registra un nuovo transito                               | Operatore       |
 | `PUT`  | `/api/transits/:id`               | Aggiorna un transito                                     | Operatore       |
 | `DELETE`| `/api/transits/:id`              | Elimina un transito                                      | Operatore       |
-| `GET`  | `/api/invoices`                   | Fatture associate all’utente                             | Utente          |
+| `GET`  | `/api/invoices`                   | Visualizza le fatture     (solo propre per utente)       | Utente e Operatore |
 | `POST` | `/api/invoices/:id/pay`           | Effettua il pagamento di una fattura                     | Utente          |
 | `GET`  | `/api/stats/revenue`              | Statistiche di fatturato tra due date                    | Operatore       |
 | `GET`  | `/api/parkings`                   | Elenco parcheggi                                         | Operatore       |
@@ -194,9 +194,9 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 | `GET`  | `/api/vehicle-types`              | Tipologie di veicolo disponibili                         | Operatore       |
 | `PUT`  | `/api/vehicle-types/:id`          | Modifica una tipologia di veicolo                        | Operatore       |
 | `DELETE`| `/api/vehicle-types/:id`         | Elimina una tipologia di veicolo                         | Operatore       |
-| `GET`  | `/api/user-vehicles`              | Elenco veicoli associati all’utente                      | Utente e Operatore |
-| `POST` | `/api/user-vehicles`              | Associa un veicolo a un utente                           | Utente          |
-| `DELETE`| `/api/user-vehicles/:id`         | Rimuove un veicolo dell’utente                           | Utente          |
+| `GET`  | `/api/user-vehicles`              | Elenco veicoli associati (solo i proprio per l'utente)   | Utente e Operatore |
+| `POST` | `/api/user-vehicles`              | Associa un veicolo a un utente                           | Operatore          |
+| `DELETE`| `/api/user-vehicles/:id`         | Rimuove un veicolo dell’utente                           | Operatore       |
 
 ---
 
