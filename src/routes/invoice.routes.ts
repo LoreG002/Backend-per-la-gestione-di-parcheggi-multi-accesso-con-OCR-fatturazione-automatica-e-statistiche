@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as InvoiceController from "../controllers/invoice.controller";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
+import { validateDates } from "../middlewares/validateDates.middleware";
 
 const router = Router();
 

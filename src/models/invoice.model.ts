@@ -43,8 +43,11 @@ Invoice.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("pagato", "non pagato"), // Stato della fattura
+      type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        isIn: [["pagato", "non pagato"]],
+      },
     },
     createdAt: {
       type: DataTypes.DATE,

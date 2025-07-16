@@ -6,9 +6,13 @@ import { Parking } from "../models/parking.model";
 
 export const calculateRevenueStats = async (
   startDate: Date,
-  endDate: Date
+  endDate: Date,
+  parkingId?: number
 ): Promise<{ parkingName: string; total: number }[]> => {
-  const parkings = await Parking.findAll();
+  const parkings = parkingId
+    ? await Parking.findAll({ where: { id: parkingId } })
+    : await Parking.findAll();
+
   const results: { parkingName: string; total: number }[] = [];
 
   for (const parking of parkings) {
@@ -29,7 +33,11 @@ export const calculateRevenueStats = async (
       where: { id: { [Op.in]: invoiceIds } },
     });
 
-    const total = invoices.reduce((sum, i) => sum + parseFloat(i.amount.toString()), 0);
+    const total = invoices.reduce(
+      (sum, i) => sum + parseFloat(i.amount.toString()),
+      0
+    );
+
     results.push({ parkingName: parking.name, total });
   }
 

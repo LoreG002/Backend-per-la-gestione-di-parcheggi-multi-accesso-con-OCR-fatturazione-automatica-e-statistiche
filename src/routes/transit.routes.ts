@@ -3,7 +3,7 @@ import * as TransitController from "../controllers/transit.controller";
 import { authenticateJWT } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
 import multer from "multer";
-import { validateTransitDates } from "../middlewares/validateTransitDates.middleware";
+import { validateDates } from "../middlewares/validateDates.middleware";
 
 const router = Router();
 
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Rotta per creare un transito in automatico, da immagine (OCR) se il gate è standard e dal json se il gate è smart
-router.post("/api/transits/auto", authenticateJWT, authorizeRoles("operatore"), upload.single("image"), validateTransitDates, TransitController.createTransitAuto);
+router.post("/api/transits/auto", authenticateJWT, authorizeRoles("operatore"), upload.single("image"), validateDates({ fields: ["startDate", "endDate"], source: "body" }), TransitController.createTransitAuto);
 
 // Rotta per ottenere tutti i transiti visibili
 router.get("/api/transits", authenticateJWT, TransitController.getAllTransits);
@@ -26,7 +26,7 @@ router.get("/api/transits", authenticateJWT, TransitController.getAllTransits);
 router.post("/api/transits/search", authenticateJWT, TransitController.searchTransits);
 
 // Rotta per aggiornare un transito esistente tramite ID
-router.put("/api/transits/:id", authenticateJWT, authorizeRoles("operatore"), validateTransitDates, TransitController.updateTransit);
+router.put("/api/transits/:id", authenticateJWT, authorizeRoles("operatore"), validateDates({ fields: ["startDate", "endDate"], source: "body" }), TransitController.updateTransit);
 
 // Rotta per eliminare un transito tramite ID
 router.delete("/api/transits/:id", authenticateJWT, authorizeRoles("operatore"), TransitController.deleteTransit);

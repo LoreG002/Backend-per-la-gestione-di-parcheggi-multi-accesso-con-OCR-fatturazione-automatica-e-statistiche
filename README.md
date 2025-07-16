@@ -162,6 +162,56 @@ Esempi:
 
 Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robusta, coerente e facilmente estendibile, in linea con le best practice per sistemi RESTful di media-alta complessità.
 
+## 📡 API Endpoint – Panoramica
+
+| Metodo | Endpoint                          | Descrizione                                              | Accesso         |
+|--------|-----------------------------------|----------------------------------------------------------|-----------------|
+| `POST` | `/api/login`                      | Autenticazione e ottenimento token JWT                   | Utente e Operatore |
+| `GET`  | `/api/users`                      | Restituisce info utenti (per utente solo le sue)         | Utente e Operatore  |
+| `GET`  | `/api/users/:id`                  | Dati di un singolo utente                                | Operatore       |
+| `POST` | `/api/users`                      | Crea un nuovo utente                                     | Operatore       |
+| `PUT`  | `/api/users/:id/recharge`         | Ricarica credito utente                                  | Operatore          |
+| `DELETE` | `/api/users/:id`               | Elimina un utente                                        | Operatore       |
+| `GET`  | `/api/transits`                   | Elenco transiti (solo propri per utenti)                 | Utente e Operatore |
+| `POST` | `/api/transits/auto`              | registrare automaticamente un transito di un veicolo     | Operatore       |
+| `POST` | `/api/transits/search`            | serve per cercare e filtrare i transiti dei veicoli      | Utente e Operatore  |
+| `PUT`  | `/api/transits/:id`               | Aggiorna un transito                                     | Operatore       |
+| `DELETE`| `/api/transits/:id`              | Elimina un transito                                      | Operatore       |
+| `GET`  | `/api/invoices`                   | Visualizza le fatture     (solo propie per utente)       | Utente e Operatore |
+| `GET`  | `/api/invoices/status`            | Ritorna lo status (pagato o meno)                        | Utente          |
+| `POST` | `/api/invoices/:id/pay`           | Effettua il pagamento di una fattura                     | Utente          |
+| `GET`  | `/api/invoices/:id/pdf`           | permette di scaricare la versione PDF di una fattura     | Utente e Operatore |
+| `GET`  | `/api/stats/fatturato`            | Statistiche di fatturato                                 | Operatore       |
+| `GET`  | `/api/parkings/:id/available`     | restituisce la disponibilità attuale dei posti           | Utente e Operatore |
+| `POST` | `/api/parkings`                   | Crea un nuovo parcheggio                                 | Operatore       |
+| `PUT`  | `/api/parkings/:id`               | Modifica un parcheggio                                   | Operatore       |
+| `DELETE`| `/api/parkings/:id`              | Elimina un parcheggio                                    | Operatore       |
+| `GET`  | `/api/gates`                      | Elenco varchi                                            | Utente e Operatore |
+| `GET`  | `/api/gates/:id`                  | recupera le informazioni di un varco specifico           | Utente e Operatore |
+| `POST` | `/api/gates`                      | Crea un nuovo varco                                      | Operatore       |
+| `PUT`  | `/api/gates/:id`                  | Modifica un varco                                        | Operatore       |
+| `DELETE`| `/api/gates/:id`                 | Elimina un varco                                         | Operatore       |
+| `GET`  | `/api/tariffs`                    | Elenco tariffe                                           | Utente e Operatore |
+| `POST` | `/api/tariffs`                    | Crea una nuova tariffa                                   | Operatore       |
+| `PUT`  | `/api/tariffs/:id`                | Modifica una tariffa                                     | Operatore       |
+| `DELETE`| `/api/tariffs/:id`               | Elimina una tariffa                                      | Operatore       |
+| `GET`  | `/api/vehicle-types`              | Tipologie di veicolo disponibili                         | Utente e Operatore  |
+| `PUT`  | `/api/vehicle-types/:id`          | Modifica una tipologia di veicolo                        | Operatore       |
+| `DELETE`| `/api/vehicle-types/:id`         | Elimina una tipologia di veicolo                         | Operatore       |
+| `GET`  | `/api/user-vehicles`              | Elenco veicoli associati (solo i proprio per l'utente)   | Utente e Operatore |
+| `POST` | `/api/user-vehicles`              | Associa un veicolo a un utente                           | Operatore          |
+| `DELETE`| `/api/user-vehicles/:id`         | Rimuove un veicolo dell’utente                           | Operatore       |
+
+---
+
+### 🛡️ Legenda accesso
+
+- **Utente**: autenticato con ruolo `"utente"`
+- **Operatore**: autenticato con ruolo `"operatore"`
+- **Entrambi**: endpoint accessibile a entrambi i ruoli con comportamenti differenziati
+
+
+
 
 ## 📚 Diagrammi UML 
 
@@ -208,6 +258,51 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 | GET /api/stats/fatturato | ![Stats.Fatturato](src/assets/Get.api.stats.fatturato.png) |
 
 ---
+
+## 🧪 Esempio di utilizzo: OCR tramite `POST /api/transits/auto`
+
+Il sistema consente di registrare automaticamente un transito (entrata o uscita) attraverso l’analisi OCR della targa.
+
+### 📤 Endpoint
+- **Metodo:** `POST`
+- **Percorso:** `/api/transits/auto`
+- **Autenticazione:** authorizeRoles("operatore")
+- **Content-Type:** `multipart/form-data`
+
+### 📝 Parametri nel body (form-data)
+
+| Chiave           | Tipo     | Descrizione                                 |
+|------------------|----------|----------------------------------------------|
+| `image`          | File     | Immagine contenente la targa del veicolo     |
+| `gateId`         | Integer  | ID del varco                                 |
+| `vehicleTypeId`  | Integer  | ID del tipo di veicolo                       |
+
+---
+
+### ▶️ Esempio di richiesta (Postman)
+
+Nella seguente schermata si vede un esempio reale di invocazione da Postman fatta dall'Operatore.
+
+📤 **Richiesta:**
+
+![Richiesta](./src/assets/test1.png)
+
+📸 **Immagine della targa inviata:**
+
+![Targa](./src/assets/test2.png)
+
+---
+
+### ✅ Esempio di risposta
+
+Il backend  registra un nuovo transito, restituendo i dati principali dell’evento:
+
+📥 **Risposta:**
+
+![Risposta](./src/assets/test3.png)
+
+In questo esempio, la targa `GD970CHW` è stata riconosciuta correttamente e viene registrato un transito di **entrata** con `invoiceId: null`, in quanto non è ancora associata una fattura.
+
 ## 🚀 Come avviare il progetto
 
 Per eseguire il progetto in locale è necessario avere installati Docker e Docker Compose.
