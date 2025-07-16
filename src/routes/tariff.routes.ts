@@ -5,27 +5,16 @@ import { authorizeRoles } from "../middlewares/role.middleware";
 
 const router = Router();
 
+// Rotta per ottenere tutte le tariffe
 router.get("/api/tariffs", authenticateJWT, TariffController.getAllTariffs);
 
-router.post(
-  "/api/tariffs",
-  authenticateJWT,
-  authorizeRoles("operatore"),
-  TariffController.createTariff
-);
+// Rotta per creare una nuova tariffa
+router.post("/api/tariffs", authenticateJWT, authorizeRoles("operatore"), TariffController.createTariff);
 
-router.put(
-  "/api/tariffs/:id",
-  authenticateJWT,
-  authorizeRoles("operatore"),
-  TariffController.updateTariff
-);
+// Rotta per aggiornare una tariffa esistente tramite ID
+router.put("/api/tariffs/:id", authenticateJWT, authorizeRoles("operatore"), TariffController.updateTariff);
 
-router.delete(
-  "/api/tariffs/:id",
-  authenticateJWT,
-  authorizeRoles("operatore"),
-  TariffController.deleteTariff
-);
+// Rotta per eliminare una tariffa tramite ID
+router.delete("/api/tariffs/:id", authenticateJWT, authorizeRoles("operatore"), TariffController.deleteTariff);
 
 export default router;

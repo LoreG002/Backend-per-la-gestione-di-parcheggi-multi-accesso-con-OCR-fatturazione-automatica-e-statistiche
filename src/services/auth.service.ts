@@ -2,7 +2,7 @@ import * as UserDAO from "../dao/user.dao";
 import { verifyPassword, generateToken } from "../helpers/auth.helper";
 
 export const login = async (email: string, password: string): Promise<string | null> => {
-  // Recupera l'utente usando il DAO, non direttamente da Sequelize
+  // Recupera l'utente usando il DAO
   const user = await UserDAO.getUserByEmail(email);
   if (!user) return null;
 
