@@ -357,8 +357,8 @@ Per eseguire il progetto in locale è necessario avere installati Docker e Docke
    DB_PASSWORD=
    DB_NAME=
    ```
-   Bisogna compilare tuti i campi con i valori appropriati per il proprio ambiente di sviluppo.
-   
+   Bisogna compilare tutti i campi con i valori appropriati per il proprio ambiente di sviluppo.
+
 3. Avviare l’ambiente con Docker:
 
   ```bash
