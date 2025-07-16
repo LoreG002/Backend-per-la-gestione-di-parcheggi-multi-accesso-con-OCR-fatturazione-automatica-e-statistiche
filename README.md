@@ -164,6 +164,8 @@ public static getInstance(): Sequelize {
 }
 
 
+
+
 ### 🗃️ DAO (Data Access Object)
 
 Per isolare l'accesso al database, il progetto utilizza il pattern **DAO (Data Access Object)**. Ogni entità ha un modulo DAO dedicato all’interno della cartella `dao/`, responsabile delle operazioni CRUD e delle query complesse.
