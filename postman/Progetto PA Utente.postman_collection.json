@@ -3,8 +3,8 @@
 		"_postman_id": "ac49c25c-5028-4bb3-b1ca-dbdd0bc44bd3",
 		"name": "Progetto PA Utente",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "46734712",
-		"_collection_link": "https://lorenzogiannetti.postman.co/workspace/ProgettoPA-Operator-Workspace~abb3e6d2-03a2-410c-853f-6c1a9bf6ce2e/collection/46734712-ac49c25c-5028-4bb3-b1ca-dbdd0bc44bd3?action=share&source=collection_link&creator=46734712"
+		"_exporter_id": "46736493",
+		"_collection_link": "https://lorenzogiannetti.postman.co/workspace/ProgettoPA-Workspace~abb3e6d2-03a2-410c-853f-6c1a9bf6ce2e/collection/46734712-ac49c25c-5028-4bb3-b1ca-dbdd0bc44bd3?action=share&source=collection_link&creator=46736493"
 	},
 	"item": [
 		{
@@ -260,8 +260,30 @@
 				{
 					"name": "GetAllTransits",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN_USER}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/transits",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"transits"
+							]
+						}
 					},
 					"response": []
 				},
