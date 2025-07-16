@@ -386,6 +386,8 @@ Per eseguire lo script:
 ```bash
 npx ts-node src/seed.ts
 
+```
+
 ## 👥 Autori
 
 - Lorenzo Giannetti
