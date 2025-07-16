@@ -350,13 +350,15 @@ Per eseguire il progetto in locale è necessario avere installati Docker e Docke
 2. Creare un file .env nella root del progetto con le seguenti variabili di ambiente:
   
    ```bash
-   PORT=3000
-   JWT_SECRET=supersegreto
-   DB_HOST=db
-   DB_USER=postgres
-   DB_PASSWORD=postgres
-   DB_NAME=parcheggi
+   PORT=
+   JWT_SECRET=
+   DB_HOST=
+   DB_USER=
+   DB_PASSWORD=
+   DB_NAME=
    ```
+   Bisogna compilare tuti i campi con i valori appropriati per il proprio ambiente di sviluppo.
+   
 3. Avviare l’ambiente con Docker:
 
   ```bash
