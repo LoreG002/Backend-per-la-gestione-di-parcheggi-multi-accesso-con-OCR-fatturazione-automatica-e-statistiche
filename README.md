@@ -258,6 +258,42 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 | GET /api/stats/fatturato | ![Stats.Fatturato](src/assets/Get.api.stats.fatturato.png) |
 
 ---
+
+## 🧪 Esempio di utilizzo: OCR tramite `POST /api/transits/auto`
+
+Il sistema consente di registrare automaticamente un transito (entrata o uscita) attraverso l’analisi OCR della targa. Questo è particolarmente utile nei varchi smart che utilizzano telecamere per riconoscere la targa.
+
+### 📤 Endpoint
+- **Metodo:** `POST`
+- **Percorso:** `/api/transits/auto`
+- **Autenticazione:** Richiesta (JWT)
+- **Content-Type:** `multipart/form-data`
+
+### 📝 Parametri nel body (form-data)
+
+| Chiave           | Tipo     | Descrizione                                 |
+|------------------|----------|----------------------------------------------|
+| `image`          | File     | Immagine contenente la targa del veicolo     |
+| `gateId`         | Integer  | ID del varco                                 |
+| `vehicleTypeId`  | Integer  | ID del tipo di veicolo                       |
+
+---
+
+### ▶️ Esempio di richiesta (Postman)
+
+![Richiesta](./src/assets/test1.png)
+
+![Targa](./src/assets/test2.png)
+
+---
+
+### ✅ Esempio di risposta
+
+
+![Risposta](./src/assets/test3.png)
+
+
+
 ## 🚀 Come avviare il progetto
 
 Per eseguire il progetto in locale è necessario avere installati Docker e Docker Compose.
