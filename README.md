@@ -228,7 +228,7 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 | `POST` | `/api/parkings`                   | Crea un nuovo parcheggio                                 | Operatore       |
 | `PUT`  | `/api/parkings/:id`               | Modifica un parcheggio                                   | Operatore       |
 | `DELETE`| `/api/parkings/:id`              | Elimina un parcheggio                                    | Operatore       |
-| `GET`  | `/api/gates`                      | Elenco varchi                                            | Utente e Operatore |
+| `GET`  | `/api/gates`                      | Elenco varchi                                            | Operatore       |
 | `GET`  | `/api/gates/:id`                  | recupera le informazioni di un varco specifico           | Utente e Operatore |
 | `POST` | `/api/gates`                      | Crea un nuovo varco                                      | Operatore       |
 | `PUT`  | `/api/gates/:id`                  | Modifica un varco                                        | Operatore       |

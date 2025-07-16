@@ -9,7 +9,7 @@ const router = Router();
 router.get("/api/gates", authenticateJWT, GateController.getAllGates);
 
 // Rotta per ottenere un singolo varco tramite ID
-router.get("/api/gates/:id", authenticateJWT, GateController.getGateById);
+router.get("/api/gates/:id", authorizeRoles("operatore"), authenticateJWT, GateController.getGateById);
 
 // Rotta per creare un nuovo varco
 router.post("/api/gates", authenticateJWT, authorizeRoles("operatore"), GateController.createGate);
