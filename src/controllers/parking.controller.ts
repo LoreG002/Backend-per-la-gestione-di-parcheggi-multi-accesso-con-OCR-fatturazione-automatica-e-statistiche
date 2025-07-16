@@ -3,6 +3,7 @@ import * as ParkingService from "../services/parking.service";
 import { checkParkingAvailability } from "../helpers/parking.helper";
 import { ApiError } from "../helpers/ApiError";
 
+// Crea un nuovo parcheggio con i dati forniti nel body
 export const createParking = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const parking = await ParkingService.createParking(req.body);
@@ -13,12 +14,15 @@ export const createParking = async (req: Request, res: Response, next: NextFunct
   }
 };
 
+// Aggiorna un parcheggio esistente tramite ID
 export const updateParking = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const parking = await ParkingService.updateParking(Number(req.params.id), req.body);
+
     if (!parking) {
       return next(new ApiError(404, "Parcheggio non trovato."));
     }
+
     res.json(parking);
   } catch (error) {
     console.error("Errore nell'update:", error);
@@ -26,12 +30,15 @@ export const updateParking = async (req: Request, res: Response, next: NextFunct
   }
 };
 
+// Elimina un parcheggio tramite ID
 export const deleteParking = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const success = await ParkingService.deleteParking(Number(req.params.id));
+
     if (!success) {
       return next(new ApiError(404, "Parcheggio non trovato."));
     }
+
     res.json({ message: "Parcheggio eliminato con successo." });
   } catch (error) {
     console.error("Errore nella cancellazione:", error);
@@ -39,6 +46,7 @@ export const deleteParking = async (req: Request, res: Response, next: NextFunct
   }
 };
 
+// Verifica se ci sono posti disponibili associati a un varco
 export const checkAvailability = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const gateId = Number(req.params.id);
@@ -49,3 +57,4 @@ export const checkAvailability = async (req: Request, res: Response, next: NextF
     next(error);
   }
 };
+

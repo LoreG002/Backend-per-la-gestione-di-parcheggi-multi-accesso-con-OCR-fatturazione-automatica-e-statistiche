@@ -4,6 +4,8 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import { ApiError } from "../helpers/ApiError";
 import { Invoice } from "../models/invoice.model";
 
+// Restituisce tutte le fatture visibili dall'utente autenticato.
+// Gli utenti "utente" vedono solo le proprie, gli operatori tutte.
 export const getAllInvoices = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userId = req.user.role === "utente" ? req.user.id : undefined;
@@ -15,9 +17,11 @@ export const getAllInvoices = async (req: AuthRequest, res: Response, next: Next
   }
 };
 
+// Restituisce un elenco filtrato di fatture in base a stato, periodo e targa
 export const getInvoiceStatus = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { status, start, end, plate } = req.query;
+
     const filters = {
       status: status as string,
       start: start as string,
@@ -33,6 +37,7 @@ export const getInvoiceStatus = async (req: AuthRequest, res: Response, next: Ne
   }
 };
 
+// Permette all’utente di pagare una fattura associata al proprio account
 export const payInvoice = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const invoiceId = parseInt(req.params.id);
@@ -42,7 +47,7 @@ export const payInvoice = async (req: AuthRequest, res: Response, next: NextFunc
       throw new ApiError(404, "Fattura non trovata.");
     }
 
-    // 🔐 Controllo proprietà: l'utente può pagare solo le proprie fatture
+    // Controlla che l’utente possa pagare solo le proprie fatture
     if (req.user.role === "utente" && invoice.userId !== req.user.id) {
       throw new ApiError(403, "Non puoi pagare una fattura non associata al tuo account.");
     }
