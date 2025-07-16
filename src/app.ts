@@ -23,17 +23,19 @@ import statsroutes from "./routes/stats.routes";
 import userVehicleRoutes from "./routes/userVehicle.routes";
 import tariffRoutes from "./routes/tariff.routes";
 import { errorHandler } from "./middlewares/error.middleware";
-import { ApiError } from "./helpers/ApiError";
 
+// Carica le variabili d’ambiente da .env
 dotenv.config();
 
+//Istanzia l'app Express
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Middleware per interpretare richieste con JSON
 app.use(express.json());
 
-// Rotte
+// Registrazione delle rotte
 app.use(parkingRoutes);
 app.use(vehicleTypeRoutes);
 app.use(gateRoutes);
@@ -46,7 +48,7 @@ app.use(statsroutes);
 app.use(userVehicleRoutes);
 app.use(tariffRoutes);
 
-// Test base
+// Rotta base per testare che il server risponde
 app.get("/", (req, res) => {
   res.send("Il progetto è pronto");
 });
@@ -60,10 +62,10 @@ app.use((req, res) => {
   });
 });
 
-// Error handler middleware
+// Error handler middleware per gestire gli errori 
 app.use(errorHandler);
 
-// Relazioni Sequelize
+// Relazioni Sequelize tra i modelli
 Parking.hasMany(Gate, { foreignKey: "parkingId" });
 Gate.belongsTo(Parking, { foreignKey: "parkingId" });
 
@@ -85,9 +87,10 @@ Tariff.belongsTo(VehicleType, { foreignKey: "vehicleTypeId" });
 User.hasMany(UserVehicle, { foreignKey: "userId" });
 UserVehicle.belongsTo(User, { foreignKey: "userId" });
 
-// Avvio server + Sync DB
+// Test connessione DB
 testConnection();
 
+// Funzione per sincronizzare i modelli con il DB
 (async () => {
   try {
     await Parking.sync({ alter: true });
@@ -107,6 +110,7 @@ testConnection();
     await UserVehicle.sync({ alter: true });
     console.log("Tabella UserVehicle sincronizzata!");
 
+    // Avvio del server Express
     app.listen(PORT, () => {
       console.log(`Server avviato sulla porta ${PORT}`);
     });
