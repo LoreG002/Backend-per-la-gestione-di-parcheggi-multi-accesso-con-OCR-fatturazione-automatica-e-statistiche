@@ -1,4 +1,4 @@
-import { validateTransitDates } from "../middlewares/validateTransitDates.middleware";
+import { validateTransitDates } from "../middlewares/validateDates.middleware";
 import httpMocks from "node-mocks-http";
 
 describe("validateTransitDates middleware", () => {
