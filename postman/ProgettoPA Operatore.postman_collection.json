@@ -3,8 +3,8 @@
 		"_postman_id": "432e84f5-1823-40ee-a522-9a9c358a934a",
 		"name": "ProgettoPA Operatore",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "46736493",
-		"_collection_link": "https://lorenzogiannetti.postman.co/workspace/ProgettoPA-Workspace~abb3e6d2-03a2-410c-853f-6c1a9bf6ce2e/collection/46734712-432e84f5-1823-40ee-a522-9a9c358a934a?action=share&source=collection_link&creator=46736493"
+		"_exporter_id": "46734712",
+		"_collection_link": "https://lorenzogiannetti.postman.co/workspace/ProgettoPA-Workspace~abb3e6d2-03a2-410c-853f-6c1a9bf6ce2e/collection/46734712-432e84f5-1823-40ee-a522-9a9c358a934a?action=share&source=collection_link&creator=46734712"
 	},
 	"item": [
 		{
@@ -12,6 +12,18 @@
 			"item": [
 				{
 					"name": "CreateGate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -51,6 +63,18 @@
 				},
 				{
 					"name": "GetAllGates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -88,6 +112,18 @@
 				},
 				{
 					"name": "GetGateById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -119,6 +155,18 @@
 				},
 				{
 					"name": "UpdateGate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -195,6 +243,18 @@
 			"item": [
 				{
 					"name": "GetAllInvoices",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -225,6 +285,18 @@
 				},
 				{
 					"name": "GetInvoiceStatus",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -288,6 +360,18 @@
 				},
 				{
 					"name": "InvoicePdf",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -325,6 +409,18 @@
 			"item": [
 				{
 					"name": "CreateParking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -364,6 +460,18 @@
 				},
 				{
 					"name": "UpdateParking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -404,6 +512,18 @@
 				},
 				{
 					"name": "DeleteParking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -435,6 +555,18 @@
 				},
 				{
 					"name": "CheckAvailability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -472,6 +604,18 @@
 			"item": [
 				{
 					"name": "CreateTransit(Auto)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -491,7 +635,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "postman-cloud:///1f060ee8-19d0-4680-b130-c5cab5ae6b48"
+									"src": "postman-cloud:///1f062429-778d-4f10-8634-2d9e0c50dec9"
 								},
 								{
 									"key": "gateId",
@@ -523,6 +667,18 @@
 				},
 				{
 					"name": "GetAllTransits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -565,6 +721,18 @@
 				},
 				{
 					"name": "SearchTransits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -605,6 +773,18 @@
 				},
 				{
 					"name": "UpdateTransits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -645,6 +825,18 @@
 				},
 				{
 					"name": "DeleteTransits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -681,6 +873,18 @@
 			"item": [
 				{
 					"name": "GetFatturato",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -743,6 +947,18 @@
 			"item": [
 				{
 					"name": "CreateUserVehicle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -782,6 +998,18 @@
 				},
 				{
 					"name": "GetUserVehicle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -882,6 +1110,18 @@
 				},
 				{
 					"name": "CreateTariff",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -921,6 +1161,18 @@
 				},
 				{
 					"name": "UpdateTariff",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1022,6 +1274,18 @@
 				},
 				{
 					"name": "GetAllUsers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1059,6 +1323,18 @@
 				},
 				{
 					"name": "GetUserById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1090,6 +1366,18 @@
 				},
 				{
 					"name": "CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1129,6 +1417,18 @@
 				},
 				{
 					"name": "RechargeUserCredit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1175,6 +1475,18 @@
 			"item": [
 				{
 					"name": "GetAllVehicleType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1217,6 +1529,18 @@
 				},
 				{
 					"name": "UpdateVehicleType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1258,6 +1582,16 @@
 				{
 					"name": "DeleteVehicleType",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{JWT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -1291,20 +1625,26 @@
 			"name": "Login",
 			"event": [
 				{
-					"listen": "test",
+					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"const json = pm.response.json();",
-							"pm.environment.set(\"JWT_TOKEN\", json.token);"
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
 					}
 				},
 				{
-					"listen": "prerequest",
+					"listen": "test",
 					"script": {
 						"exec": [
+							"const json = pm.response.json();",
+							"pm.environment.set(\"JWT_TOKEN\", json.token);",
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"",
 							""
 						],
 						"type": "text/javascript",
