@@ -137,6 +137,19 @@ Nel nostro caso, la classica struttura `Model → View → Controller` è stata 
 > 📝 Questo approccio mantiene i vantaggi del pattern MVC (separazione delle responsabilità), adattandoli a un'architettura back-end moderna basata su API REST.
 
 ---
+### 🔗 Chain of Responsibility (CoR)
+
+Il progetto implementa il pattern **Chain of Responsibility** utilizzando i middleware di Express. Ogni middleware è responsabile di una specifica fase del processo di gestione delle richieste HTTP, e può decidere se gestire la richiesta, modificarla, oppure passarla al middleware successivo tramite la funzione `next()`.
+
+Questa catena consente di separare le responsabilità in modo modulare e riutilizzabile. Ad esempio:
+
+- `auth.middleware.ts`: verifica la validità del token JWT.
+- `role.middleware.ts`: controlla se il ruolo dell’utente è autorizzato all’accesso.
+- `validateGateDirection.middleware.ts`: controlla la coerenza del transito in base alla direzione del varco.
+- `validateDates.middleware.ts`: valida la correttezza delle date nei body delle richieste.
+- `error.middleware.ts`: gestisce centralmente gli errori propagati dalla catena.
+
+Ogni middleware può bloccare la richiesta in caso di errore, oppure passarla lungo la catena tramite `next()`, secondo il principio tipico della Chain of Responsibility.
 
 
 ### 🔁 Singleton
