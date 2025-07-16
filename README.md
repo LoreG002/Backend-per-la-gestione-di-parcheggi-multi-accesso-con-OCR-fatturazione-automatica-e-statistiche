@@ -261,7 +261,7 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 
 ## 🧪 Esempio di utilizzo: OCR tramite `POST /api/transits/auto`
 
-Il sistema consente di registrare automaticamente un transito (entrata o uscita) attraverso l’analisi OCR della targa. Questo è particolarmente utile nei varchi smart che utilizzano telecamere per riconoscere la targa.
+Il sistema consente di registrare automaticamente un transito (entrata o uscita) attraverso l’analisi OCR della targa.
 
 ### 📤 Endpoint
 - **Metodo:** `POST`
@@ -281,7 +281,7 @@ Il sistema consente di registrare automaticamente un transito (entrata o uscita)
 
 ### ▶️ Esempio di richiesta (Postman)
 
-Nella seguente schermata si vede un esempio reale di invocazione da Postman. L’operatore invia un'immagine (formato `.png`) della targa e indica il `gateId` e il `vehicleTypeId` relativi.
+Nella seguente schermata si vede un esempio reale di invocazione da Postman fatta dall'Operatore.
 
 📤 **Richiesta:**
 
@@ -295,7 +295,7 @@ Nella seguente schermata si vede un esempio reale di invocazione da Postman. L�
 
 ### ✅ Esempio di risposta
 
-Il backend analizza l’immagine tramite OCR e registra un nuovo transito, restituendo i dati principali dell’evento:
+Il backend  registra un nuovo transito, restituendo i dati principali dell’evento:
 
 📥 **Risposta:**
 
