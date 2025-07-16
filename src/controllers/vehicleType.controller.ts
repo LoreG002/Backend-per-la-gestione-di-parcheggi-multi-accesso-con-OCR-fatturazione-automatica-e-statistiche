@@ -44,4 +44,3 @@ export const deleteVehicleType = async (req: Request, res: Response, next: NextF
     next(error);
   }
 };
-

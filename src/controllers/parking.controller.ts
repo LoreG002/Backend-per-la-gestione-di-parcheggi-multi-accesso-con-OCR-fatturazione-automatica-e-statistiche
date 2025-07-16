@@ -57,4 +57,3 @@ export const checkAvailability = async (req: Request, res: Response, next: NextF
     next(error);
   }
 };
-

@@ -154,4 +154,3 @@ export const deleteTransit = async (req: Request, res: Response, next: NextFunct
     next(error);
   }
 };
-

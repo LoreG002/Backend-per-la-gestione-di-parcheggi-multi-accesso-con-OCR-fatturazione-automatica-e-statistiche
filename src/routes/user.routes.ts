@@ -11,7 +11,7 @@ router.get("/api/users", authenticateJWT, UserController.getAllUsers);
 // Rotta per ottenere un singolo utente tramite ID
 router.get("/api/users/:id", authenticateJWT, authorizeRoles("operatore"), UserController.getUserById);
 
-// Rotta per creare un nuovo utente 
+// Rotta per creare un nuovo utente
 router.post("/api/users", authenticateJWT, authorizeRoles("operatore"), UserController.createUser);
 
 // Rotta per ricaricare il credito di un utente tramite ID

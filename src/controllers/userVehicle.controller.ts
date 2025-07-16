@@ -61,4 +61,3 @@ export const deleteUserVehicle = async (req: Request, res: Response, next: NextF
     next(error);
   }
 };
-

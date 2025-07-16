@@ -67,4 +67,3 @@ export const deleteTariff = async (req: Request, res: Response, next: NextFuncti
     next(error);
   }
 };
-
