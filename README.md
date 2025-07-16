@@ -163,7 +163,7 @@ public static getInstance(): Sequelize {
   return Database.instance;
 }
 
-
+```
 
 
 ### 🗃️ DAO (Data Access Object)
