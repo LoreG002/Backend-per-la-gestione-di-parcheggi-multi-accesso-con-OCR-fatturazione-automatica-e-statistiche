@@ -13,7 +13,7 @@ RUN npm install
 # Copia tutto il codice dentro il container
 COPY . .
 
-# Espone la porta che usi in Express (es. 3000)
+# Espone la porta che usiamo in Express
 EXPOSE 3000
 
 # Comando per avviare l'app
