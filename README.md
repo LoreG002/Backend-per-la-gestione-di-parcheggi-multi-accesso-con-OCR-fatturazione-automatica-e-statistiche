@@ -139,7 +139,7 @@ Nel nostro caso, la classica struttura `Model → View → Controller` è stata 
 ---
 ### 🔗 Chain of Responsibility (CoR)
 
-Il progetto implementa il pattern **Chain of Responsibility** utilizzando i middleware di Express. Ogni middleware è responsabile di una specifica fase del processo di gestione delle richieste HTTP, e può decidere se gestire la richiesta, modificarla, oppure passarla al middleware successivo tramite la funzione `next()`.
+Il progetto implementa il pattern **Chain of Responsibility** utilizzando i middleware di Express. Ogni middleware è responsabile di una specifica fase del processo di gestione delle richieste HTTP.
 
 Questa catena consente di separare le responsabilità in modo modulare e riutilizzabile. Ad esempio:
 
