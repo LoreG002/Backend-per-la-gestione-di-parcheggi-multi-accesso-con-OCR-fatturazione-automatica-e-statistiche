@@ -139,7 +139,7 @@ Nel nostro caso, la classica struttura `Model → View → Controller` è stata 
 ---
 
 
-#### 🔁 Singleton
+### 🔁 Singleton
 
 All’interno del progetto è stato adottato il **Singleton Pattern** per la gestione della connessione al database, in particolare nel file `database.ts`.
 
