@@ -208,7 +208,7 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 
 | Metodo | Endpoint                          | Descrizione                                              | Accesso         |
 |--------|-----------------------------------|----------------------------------------------------------|-----------------|
-| `POST` | `/api/login`                      | Autenticazione e ottenimento token JWT                   | Utente e Operatore |
+| `POST` | `/api/login`                      | Autenticazione e ottenimento token JWT                   | chiunque |
 | `GET`  | `/api/users`                      | Restituisce info utenti (per utente solo le sue)         | Utente e Operatore  |
 | `GET`  | `/api/users/:id`                  | Dati di un singolo utente                                | Operatore       |
 | `POST` | `/api/users`                      | Crea un nuovo utente                                     | Operatore       |
@@ -245,14 +245,6 @@ Questa struttura architetturale ha guidato lo sviluppo di un'applicazione robust
 | `DELETE`| `/api/user-vehicles/:id`         | Rimuove un veicolo dell’utente                           | Operatore       |
 
 ---
-
-### 🛡️ Legenda accesso
-
-- **Utente**: autenticato con ruolo `"utente"`
-- **Operatore**: autenticato con ruolo `"operatore"`
-- **Entrambi**: endpoint accessibile a entrambi i ruoli con comportamenti differenziati
-
-
 
 
 ## 📚 Diagrammi UML 
