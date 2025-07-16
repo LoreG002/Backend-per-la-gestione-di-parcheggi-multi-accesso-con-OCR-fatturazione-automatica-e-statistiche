@@ -6,13 +6,13 @@ import { validateDates } from "../middlewares/validateDates.middleware";
 
 const router = Router();
 
-// Ottieni tutte le fatture visibili in base all'utente autenticato
+// 👇 Lista tutte le fatture (utente: solo sue; operatore: tutte)
 router.get("/api/invoices", authenticateJWT, InvoiceController.getAllInvoices);
 
-// Ottieni lo stato di tutte le fatture (Accessibile solo agli utenti con ruolo "utente")
-router.get("/api/invoices/status", authenticateJWT, InvoiceController.getInvoiceStatus);
+// 👇 Stato delle fatture filtrate — solo utente, con validazione date
+router.get("/api/invoices/status", authenticateJWT, authorizeRoles("utente"), validateDates({ fields: ["start", "end"], source: "query" }), InvoiceController.getInvoiceStatus);
 
-// Effettua il pagamento della fattura con ID specifico (Accessibile solo agli utenti con ruolo "utente")
+// 👇 Pagamento fattura — solo utente
 router.post("/api/invoices/:id/pay", authenticateJWT, authorizeRoles("utente"), InvoiceController.payInvoice);
 
 export default router;
