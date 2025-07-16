@@ -266,7 +266,7 @@ Il sistema consente di registrare automaticamente un transito (entrata o uscita)
 ### 📤 Endpoint
 - **Metodo:** `POST`
 - **Percorso:** `/api/transits/auto`
-- **Autenticazione:** Richiesta (JWT)
+- **Autenticazione:** authorizeRoles("operatore")
 - **Content-Type:** `multipart/form-data`
 
 ### 📝 Parametri nel body (form-data)
@@ -281,7 +281,13 @@ Il sistema consente di registrare automaticamente un transito (entrata o uscita)
 
 ### ▶️ Esempio di richiesta (Postman)
 
+Nella seguente schermata si vede un esempio reale di invocazione da Postman. L’operatore invia un'immagine (formato `.png`) della targa e indica il `gateId` e il `vehicleTypeId` relativi.
+
+📤 **Richiesta:**
+
 ![Richiesta](./src/assets/test1.png)
+
+📸 **Immagine della targa inviata:**
 
 ![Targa](./src/assets/test2.png)
 
@@ -289,10 +295,13 @@ Il sistema consente di registrare automaticamente un transito (entrata o uscita)
 
 ### ✅ Esempio di risposta
 
+Il backend analizza l’immagine tramite OCR e registra un nuovo transito, restituendo i dati principali dell’evento:
+
+📥 **Risposta:**
 
 ![Risposta](./src/assets/test3.png)
 
-
+In questo esempio, la targa `GD970CHW` è stata riconosciuta correttamente e viene registrato un transito di **entrata** con `invoiceId: null`, in quanto non è ancora associata una fattura.
 
 ## 🚀 Come avviare il progetto
 
