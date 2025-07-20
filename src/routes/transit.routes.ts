@@ -4,6 +4,7 @@ import { authenticateJWT } from "../middlewares/auth.middleware";
 import { authorizeRoles } from "../middlewares/role.middleware";
 import multer from "multer";
 import { validateDates } from "../middlewares/validateDates.middleware";
+import { validateGateDirection } from "../middlewares/validateGateDirection.middleware";
 
 const router = Router();
 
@@ -23,7 +24,7 @@ router.post("/api/transits/auto", authenticateJWT, authorizeRoles("operatore"), 
 router.get("/api/transits", authenticateJWT, TransitController.getAllTransits);
 
 // Rotta per cercare i transiti filtrando per parametri
-router.post("/api/transits/search", authenticateJWT, validateDates({ fields: ["from", "to"], source: "body" }), TransitController.searchTransits);
+router.post("/api/transits/search", authenticateJWT, validateGateDirection, validateDates({ fields: ["from", "to"], source: "body" }), TransitController.searchTransits);
 
 // Rotta per aggiornare un transito esistente tramite ID
 router.put("/api/transits/:id", authenticateJWT, authorizeRoles("operatore"), validateDates({ fields: ["startDate", "endDate"], source: "body" }), TransitController.updateTransit);
